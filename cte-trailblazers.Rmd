@@ -1,0 +1,67 @@
+---
+title: "CTE Trailblazers data preparations"
+author: Arthur Small
+date: "Version of `r Sys.Date()`"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r page setup, include=FALSE}
+
+```
+
+```{r load packages, include=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+```{r read in data}
+local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
+data_dir       <- "Documents/Projections/2018-28/Data/Store/"
+file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
+
+path <- paste0(local_root_dir,data_dir,file_name)
+
+readxl::read_xlsx(path=path, sheet = "SOC Summary")
+```
+
+```{r clean data}
+readxl::read_xlsx(path=path, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
+
+readxl::read_xlsx(path=path, 
+                  sheet = "SOC Summary",
+                  col_types = c("skip", "skip", "text", "text", "text", rep("numeric",7)),
+                  na = na_symbol) -> soc_summary
+
+fix_names <- function(x){
+  x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
+  x <- str_to_lower(x)
+  x <- str_remove_all(x, pattern = "2018_")
+  x <- str_remove_all(x, pattern = "2028_")
+  x <- str_remove_all(x, pattern = "28_")
+  
+  return(x)
+}
+
+soc_summary %>%
+  rename_with(.fn = fix_names) %>%
+  rename(fraction_change = percent_change) %>%
+  mutate(occ_group_type = as.factor(occ_group_type),
+         annual_growth_rate = (log(projection)-log(estimate))/10) -> soc_summary_tbl
+
+soc_summary_tbl
+```
+
+```{r display data for management occupations}
+
+soc_summary_tbl %>%
+  filter(str_starts(soc_code, pattern = "11")) %>%
+  filter(soc_title != "Management Occupations") %>%
+  select(soc_code:annual_openings) -> df
+
+df %>%
+  ggplot(aes(x = soc_code, y=estimate)) + geom_col()
+
+```
+
