@@ -26,7 +26,7 @@ num_observations <- 2*5*4
 Our study employed `r num_observations` observations.
 
 
-```{r, include=FALSE}
+```{r, include=FALSE, eval=FALSE}
 source('my_function.R')
 ```
 
@@ -46,6 +46,11 @@ path2file <- paste0(local_root_dir,data_dir,file_name)
 
 readxl::read_xlsx(path=path2file, sheet = "SOC Summary")
 ```
+
+```{r}
+
+```
+
 
 ```{r clean data}
 readxl::read_xlsx(path=path, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
@@ -86,5 +91,10 @@ soc_summary_tbl %>%
 df %>%
   ggplot(aes(x = soc_code, y=estimate)) + geom_col()
 
+```
+```{r}
+
+
+ggsave(here::here("images", "box-plot.png"))
 ```
 
