@@ -1,38 +1,61 @@
 ---
-title: "CTE Trailblazers data preparations"
-author: Arthur Small
-date: "Version of `r Sys.Date()`"
-output: html_notebook
-editor_options: 
+title:  "CTE Trailblazers data preparations"
+author: "Arthur Small"
+date:   "Version of `r Sys.Date()`"
+output:
+  html_notebook: default
+  pdf_document: default
+editor_options:
   chunk_output_type: inline
 ---
+
+# Introduction
+
+In the beginning...
+
+
 
 ```{r page setup, include=FALSE}
 
 ```
+
+```{r new example chunk, include=FALSE}
+num_observations <- 2*5*4
+```
+
+Our study employed `r num_observations` observations.
+
+
+```{r, include=FALSE}
+source('my_function.R')
+```
+
+The answer is `r my_function(3)`.
 
 ```{r load packages, include=FALSE}
 library(tidyverse)
 library(readxl)
 ```
 
-```{r read in data}
+```{r read in data, include=FALSE}
 local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
 data_dir       <- "Documents/Projections/2018-28/Data/Store/"
 file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
-path <- paste0(local_root_dir,data_dir,file_name)
+path2file <- paste0(local_root_dir,data_dir,file_name)
 
-readxl::read_xlsx(path=path, sheet = "SOC Summary")
+readxl::read_xlsx(path=path2file, sheet = "SOC Summary")
 ```
 
 ```{r clean data}
 readxl::read_xlsx(path=path, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
 
-readxl::read_xlsx(path=path, 
+readxl::read_xlsx(path=path2file, 
                   sheet = "SOC Summary",
                   col_types = c("skip", "skip", "text", "text", "text", rep("numeric",7)),
                   na = na_symbol) -> soc_summary
+
+colnames(soc_summary)
 
 fix_names <- function(x){
   x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
