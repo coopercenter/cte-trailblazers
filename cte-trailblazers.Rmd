@@ -26,25 +26,21 @@ num_observations <- 2*5*4
 Our study employed `r num_observations` observations.
 
 
-```{r, include=FALSE, eval=FALSE}
-source('my_function.R')
-```
-
-The answer is `r my_function(3)`.
-
 ```{r load packages, include=FALSE}
 library(tidyverse)
 library(readxl)
 ```
 
 ```{r read in data, include=FALSE}
-local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
-data_dir       <- "Documents/Projections/2018-28/Data/Store/"
+# local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
+# data_dir       <- "Documents/Projections/2018-28/Data/Store/"
+# file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
+# 
+# path2file <- paste0(local_root_dir,data_dir,file_name)
+
 file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
-path2file <- paste0(local_root_dir,data_dir,file_name)
-
-readxl::read_xlsx(path=path2file, sheet = "SOC Summary")
+readxl::read_xlsx(path=file_name, sheet = "SOC Summary")
 ```
 
 ```{r}
@@ -93,8 +89,6 @@ df %>%
 
 ```
 ```{r}
-
-
 ggsave(here::here("images", "box-plot.png"))
 ```
 
