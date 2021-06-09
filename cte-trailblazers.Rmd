@@ -49,9 +49,9 @@ readxl::read_xlsx(path=file_name, sheet = "SOC Summary")
 
 
 ```{r clean data}
-readxl::read_xlsx(path=path, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
+readxl::read_xlsx(path=file_name, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
 
-readxl::read_xlsx(path=path2file, 
+readxl::read_xlsx(path=file_name, 
                   sheet = "SOC Summary",
                   col_types = c("skip", "skip", "text", "text", "text", rep("numeric",7)),
                   na = na_symbol) -> soc_summary
