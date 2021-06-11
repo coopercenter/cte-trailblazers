@@ -79,7 +79,7 @@ readxl::read_xlsx(path=file_name,
                   col_types = c(rep("text", 13), rep("numeric",8)),
                   na = na_symbol) -> nonduplicated_summary
 
-nonduplicated_summary %>%
+nonduplicated_summary <- nonduplicated_summary %>%
   rename_with(.fn = fix_names) %>% 
   rename(fraction_change = percent_change) %>%
   rename(fraction_change_us = percent_change_us)
@@ -91,7 +91,7 @@ readxl::read_xlsx(path=file_name,
                   col_types = c(rep("text", 13), rep("numeric",8)),
                   na = na_symbol) -> duplicated_summary
 
-duplicated_summary %>%
+duplicated_summary <- duplicated_summary %>%
   rename_with(.fn = fix_names) %>% 
   rename(fraction_change = percent_change) %>%
   rename(fraction_change_us = percent_change_us)
@@ -112,3 +112,9 @@ df %>%
 ```{r}
 ggsave(here::here("images", "box-plot.png"))
 ```
+```{r visualizing growth}
+
+ggplot(nonduplicated_summary %>% filter(cluster == "Agriculture, Food, and Natural Resources"), aes(pathway, fill = predominant_education_level)) + geom_bar() + theme(axis.text.x=element_text(angle = 45, h = 1))
+
+```
+
