@@ -32,31 +32,27 @@ library(readxl)
 ```
 
 ```{r read in data, include=FALSE}
-# local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
-# data_dir       <- "Documents/Projections/2018-28/Data/Store/"
-# file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
-# 
-# path2file <- paste0(local_root_dir,data_dir,file_name)
+local_root_dir <- "/Users/Arthur/OneDrive - University of Virginia/"
+data_dir       <- "Documents/Projections/2018-28/Data/Store/"
+file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
+ 
+path2file <- paste0(local_root_dir,data_dir,file_name)
 
 file_name      <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
 readxl::read_xlsx(path=file_name, sheet = "SOC Summary")
+readxl::read_xlsx(path=file_name, sheet = "Nonduplicated")
+readxl::read_xlsx(path=file_name, sheet = "Duplicated")
 ```
-
-```{r}
-
-```
-
 
 ```{r clean data}
-readxl::read_xlsx(path=file_name, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
+#readxl::read_xlsx(path=file_name, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
 
 readxl::read_xlsx(path=file_name, 
                   sheet = "SOC Summary",
                   col_types = c("skip", "skip", "text", "text", "text", rep("numeric",7)),
                   na = na_symbol) -> soc_summary
 
-colnames(soc_summary)
 
 fix_names <- function(x){
   x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
@@ -75,6 +71,31 @@ soc_summary %>%
          annual_growth_rate = (log(projection)-log(estimate))/10) -> soc_summary_tbl
 
 soc_summary_tbl
+
+readxl::read_xlsx(path=file_name, sheet = "Nonduplicated")[1,21] %>% pull() -> na_symbol
+
+readxl::read_xlsx(path=file_name, 
+                  sheet = "Nonduplicated",
+                  col_types = c(rep("text", 13), rep("numeric",8)),
+                  na = na_symbol) -> nonduplicated_summary
+
+nonduplicated_summary %>%
+  rename_with(.fn = fix_names) %>% 
+  rename(fraction_change = percent_change) %>%
+  rename(fraction_change_us = percent_change_us)
+
+readxl::read_xlsx(path=file_name, sheet = "Duplicated")[1,21] %>% pull() -> na_symbol
+
+readxl::read_xlsx(path=file_name, 
+                  sheet = "Duplicated",
+                  col_types = c(rep("text", 13), rep("numeric",8)),
+                  na = na_symbol) -> duplicated_summary
+
+duplicated_summary %>%
+  rename_with(.fn = fix_names) %>% 
+  rename(fraction_change = percent_change) %>%
+  rename(fraction_change_us = percent_change_us)
+
 ```
 
 ```{r display data for management occupations}
@@ -91,4 +112,3 @@ df %>%
 ```{r}
 ggsave(here::here("images", "box-plot.png"))
 ```
-
