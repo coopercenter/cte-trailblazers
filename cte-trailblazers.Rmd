@@ -120,7 +120,7 @@ ggplot(nonduplicated_summary %>% filter(cluster == "Agriculture, Food, and Natur
 ```{r labor market analysis, include = TRUE}
 
 non_duplicated_by_labor_market <- nonduplicated_summary %>% 
-  select(cluster, pathway, estimate, annual_openings, projection, fraction_change) %>%  
+  select(cluster, pathway, soc_title, estimate, annual_openings, projection, fraction_change) %>%  
   group_by(cluster)
 
 non_duplicated_by_labor_market
@@ -142,5 +142,63 @@ ggplot(cluster_averages, aes(cluster, cluster_change)) +
   geom_point() + 
   theme(axis.text.x = element_text(angle = 90, h = 1)) + 
   geom_errorbar(aes(ymax = cluster_max, ymin = cluster_min, width = 0.1), color = "grey")
+
+ggplot(non_duplicated_by_labor_market, aes(pathway, fraction_change, color = cluster)) + geom_point() 
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Agriculture, Food, and Natural Resources"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Architecture and Construction"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+ 
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Arts, Audio/Video Technology, and Communications"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1)) 
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Business Management and Administration"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Education and Training"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Energy"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Finance"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Government and Public Administration"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Health Science"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Hospitality and Tourism"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Human Services"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Information Technology"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Science, Technology, Engineering, and Mathematics"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Transportation, Distribution, and Logistics"), 
+       aes(pathway, fraction_change)) + geom_point() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
 ```
 
