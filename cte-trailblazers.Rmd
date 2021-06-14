@@ -120,8 +120,8 @@ ggplot(nonduplicated_summary %>% filter(cluster == "Agriculture, Food, and Natur
 ```{r labor market analysis, include = TRUE}
 
 non_duplicated_by_labor_market <- nonduplicated_summary %>% 
-  select(cluster, pathway, estimate, annual_openings, projection) %>%  
-  group_by(pathway)
+  select(cluster, pathway, estimate, annual_openings, projection, fraction_change) %>%  
+  group_by(cluster)
 
 non_duplicated_by_labor_market
 
@@ -129,3 +129,18 @@ ggplot(non_duplicated_by_labor_market, aes(log10(estimate), log10(projection))) 
 cor.test(non_duplicated_by_labor_market$projection, non_duplicated_by_labor_market$estimate)
 ```
 Above graphs show a roughly linear correlation between the estimate for number of jobs available by cluster now and the number projected in 10 years. 
+
+```{r growth rates, incude = TRUE}
+ggplot(non_duplicated_by_labor_market, aes(cluster,fraction_change)) + 
+  geom_line() + 
+  theme(axis.text.x=element_text(angle = 90, h = 1))
+
+cluster_averages <- non_duplicated_by_labor_market %>% summarize(cluster_change = mean(fraction_change), cluster_min = min(fraction_change), cluster_max = max(fraction_change))
+cluster_averages
+
+ggplot(cluster_averages, aes(cluster, cluster_change)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 90, h = 1)) + 
+  geom_errorbar(aes(ymax = cluster_max, ymin = cluster_min, width = 0.1), color = "grey")
+```
+
