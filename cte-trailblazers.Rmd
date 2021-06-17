@@ -199,7 +199,7 @@ ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Science, Technology
 
 ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Transportation, Distribution, and Logistics"), 
        aes(pathway, fraction_change)) + geom_point() + 
-  theme(axis.text.x=element_text(angle = 90, h = 1))
+  theme(axis.text.x=element_text(angle = 90, h = 1))  
 ```
 
 ```{r }
