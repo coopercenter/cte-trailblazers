@@ -45,7 +45,7 @@ readxl::read_xlsx(path=file_name, sheet = "Nonduplicated")
 readxl::read_xlsx(path=file_name, sheet = "Duplicated")
 ```
 
-```{r clean data}
+```{r clean data, warning= FALSE}
 readxl::read_xlsx(path=file_name, sheet = "SOC Summary")[1,3] %>% pull() -> na_symbol
 
 readxl::read_xlsx(path=file_name, 
@@ -120,17 +120,15 @@ ggplot(nonduplicated_summary %>% filter(cluster == "Agriculture, Food, and Natur
 ```{r labor market analysis, include = TRUE}
 
 non_duplicated_by_labor_market <- nonduplicated_summary %>% 
-  select(cluster, pathway, soc_title, estimate, annual_openings, projection, fraction_change) %>%  
+  select(cluster, pathway, soc_title, estimate, annual_openings, projection, fraction_change, fraction_change_us) %>%  
   group_by(cluster)
 
-non_duplicated_by_labor_market
-
-ggplot(non_duplicated_by_labor_market, aes(log10(estimate), log10(projection))) + geom_point() + facet_wrap(~cluster)
+ggplot(ungroup(non_duplicated_by_labor_market), aes(log10(estimate), log10(projection))) + geom_point() + facet_wrap(~cluster)
 cor.test(non_duplicated_by_labor_market$projection, non_duplicated_by_labor_market$estimate)
 ```
 Above graphs show a roughly linear correlation between the estimate for number of jobs available by cluster now and the number projected in 10 years. 
 
-```{r growth rates, incude = TRUE}
+```{r growth rates, incude = FALSE}
 ggplot(non_duplicated_by_labor_market, aes(cluster,fraction_change)) + 
   geom_line() + 
   theme(axis.text.x=element_text(angle = 90, h = 1))
@@ -202,7 +200,21 @@ ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Transportation, Dis
   theme(axis.text.x=element_text(angle = 90, h = 1))  
 ```
 
-```{r }
+Looking at annual positions, growth rates, income, education
+```{r}
+ggplot(nonduplicated_summary, aes(median_income, fraction_change, color = predominant_education_level)) + geom_point(na.rm = TRUE)
+
+ggplot(nonduplicated_summary, aes(median_income, fraction_change)) + 
+  geom_hex(stat = "binhex", position = "identity", bins = 20, na.rm = TRUE) + 
+  scale_y_continuous(breaks = seq(-.5, .5, .1))
+
+ggplot(nonduplicated_summary, aes(median_income, fraction_change, 
+                                  color = predominant_education_level)) + 
+  geom_point(na.rm = TRUE) + facet_wrap(~cluster)
+
+nonduplicated_summary %>% filter(cluster != "All Occupations") %>% 
+  group_by(cluster) %>% summarize(annual_positions = sum(annual_openings)) %>% 
+  ggplot(aes(cluster, annual_positions)) + geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle = 45, h = 1))
 
 ```
-
