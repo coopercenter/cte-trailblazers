@@ -47,6 +47,6 @@ education_level = function(x, y) {
 edu_plots = map(expl, ~education_level(.x, "projection") )
 edu_plots
 
-ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources"), aes(pathway, projection, fill = predominant_education_level)) + geom_col(position = "fill", stat = "identity")
+ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(predominant_education_level)), aes(pathway, projection, fill = predominant_education_level)) + geom_col(position = "fill", stat = "identity")
 ```
 
