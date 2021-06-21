@@ -1,0 +1,52 @@
+---
+title: "Cluster Briefs Graphs"
+author: "Abigail Freed"
+date: "6/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r importing spreadsheet & packages, warning = FALSE, message = FALSE}
+library(readxl)
+library(purrr)
+library(tidyverse)
+
+file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
+
+nonduplicated <- read_xlsx(path=file_name, 
+                  sheet = "Nonduplicated",
+                  col_types = c(rep("text", 13), rep("numeric",8)), na = ".")
+
+fix_names <- function(x){
+  x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
+  x <- str_to_lower(x)
+  x <- str_remove_all(x, pattern = "2018_")
+  x <- str_remove_all(x, pattern = "2028_")
+  x <- str_remove_all(x, pattern = "28_")
+  
+  return(x)
+}
+
+nonduplicated <- nonduplicated %>%
+  rename_with(.fn = fix_names) %>% 
+  rename(fraction_change = percent_change) %>%
+  rename(fraction_change_us = percent_change_us)
+```
+
+```{r setting up purr with education level info by cluster}
+
+expl = names(nonduplicated)[4]
+
+education_level = function(x, y) {
+     ggplot(nonduplicated, aes(x = .data[[x]], y = .data[[y]]), fill = predominant_education_level) +
+          geom_col(position = "fill", stat = "identity", na.rm = TRUE)
+}
+edu_plots = map(expl, ~education_level(.x, "projection") )
+edu_plots
+
+ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources"), aes(pathway, projection, fill = predominant_education_level)) + geom_col(position = "fill", stat = "identity")
+```
+
