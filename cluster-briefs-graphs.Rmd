@@ -36,18 +36,286 @@ nonduplicated <- nonduplicated %>%
   rename(fraction_change_us = percent_change_us)
 ```
 
-```{r setting up purr with education level info by cluster}
+```{r 1st plot, warning=FALSE}
 
-expl = names(nonduplicated)[4]
+# expl = names(nonduplicated)[4]
+# expl = set_names(expl)
+# 
+# education_level = function(x, y) {
+#      ggplot(nonduplicated %>% filter(!is.na(predominant_education_level)), aes(x = .data[[x]], y = .data[[y]])) +
+#           geom_col(position = "fill", na.rm = TRUE) + theme(axis.text.x=element_text(angle = 45, h = 1))
+# }
+# edu_plots = map(expl, ~education_level(.x, "projection") )
+# edu_plots
 
-education_level = function(x, y) {
-     ggplot(nonduplicated, aes(x = .data[[x]], y = .data[[y]]), fill = predominant_education_level) +
-          geom_col(position = "fill", stat = "identity", na.rm = TRUE)
-}
-edu_plots = map(expl, ~education_level(.x, "projection") )
-edu_plots
-   
-ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(predominant_education_level)), aes(pathway, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill", stat = "identity")
+
+nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "HS Diploma"))
+
+##Agriculture Cluster 
+
+ag_labels <- c("Agribusiness\nSystems", "Animal\nSystems", "Envirormental\nService\nSystems", "Food\nProducts\nand\nProcessing\nSystems", "Natural\nResource\nSystems", "Plant\nSystems", "Power,\nStructural,\nand Technical\nSystems")
+
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+   scale_x_discrete(labels= ag_labels)
+
+
+## Architecture and Construction Cluster
+
+nonduplicated %>% filter(cluster == "Architecture and Construction", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) 
+
+## Arts Audio/Video Technology, and Communications
+
+arts_labels <- c("Audio/Video\nTechnology\nand\nFilm", "Journalism\nand\nBroadcasting", "Performing\nArts", "Printing\nTechnology", "Tele-\ncommunications", "Visual\nArts")
+
+nonduplicated %>% filter(cluster == "Arts, Audio/Video Technology, and Communications", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = arts_labels)
+
+# Business Management and Administration Cluster
+
+business_labels <- c("Administrative\nSupport", "Business\nInformation\nManagement","General\nManagement","Human\nResources\nManagement", "Operations\nManagement")
+
+nonduplicated %>% filter(cluster == "Business Management and Administration", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels= business_labels)
+
+
+# Education and Training Cluster
+
+edu_labels <- c("Administration\nand\nAdministrative\nSupport", "Professional\nSupport\nServices", "Teaching/\nTraining")
+
+nonduplicated %>% filter(cluster == "Education and Training", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) +
+  scale_x_discrete(labels = edu_labels)
+
+# Finance Cluster 
+
+fin_labels <- c("Accounting", "Banking\nServices", "Business\nFinance", "Insurance", "Securities\nand\nInvestments")
+
+nonduplicated %>% filter(cluster == "Finance", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE")) + scale_x_discrete(labels = fin_labels)
+  
+#  Government and Public Adminstration Cluster 
+
+gov_labels <- c("Governance", "National\nSecurity", "Planning", "Public\nManagement\nand\nAdministration", "Regulation","Revenue\nand\nTaxation")
+
+nonduplicated %>% filter(cluster == "Government and Public Adminstration", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = gov_labels)
+  
+
+# Health Science Cluster
+
+health_labels <- c("Biotechnology\nResearch\nand\nDevelopment", "Diagnostic\nServices", "Health\nInformatics", "Support\nServices", "Therapeutic\nServices")
+
+nonduplicated %>% filter(cluster == "Health Science", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = health_labels)
+
+# Hospitality and Tourism Cluster
+
+hosp_labels <- c("Lodging", "Recreation\nAmusements,\nand\nAttractions", "Restaurants\nand\nFood/Beverage\nServices", "Travel\nand\nTourism")
+
+nonduplicated %>% filter(cluster == "Hospitality and Tourism", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = hosp_labels)
+
+# Human Services Cluster
+
+humanserv_labels <- c("Consumer\nServices", "Counseling\nand\nMental\nHealth\nServices","Early\nChildhood\nDevelopment\nand\nServices", "Family\nand\nCommunity\nServices", "Personal\nCare\nServices")
+
+nonduplicated %>% filter(cluster == "Human Services", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy", "#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = humanserv_labels)
+
+#Information Technology Cluster
+
+it_labels <- c("Information\nSupport\nand Services", "Network\nSystems", "Programming\nand Software\nDevelopment", "Web and\nDigital\nCommunitcations")
+
+nonduplicated %>% filter(cluster == "Information Technology", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = it_labels)
+
+#Law, Public Safety, Corrections, and Security Cluster
+
+law_labels <- c("Correction\nServices", "Emergency\nand Fire\nManagement\nServices", "Law\nEnforcement\nServices", "Legal\nServices", "Security\nand Protective\nServices")
+
+nonduplicated %>% filter(cluster == "Law, Public Safety, Corrections, and Security", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy","#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = law_labels)
+  
+# Manufacturing Cluster
+
+manufacturing_labels <- c("Health,\nSafety, and\nEnvironmental\nAssurance", "Logistics\nand\nInventory\nControl", "Maintenance,\nInstallation,\nand Repair", "Manufacturing\nProduction\nProcess\nDevelopment", "Production", "Quality\nAssurance")
+
+nonduplicated %>% filter(cluster == "Manufacturing", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = manufacturing_labels)
+
+# Marketing Cluster
+
+marketing_labels <- c("Marketing\nCommunications", "Marketing\nManagement", "Marketing\nResearch", "Merchandising", "Professional\nSales")
+
+nonduplicated %>% filter(cluster == "Marketing", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = marketing_labels)
+
+# Science, Technology, Engineering, and Mathematics Cluster
+
+stem_labels <- c("Engineering\nand Technology", "Science and\nMathematics")
+
+nonduplicated %>% filter(cluster == "Science, Technology, Engineering, and Mathematics", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("navy","#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = stem_labels)
+
+#Transportation, Distribution, and Logistics Cluster
+
+transport_labels <- c("Facility and\nMobile\nEquiptment\nMaintenance", "Logistics\nPlanning\nand\nManagement\nServices", "Sales and\nServices", "Trans-\nportation\nOperations", "Transportation\nSystems/\nInfrastructure\nPlanning,\nManagement,\nand Regulation", "Warehouse\nand\nDistribution\nCenter\nOperations")
+
+nonduplicated %>% filter(cluster == "Transportation, Distribution, and Logistics", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = transport_labels)
+
+#Energy Clusters
+energy_labels <- c("Energy\nSustainability\nand Efficiency", "Energy\nTransmission,\nDistribution,\nand Storage", "Fuels\nProduction", "Power\nGeneration")
+
+nonduplicated %>% filter(cluster == "Energy", 
+                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway, projection, fill = predominant_education_level)) + 
+  geom_col(position = "fill") + 
+  theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank()) + 
+  scale_fill_manual(values = c("#046C9A", "#ABDDDE", "#D69C4E")) + 
+  scale_x_discrete(labels = energy_labels)
+
+```
+
+```{r 2nd graph showing added jobs}
+
+ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(predominant_education_level)), aes(pathway, estimate, fill = projection)) + 
+geom_col(position = position_dodge()) 
+
+
+subset <- t(data.frame(nonduplicated$estimate, nonduplicated$projection))
+barplot(subset, legend = c("2018 Estimate", "2028 Projection"), beside=TRUE, col = c("springgreen4", "grey"))
+
+ggplot(nonduplicated,aes(x = projection,y = estimate)) + 
+    geom_bar(stat = "identity",position = "dodge")
 ```
 
