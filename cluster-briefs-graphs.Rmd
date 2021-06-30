@@ -323,42 +323,297 @@ ggplot(ag_linked_pathway, aes(pathway, value, fill =variable)) +
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = c("darkgrey", "#046C9A"), labels = c("2018 Estimate", "2028 Projection"))
-  
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Architecture and Construction 
+
+arch_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Architecture and Construction") %>% 
+  select(pathway, estimate, projection)
+arch_linked_pathway <- melt(arch_linked_pathway, id = "pathway")
+
+ggplot(arch_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Arts, Audio/Video Technology, and Communications
 
+arts_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Arts, Audio/Video Technology, and Communications") %>% 
+  select(pathway, estimate, projection)
+arts_linked_pathway <- melt(arts_linked_pathway, id = "pathway")
+
+ggplot(arts_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = arts_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Business Management and Administration 
+
+business_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Business Management and Administration") %>% 
+  select(pathway, estimate, projection)
+business_linked_pathway <- melt(business_linked_pathway, id = "pathway")
+
+ggplot(business_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = business_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Education and Training
 
+edu_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Education and Training") %>% 
+  select(pathway, estimate, projection)
+edu_linked_pathway <- melt(edu_linked_pathway, id = "pathway")
+
+ggplot(edu_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = edu_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Finance
+
+finance_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Finance") %>% 
+  select(pathway, estimate, projection)
+finance_linked_pathway <- melt(finance_linked_pathway, id = "pathway")
+
+ggplot(finance_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = fin_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Government and Public Administration 
 
+gov_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Government and Public Adminstration") %>% 
+  select(pathway, estimate, projection)
+gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway")
+
+ggplot(gov_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = gov_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Health Science
 
+health_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Health Science") %>% 
+  select(pathway, estimate, projection)
+health_linked_pathway <- melt(health_linked_pathway, id = "pathway")
+
+ggplot(health_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = health_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+                    
 # Hospitality and Tourism 
+
+hosp_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Hospitality and Tourism") %>% 
+  select(pathway, estimate, projection)
+hosp_linked_pathway <- melt(hosp_linked_pathway, id = "pathway")
+
+ggplot(hosp_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = hosp_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Human Services
 
+humanserv_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Human Services") %>% 
+  select(pathway, estimate, projection)
+humanserv_linked_pathway <- melt(humanserv_linked_pathway, id = "pathway")
+
+ggplot(humanserv_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = humanserv_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Information Technology
+
+it_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Information Technology") %>% 
+  select(pathway, estimate, projection)
+it_linked_pathway <- melt(it_linked_pathway, id = "pathway")
+
+ggplot(it_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = it_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Law, Public Safety, Corrections, and Security
 
+law_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Law, Public Safety, Corrections, and Security") %>% 
+  select(pathway, estimate, projection)
+law_linked_pathway <- melt(law_linked_pathway, id = "pathway")
+
+ggplot(law_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = law_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 # Manufacturing
+
+manufacturing_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), cluster == "Manufacturing") %>% 
+  select(pathway, estimate, projection)
+manufacturing_linked_pathway <- melt(manufacturing_linked_pathway, id = "pathway")
+
+ggplot(manufacturing_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = manufacturing_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Marketing
 
+marketing_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), !is.na(projection), cluster == "Marketing") %>% 
+  select(pathway, estimate, projection)
+marketing_linked_pathway <- melt(marketing_linked_pathway, id = "pathway")
+
+ggplot(marketing_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = marketing_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Science, Technology, Engineering, and Mathematics
+
+stem_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), !is.na(projection), cluster == "Science, Technology, Engineering, and Mathematics") %>% 
+  select(pathway, estimate, projection)
+stem_linked_pathway <- melt(stem_linked_pathway, id = "pathway")
+
+ggplot(stem_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = stem_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 # Transportation, Distribution, and Logistics
 
+transport_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), !is.na(projection), cluster == "Transportation, Distribution, and Logistics") %>% 
+  select(pathway, estimate, projection)
+transport_linked_pathway <- melt(transport_linked_pathway, id = "pathway")
+
+ggplot(transport_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = transport_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
+
 # Energy
+
+energy_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), !is.na(estimate), !is.na(projection), cluster == "Energy") %>% 
+  select(pathway, estimate, projection)
+energy_linked_pathway <- melt(energy_linked_pathway, id = "pathway")
+
+ggplot(energy_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = energy_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), 
+                    labels = c("2018 Estimate", "2028 Projection"))
 
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
-
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources") %>% ggplot(aes(median_income,estimate, color = pathway)) + geom_point()
 ```
