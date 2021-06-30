@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(purrr)
 library(tidyverse)
+library(reshape2)
 
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
@@ -306,16 +307,58 @@ nonduplicated %>% filter(cluster == "Energy",
 
 ```
 
-```{r 2nd graph showing added jobs}
+```{r 2nd graph showing added jobs over decade}
+# Agriculture, Food, and Natural Resources
 
-ggplot(nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(predominant_education_level)), aes(pathway, estimate, fill = projection)) + 
-geom_col(position = position_dodge()) 
+ag_linked_pathway <- nonduplicated %>% 
+  filter(!is.na(pathway), cluster == "Agriculture, Food, and Natural Resources") %>% 
+  select(pathway, estimate, projection)
+ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway")
 
+ggplot(ag_linked_pathway, aes(pathway, value, fill =variable)) + 
+  geom_bar(stat="identity",position="dodge") + 
+  scale_x_discrete(labels = ag_labels) + 
+  ylab("Number of Jobs") +  
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(), 
+        panel.grid.major.x = element_blank()) + 
+  scale_fill_manual(values = c("darkgrey", "#046C9A"), labels = c("2018 Estimate", "2028 Projection"))
+  
+# Architecture and Construction 
 
-subset <- t(data.frame(nonduplicated$estimate, nonduplicated$projection))
-barplot(subset, legend = c("2018 Estimate", "2028 Projection"), beside=TRUE, col = c("springgreen4", "grey"))
+# Arts, Audio/Video Technology, and Communications
 
-ggplot(nonduplicated,aes(x = projection,y = estimate)) + 
-    geom_bar(stat = "identity",position = "dodge")
+# Business Management and Administration 
+
+# Education and Training
+
+# Finance
+
+# Government and Public Administration 
+
+# Health Science
+
+# Hospitality and Tourism 
+
+# Human Services
+
+# Information Technology
+
+# Law, Public Safety, Corrections, and Security
+
+# Manufacturing
+
+# Marketing
+
+# Science, Technology, Engineering, and Mathematics
+
+# Transportation, Distribution, and Logistics
+
+# Energy
+
 ```
 
+```{r 3rd graph showing income, openings, and growth}
+
+```
