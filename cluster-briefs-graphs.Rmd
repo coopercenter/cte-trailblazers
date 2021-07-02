@@ -558,13 +558,17 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels, value, fill =variable)) +
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) 
 
+
+##Different Visualization 
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), is.na(soc_title)) %>% ggplot(aes(pathway_for_labels, fraction_change)) + geom_segment( aes(x=pathway_for_labels, xend= pathway_for_labels, y=0, yend=fraction_change), color="grey") +
+  geom_point( color="orange", size=4) 
+
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
 nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), is.na(soc_title)) %>% ggplot(aes(estimate, fraction_change, color = pathway, size = annual_openings)) + geom_point()
 
-nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), !is.na(median_income)) %>% ggplot(aes(median_income, fraction_change)) + geom_hex()
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), !is.na(median_income)) %>%  ggplot(aes(median_income, fraction_change)) + geom_hex()
 
-nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !in.na(pathway), !is.na(soc_title)) %>% 
 
 ```
