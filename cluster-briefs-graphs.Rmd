@@ -56,7 +56,7 @@ my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"), str_replace_all(pathway, "/", "\n/"))
-nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "Trans", "Trans-\n")
+nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "Transp", "Trans-\np")
 nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "Tele", "Tele-\n")
 nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "/", "/\n")
 
@@ -561,5 +561,10 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels, value, fill =variable)) +
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
-nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), !is.na(median_income)) %>% ggplot(aes(annual_openings, pathway, fill = median_income)) + geom_col()
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), is.na(soc_title)) %>% ggplot(aes(estimate, fraction_change, color = pathway, size = annual_openings)) + geom_point()
+
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), !is.na(median_income)) %>% ggplot(aes(median_income, fraction_change)) + geom_hex()
+
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !in.na(pathway), !is.na(soc_title)) %>% 
+
 ```
