@@ -295,7 +295,8 @@ ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)
         axis.title.x = element_blank(),
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Architecture and Construction 
 
@@ -312,7 +313,8 @@ ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2,
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Arts, Audio/Video Technology, and Communications
 
@@ -329,7 +331,8 @@ ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Business Management and Administration 
 
@@ -346,7 +349,8 @@ ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =vari
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Education and Training
 
@@ -363,7 +367,8 @@ ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Finance
 
@@ -380,7 +385,8 @@ ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =varia
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Government and Public Administration 
 
@@ -397,7 +403,8 @@ ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Health Science
 
@@ -414,7 +421,8 @@ ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
                     
 # Hospitality and Tourism 
 
@@ -431,7 +439,8 @@ ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Human Services
 
@@ -448,7 +457,8 @@ ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Information Technology
 
@@ -465,7 +475,8 @@ ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable))
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Law, Public Safety, Corrections, and Security
 
@@ -482,7 +493,9 @@ ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+
 # Manufacturing
 
 manufacturing_linked_pathway <- nonduplicated %>% 
@@ -498,7 +511,8 @@ ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill 
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Marketing
 
@@ -515,7 +529,8 @@ ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Science, Technology, Engineering, and Mathematics
 
@@ -532,7 +547,8 @@ ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Transportation, Distribution, and Logistics
 
@@ -549,7 +565,8 @@ ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels)
+                    labels = jobs_labels) +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 # Energy
 
@@ -566,7 +583,8 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
         panel.grid.minor.x = element_blank(), 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
-                    labels = jobs_labels) 
+                    labels = jobs_labels)  +
+  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
 
 
 ##Different Visualization 
