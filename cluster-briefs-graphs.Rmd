@@ -293,7 +293,7 @@ nonduplicated %>% filter(!is.na(edu_weighting)) %>%
 cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
 
 for (x in cluster_list){
-   cluster_graph <- nonduplicated %>% filter(cluster == x, 
+   edu_graph <- nonduplicated %>% filter(cluster == x, 
                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
   geom_col(position = "fill") + 
   theme(panel.grid = element_blank(),
@@ -303,7 +303,7 @@ for (x in cluster_list){
         legend.title = element_blank()) + 
   scale_fill_manual(values = my_colors) 
   
-  print(cluster_graph)
+  print(edu_graph)
 }
 ```
 
@@ -315,315 +315,334 @@ text_size <- 2.5
 text_width <- 0.9
 text_vertical <- -0.25
 
+# for (x in cluster_list){
+#   linked_pathway <- nonduplicated %>% 
+#   filter(!is.na(pathway), is.na(soc_title),cluster == x) %>% 
+#   select(pathway_for_labels_change, estimate, projection)
+#   
+#   linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change") 
+# 
+#   employment_graph <- ggplot(linked_pathway, aes(pathway_for_labels_change, value, fill = variable)) + 
+#   geom_bar(stat="identity",position="dodge") + 
+#   ylab("Number of Jobs") +  
+#   theme(legend.title = element_blank(),
+#         axis.title.x = element_blank(),
+#         panel.grid.major.x = element_blank()) + 
+#   scale_fill_manual(values = my_colors2, 
+#                     labels = jobs_labels) +
+#   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+# print(employment_graph)
+# }
+
 # Agriculture, Food, and Natural Resources
 
-ag_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title),cluster == "Agriculture, Food, and Natural Resources") %>% 
+ag_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title),cluster == "Agriculture, Food, and Natural Resources") %>%
   select(pathway_for_labels_change, estimate, projection)
 ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
-# Architecture and Construction 
+# Architecture and Construction
 
-arch_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), cluster == "Architecture and Construction") %>% 
+arch_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), cluster == "Architecture and Construction") %>%
   select(pathway_for_labels_change, estimate, projection)
 arch_linked_pathway <- melt(arch_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Arts, Audio/Video Technology, and Communications
 
-arts_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), cluster == "Arts, Audio/Video Technology, and Communications") %>% 
+arts_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), cluster == "Arts, Audio/Video Technology, and Communications") %>%
   select(pathway_for_labels_change, estimate, projection)
 arts_linked_pathway <- melt(arts_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
-# Business Management and Administration 
+# Business Management and Administration
 
-business_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title),cluster == "Business Management and Administration") %>% 
+business_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title),cluster == "Business Management and Administration") %>%
   select(pathway_for_labels_change, estimate, projection)
 business_linked_pathway <- melt(business_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Education and Training
 
-edu_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title),cluster == "Education and Training") %>% 
+edu_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title),cluster == "Education and Training") %>%
   select(pathway_for_labels_change, estimate, projection)
 edu_linked_pathway <- melt(edu_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Finance
 
-finance_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), cluster == "Finance") %>% 
+finance_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), cluster == "Finance") %>%
   select(pathway_for_labels_change, estimate, projection)
 finance_linked_pathway <- melt(finance_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
-# Government and Public Administration 
+# Government and Public Administration
 
-gov_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Government and Public Adminstration") %>% 
+gov_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Government and Public Adminstration") %>%
   select(pathway_for_labels_change, estimate, projection)
 gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Health Science
 
-health_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), cluster == "Health Science") %>% 
+health_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), cluster == "Health Science") %>%
   select(pathway_for_labels_change, estimate, projection)
 health_linked_pathway <- melt(health_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
-                    
-# Hospitality and Tourism 
 
-hosp_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Hospitality and Tourism") %>% 
+# Hospitality and Tourism
+
+hosp_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Hospitality and Tourism") %>%
   select(pathway_for_labels_change, estimate, projection)
 hosp_linked_pathway <- melt(hosp_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Human Services
 
-humanserv_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Human Services") %>% 
+humanserv_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Human Services") %>%
   select(pathway_for_labels_change, estimate, projection)
 humanserv_linked_pathway <- melt(humanserv_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Information Technology
 
-it_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Information Technology") %>% 
+it_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Information Technology") %>%
   select(pathway_for_labels_change, estimate, projection)
 it_linked_pathway <- melt(it_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Law, Public Safety, Corrections, and Security
 
-law_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Law, Public Safety, Corrections, and Security") %>% 
+law_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Law, Public Safety, Corrections, and Security") %>%
   select(pathway_for_labels_change, estimate, projection)
 law_linked_pathway <- melt(law_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Manufacturing
 
-manufacturing_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Manufacturing") %>% 
+manufacturing_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Manufacturing") %>%
   select(pathway_for_labels_change, estimate, projection)
 manufacturing_linked_pathway <- melt(manufacturing_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Marketing
 
-marketing_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Marketing") %>% 
+marketing_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Marketing") %>%
   select(pathway_for_labels_change, estimate, projection)
 marketing_linked_pathway <- melt(marketing_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Science, Technology, Engineering, and Mathematics
 
-stem_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Science, Technology, Engineering, and Mathematics") %>% 
+stem_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Science, Technology, Engineering, and Mathematics") %>%
   select(pathway_for_labels_change, estimate, projection)
 stem_linked_pathway <- melt(stem_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Transportation, Distribution, and Logistics
 
-transport_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Transportation, Distribution, and Logistics") %>% 
+transport_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Transportation, Distribution, and Logistics") %>%
   select(pathway_for_labels_change, estimate, projection)
 transport_linked_pathway <- melt(transport_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Energy
 
-energy_linked_pathway <- nonduplicated %>% 
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Energy") %>% 
+energy_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Energy") %>%
   select(pathway_for_labels_change, estimate, projection)
 energy_linked_pathway <- melt(energy_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) + 
-  geom_bar(stat="identity",position="dodge") + 
-  ylab("Number of Jobs") +  
+ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
+  geom_bar(stat="identity",position="dodge") +
+  ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.minor.x = element_blank(), 
-        panel.grid.major.x = element_blank()) + 
-  scale_fill_manual(values = my_colors2, 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  scale_fill_manual(values = my_colors2,
                     labels = jobs_labels)  +
   geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 
-##Different Visualization 
+##Different Visualization
 nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), is.na(soc_title)) %>% ggplot(aes(pathway_for_labels, fraction_change)) + geom_segment( aes(x=pathway_for_labels, xend= pathway_for_labels, y=0, yend=fraction_change), color="grey") +
-  geom_point( color="orange", size=4) 
+  geom_point( color="orange", size=4)
   
 ```
 
