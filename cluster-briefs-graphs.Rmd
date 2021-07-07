@@ -72,9 +72,228 @@ nonduplicated %>% filter(!is.na(edu_weighting)) %>%
   group_by(pathway) %>% 
   summarise(mean_weight = mean(edu_weighting))
 
-##Agriculture Cluster 
+# ##Agriculture Cluster 
+# 
+# nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# ## Architecture and Construction Cluster
+# 
+# nonduplicated %>% filter(cluster == "Architecture and Construction", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# ## Arts Audio/Video Technology, and Communications
+# 
+# nonduplicated %>% filter(cluster == "Arts, Audio/Video Technology, and Communications", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Business Management and Administration Cluster
+# 
+# nonduplicated %>% filter(cluster == "Business Management and Administration", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Education and Training Cluster
+# 
+# nonduplicated %>% filter(cluster == "Education and Training", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors)
+# # Finance Cluster 
+# 
+# nonduplicated %>% filter(cluster == "Finance", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors)
+#   
+# #  Government and Public Adminstration Cluster 
+# 
+# nonduplicated %>% filter(cluster == "Government and Public Adminstration", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Health Science Cluster
+# 
+# nonduplicated %>% filter(cluster == "Health Science", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Hospitality and Tourism Cluster
+# 
+# nonduplicated %>% filter(cluster == "Hospitality and Tourism", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Human Services Cluster
+# 
+# nonduplicated %>% filter(cluster == "Human Services", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# #Information Technology Cluster
+# 
+# nonduplicated %>% filter(cluster == "Information Technology", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors)
+# 
+# #Law, Public Safety, Corrections, and Security Cluster
+# 
+# nonduplicated %>% filter(cluster == "Law, Public Safety, Corrections, and Security", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors)
+# 
+# # Manufacturing Cluster
+# 
+# nonduplicated %>% filter(cluster == "Manufacturing", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# # Marketing Cluster
+# 
+# nonduplicated %>% filter(cluster == "Marketing", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors)
+# 
+# # Science, Technology, Engineering, and Mathematics Cluster
+# 
+# nonduplicated %>% filter(cluster == "Science, Technology, Engineering, and Mathematics", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# #Transportation, Distribution, and Logistics Cluster
+# 
+# nonduplicated %>% filter(cluster == "Transportation, Distribution, and Logistics", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# 
+# nonduplicated %>% filter(cluster == "Energy", 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+# 
+# 
+# graph1 <- function(x) {
+#   
+#   cluster_graph <- nonduplicated %>% filter(cluster == x, 
+#                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+#   geom_col(position = "fill") + 
+#   theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(), 
+#         legend.title = element_blank()) + 
+#   scale_fill_manual(values = my_colors) 
+#   
+#   return(cluster_graph)
+# }
 
-nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", 
+cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
+
+for (x in cluster_list){
+   cluster_graph <- nonduplicated %>% filter(cluster == x, 
                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
   geom_col(position = "fill") + 
   theme(panel.grid = element_blank(),
@@ -83,203 +302,18 @@ nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources",
         axis.ticks.y = element_blank(), 
         legend.title = element_blank()) + 
   scale_fill_manual(values = my_colors) 
-
-## Architecture and Construction Cluster
-
-nonduplicated %>% filter(cluster == "Architecture and Construction", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-## Arts Audio/Video Technology, and Communications
-
-nonduplicated %>% filter(cluster == "Arts, Audio/Video Technology, and Communications", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Business Management and Administration Cluster
-
-nonduplicated %>% filter(cluster == "Business Management and Administration", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Education and Training Cluster
-
-nonduplicated %>% filter(cluster == "Education and Training", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
-# Finance Cluster 
-
-nonduplicated %>% filter(cluster == "Finance", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
   
-#  Government and Public Adminstration Cluster 
-
-nonduplicated %>% filter(cluster == "Government and Public Adminstration", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Health Science Cluster
-
-nonduplicated %>% filter(cluster == "Health Science", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Hospitality and Tourism Cluster
-
-nonduplicated %>% filter(cluster == "Hospitality and Tourism", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Human Services Cluster
-
-nonduplicated %>% filter(cluster == "Human Services", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-#Information Technology Cluster
-
-nonduplicated %>% filter(cluster == "Information Technology", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
-
-#Law, Public Safety, Corrections, and Security Cluster
-
-nonduplicated %>% filter(cluster == "Law, Public Safety, Corrections, and Security", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
-
-# Manufacturing Cluster
-
-nonduplicated %>% filter(cluster == "Manufacturing", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-# Marketing Cluster
-
-nonduplicated %>% filter(cluster == "Marketing", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
-
-# Science, Technology, Engineering, and Mathematics Cluster
-
-nonduplicated %>% filter(cluster == "Science, Technology, Engineering, and Mathematics", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-#Transportation, Distribution, and Logistics Cluster
-
-nonduplicated %>% filter(cluster == "Transportation, Distribution, and Logistics", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors) 
-
-
-nonduplicated %>% filter(cluster == "Energy", 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
-  scale_fill_manual(values = my_colors)
-
+  print(cluster_graph)
+}
 ```
 
 ```{r 2nd graph showing added jobs over decade}
 
 my_colors2 <- c("darkgrey", "#046C9A")
 jobs_labels <- c("2018 Estimate", "2028 Estimate")
+text_size <- 2.5
+text_width <- 0.9
+text_vertical <- -0.25
 
 # Agriculture, Food, and Natural Resources
 
@@ -296,7 +330,7 @@ ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Architecture and Construction 
 
@@ -314,7 +348,7 @@ ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Arts, Audio/Video Technology, and Communications
 
@@ -332,7 +366,7 @@ ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Business Management and Administration 
 
@@ -350,7 +384,7 @@ ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =vari
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Education and Training
 
@@ -368,7 +402,7 @@ ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Finance
 
@@ -386,7 +420,7 @@ ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =varia
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Government and Public Administration 
 
@@ -404,7 +438,7 @@ ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Health Science
 
@@ -422,7 +456,7 @@ ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
                     
 # Hospitality and Tourism 
 
@@ -440,7 +474,7 @@ ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Human Services
 
@@ -458,7 +492,7 @@ ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Information Technology
 
@@ -476,7 +510,7 @@ ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable))
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Law, Public Safety, Corrections, and Security
 
@@ -494,7 +528,7 @@ ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Manufacturing
 
@@ -512,7 +546,7 @@ ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill 
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Marketing
 
@@ -530,7 +564,7 @@ ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Science, Technology, Engineering, and Mathematics
 
@@ -548,7 +582,7 @@ ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Transportation, Distribution, and Logistics
 
@@ -566,7 +600,7 @@ ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =var
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels) +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Energy
 
@@ -584,7 +618,7 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
         panel.grid.major.x = element_blank()) + 
   scale_fill_manual(values = my_colors2, 
                     labels = jobs_labels)  +
-  geom_text(aes(label = value), size = 2.5, position=position_dodge(width=0.9), vjust=-0.25)
+  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 
 ##Different Visualization 
