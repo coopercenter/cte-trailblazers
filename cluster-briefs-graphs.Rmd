@@ -14,6 +14,8 @@ library(readxl)
 library(purrr)
 library(tidyverse)
 library(reshape2)
+library(ggridges)
+library(RColorBrewer)
 
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
@@ -52,7 +54,8 @@ nonduplicated <- nonduplicated %>%
 
 nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "HS Diploma"))
 
-my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
+#my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
+my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"), str_replace_all(pathway, "/", "\n/"))
@@ -60,8 +63,14 @@ nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_la
 nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "Tele", "Tele-\n")
 nonduplicated$pathway_for_labels <- str_replace_all(nonduplicated$pathway_for_labels, "/", "/\n")
 
-##Agriculture Cluster 
+nonduplicated <- mutate(nonduplicated, edu_weighting = ifelse(predominant_education_level == "HS Diploma", 12, ifelse(predominant_education_level == "Some College / Associate Degree", 14, ifelse(predominant_education_level == "Bachelor's Degree",16, ifelse(predominant_education_level == "Graduate / Professional Degree", 18, NA)))))
 
+nonduplicated %>% filter(!is.na(edu_weighting)) %>% 
+  select(cluster, pathway, edu_weighting) %>% 
+  group_by(pathway) %>% 
+  summarise(mean_weight = mean(edu_weighting))
+
+##Agriculture Cluster 
 
 nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", 
                          !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
@@ -279,7 +288,6 @@ ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels")
 
 ggplot(ag_linked_pathway, aes(pathway_for_labels, value, fill = variable)) + 
   geom_bar(stat="identity",position="dodge") + 
-  scale_x_discrete(labels = ag_labels) + 
   ylab("Number of Jobs") +  
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
@@ -566,9 +574,13 @@ nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", 
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
+
 nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), is.na(soc_title)) %>% ggplot(aes(estimate, fraction_change, color = pathway, size = annual_openings)) + geom_point()
 
 nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway), !is.na(median_income)) %>%  ggplot(aes(median_income, fraction_change)) + geom_hex()
 
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway)) %>% ggplot(aes(pathway_for_labels, median_income)) + geom_violin()
 
+nonduplicated %>% filter(cluster == "Agriculture, Food, and Natural Resources", !is.na(pathway)) %>% ggplot(aes( median_income, pathway_for_labels, fill = pathway_for_labels)) + geom_density_ridges() + theme_ridges() 
 ```
+
