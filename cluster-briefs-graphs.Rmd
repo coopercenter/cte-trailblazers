@@ -47,7 +47,7 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 #my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
-my_colors <- c("navy", "#046C9A", "#ABDDDE", "azure4")
+my_colors <- c("navy", "#046C9A", "#ABDDDE", "darkgrey")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
@@ -75,7 +75,9 @@ for (x in cluster_list){
         axis.title = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(), 
-        legend.title = element_blank()) + 
+        legend.title = element_blank(),
+        legend.text = element_text(color = "black"),
+        axis.text.x = element_text(color = "black")) + 
   scale_fill_manual(values = my_colors)
   
   print(edu_graph)
