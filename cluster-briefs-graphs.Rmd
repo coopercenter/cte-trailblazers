@@ -465,7 +465,7 @@ for (x in cluster_list){
      ggplot(aes(median_income, estimate, color = pathway, size = annual_openings)) + 
      geom_point() + 
      geom_jitter() +
-     scale_size_area(max_size = 15) +
+     scale_size_area(max_size = 12) +
      xlab("Median Income") + 
      ylab("Estimated Number of Jobs, 2018") + 
      scale_y_continuous(labels = comma) +
