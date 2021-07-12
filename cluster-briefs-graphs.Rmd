@@ -68,17 +68,22 @@ cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE)
 cluster_list <- cluster_list[-1]
 
 for (x in cluster_list){
-   edu_graph <- nonduplicated %>% filter(cluster == x, 
-                         !is.na(predominant_education_level)) %>% ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
-  geom_col(position = "fill") + 
-  theme(panel.grid = element_blank(),
+  
+  edu_graph <- nonduplicated %>% filter(cluster == x, 
+                         !is.na(predominant_education_level)) %>% 
+     ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level)) + 
+     geom_col(position = "fill") + 
+     theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(), 
         legend.title = element_blank(),
         legend.text = element_text(color = "black"),
-        axis.text.x = element_text(color = "black")) + 
-  scale_fill_manual(values = my_colors)
+        axis.text.x = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        axis.line.x = element_line(color = "grey")) + 
+    scale_x_discrete(expand = expansion(add = 0)) +
+     scale_fill_manual(values = my_colors)
   
   print(edu_graph)
 }
@@ -437,7 +442,9 @@ for (x in cluster_list){
           color = "Pathway", 
           caption = "*Median Income in the United States is $ .") + 
      theme(axis.text.x = element_text(color = "black"), 
-           axis.text.y = element_text(color = "black")) + 
+           axis.text.y = element_text(color = "black"),
+           panel.background = element_blank(),
+           axis.line = element_line(color = "grey")) + 
      guides(color = guide_legend(order = 1)) + 
      scale_color_manual(values = my_colors3)
   print(income_graph)
