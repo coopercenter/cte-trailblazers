@@ -109,7 +109,11 @@ ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)
   ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
@@ -128,10 +132,15 @@ ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, 
+                     expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Arts, Audio/Video Technology, and Communications
@@ -147,10 +156,14 @@ ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Business Management and Administration
@@ -166,10 +179,14 @@ ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =vari
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Education and Training
@@ -185,10 +202,14 @@ ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Finance
@@ -204,10 +225,14 @@ ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =varia
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Government and Public Administration
@@ -223,10 +248,14 @@ ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Health Science
@@ -242,10 +271,14 @@ ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Hospitality and Tourism
@@ -261,10 +294,14 @@ ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Human Services
@@ -280,10 +317,14 @@ ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Information Technology
@@ -299,10 +340,14 @@ ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable))
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Law, Public Safety, Corrections, and Security
@@ -318,10 +363,14 @@ ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Manufacturing
@@ -337,10 +386,14 @@ ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill 
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Marketing
@@ -356,10 +409,14 @@ ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Science, Technology, Engineering, and Mathematics
@@ -375,10 +432,14 @@ ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Transportation, Distribution, and Logistics
@@ -394,10 +455,14 @@ ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Energy
@@ -413,11 +478,18 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill = varia
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
         panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_blank()) +
+        panel.grid.major.x = element_blank(), 
+        axis.text = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        panel.grid.major.y = element_line(color = "lightgrey"), 
+        panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
+            size = text_size, 
+            position = position_dodge(width=text_width), 
+            vjust = text_vertical)
 
 ```
 
