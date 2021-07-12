@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r importing spreadsheet & packages, warning = FALSE, message = FALSE}
+```{r importing spreadsheet & packages, makign edits for ease of graphing warning = FALSE, message = FALSE}
 library(readxl)
 library(tidyverse)
 library(reshape2)
@@ -495,8 +495,8 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill = varia
 
 ```{r 3rd graph showing income, openings, and growth}
 
-my_colors3  <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
-          "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+my_colors3  <- c("#0072B2","#56B4E9", "#E69F00", "#009E73",
+          "#F0E442", "#D55E00", "#CC79A7","#999999")
 
 nonduplicated <- nonduplicated %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
 
