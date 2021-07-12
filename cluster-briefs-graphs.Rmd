@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r importing spreadsheet & packages, makign edits for ease of graphing warning = FALSE, message = FALSE}
+```{r importing spreadsheet & packages, making edits for ease of graphing, warning = FALSE, message = FALSE}
 library(readxl)
 library(tidyverse)
 library(reshape2)
@@ -47,7 +47,8 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 #my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
-my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
+#my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
+my_colors <- c("#003366", "#2E5882", "#7490AC", "#D1DAE3")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
