@@ -436,6 +436,8 @@ for (x in cluster_list){
      labs(size = "Number of Openings Annually",
           color = "Pathway", 
           caption = "*Median Income in the United States is $ .") + 
+     theme(axis.text.x = element_text(color = "black"), 
+           axis.text.y = element_text(color = "black")) + 
      guides(color = guide_legend(order = 1)) + 
      scale_color_manual(values = my_colors3)
   print(income_graph)
