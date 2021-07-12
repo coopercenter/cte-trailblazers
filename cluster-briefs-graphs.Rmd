@@ -125,7 +125,7 @@ ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Architecture and Construction
 
@@ -144,7 +144,7 @@ ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Arts, Audio/Video Technology, and Communications
 
@@ -163,7 +163,7 @@ ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Business Management and Administration
 
@@ -182,7 +182,7 @@ ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =vari
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Education and Training
 
@@ -201,7 +201,7 @@ ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Finance
 
@@ -220,7 +220,7 @@ ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =varia
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Government and Public Administration
 
@@ -239,7 +239,7 @@ ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Health Science
 
@@ -258,7 +258,7 @@ ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Hospitality and Tourism
 
@@ -277,7 +277,7 @@ ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Human Services
 
@@ -296,7 +296,7 @@ ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Information Technology
 
@@ -315,7 +315,7 @@ ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable))
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = value), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Law, Public Safety, Corrections, and Security
 
@@ -334,7 +334,7 @@ ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Manufacturing
 
@@ -353,7 +353,7 @@ ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill 
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Marketing
 
@@ -372,7 +372,7 @@ ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Science, Technology, Engineering, and Mathematics
 
@@ -391,7 +391,7 @@ ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Transportation, Distribution, and Logistics
 
@@ -410,7 +410,7 @@ ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 # Energy
 
@@ -429,7 +429,7 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill = varia
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",")), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
 
 
 # ##Different Visualization
@@ -470,7 +470,7 @@ for (x in cluster_list){
      scale_x_continuous(labels = scales::dollar_format()) + 
      labs(size = "Number of Openings Annually",
           color = "Pathway", 
-          caption = "Median Income in the United States is $ .") + 
+          caption = "*Median Income in the United States is $ .") + 
      guides(color = guide_legend(order = 1)) + 
      scale_color_manual(values = my_colors3)
   print(income_graph)
