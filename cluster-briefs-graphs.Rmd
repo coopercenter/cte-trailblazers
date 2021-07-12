@@ -66,6 +66,7 @@ graph_order <- nonduplicated %>% filter(!is.na(edu_weighting)) %>%
   summarise(mean_weight = mean(edu_weighting))
 
 cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
+cluster_list <- cluster_list[-1]
 
 for (x in cluster_list){
    edu_graph <- nonduplicated %>% filter(cluster == x, 
@@ -460,9 +461,11 @@ my_colors3  <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
 
 
 for (x in cluster_list){
-   income_graph <- nonduplicated %>% filter(cluster == x, !is.na(pathway)) %>% 
+   income_graph <- nonduplicated %>% filter(cluster == x, !is.na(pathway), !is.na(median_income)) %>% 
      ggplot(aes(median_income, estimate, color = pathway, size = annual_openings)) + 
      geom_point() + 
+     geom_jitter() +
+     scale_size_area(max_size = 15) +
      xlab("Median Income") + 
      ylab("Estimated Number of Jobs, 2018") + 
      scale_y_continuous(labels = comma) +
