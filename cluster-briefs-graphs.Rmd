@@ -47,7 +47,7 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 #my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
-my_colors <- c("navy", "#046C9A", "#ABDDDE", "darkgrey")
+my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
@@ -87,6 +87,29 @@ for (x in cluster_list){
   
   print(edu_graph)
 }
+
+for (x in cluster_list){
+  
+  edu_graph <- nonduplicated %>% filter(cluster == x, 
+                         !is.na(predominant_education_level)) %>% 
+     ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level, color = predominant_education_level)) + 
+     geom_bar(stat = "identity",position = "fill") + 
+     theme(panel.grid = element_blank(),
+        axis.title = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.title = element_blank(),
+        legend.text = element_text(color = "black"),
+        axis.text.x = element_text(color = "black"), 
+        panel.background = element_blank(), 
+        axis.line.x = element_line(color = "grey")) + 
+    scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+     scale_fill_manual(values = my_colors) +
+    scale_color_manual(values = my_colors)
+  
+  print(edu_graph)
+}
+
 ```
 
 ```{r 2nd graph showing added jobs over decade}
