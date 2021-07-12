@@ -46,9 +46,9 @@ nonduplicated <- nonduplicated %>%
 
 nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "HS Diploma"))
 
-#my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
+my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
-my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
+#my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
@@ -456,9 +456,23 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill = varia
 #   geom_density_ridges() + 
 #   theme_ridges() 
 
+my_colors3  <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
+          "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+
 for (x in cluster_list){
    income_graph <- nonduplicated %>% filter(cluster == x, !is.na(pathway)) %>% 
-     ggplot(aes(median_income, estimate, color = pathway, size = annual_openings)) + geom_point()
+     ggplot(aes(median_income, estimate, color = pathway, size = annual_openings)) + 
+     geom_point() + 
+     xlab("Median Income") + 
+     ylab("Estimated Number of Jobs, 2018") + 
+     scale_y_continuous(labels = comma) +
+     scale_x_continuous(labels = scales::dollar_format()) + 
+     labs(size = "Number of Openings Annually",
+          color = "Pathway", 
+          caption = "Median Income in the United States is $ .") + 
+     guides(color = guide_legend(order = 1)) + 
+     scale_color_manual(values = my_colors3)
   print(income_graph)
 }
 ```
