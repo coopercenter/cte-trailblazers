@@ -17,6 +17,7 @@ library(tidyverse)
 library(reshape2)
 library(scales)
 library(RColorBrewer)
+library(wesanderson)
 
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
@@ -48,7 +49,7 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 #my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
 #my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
-my_colors <- c("#003366", "#2E5882", "#7490AC", "#D1DAE3")
+my_colors <- c("#003366", "#2E5882", "#7490AC", "#A2B5C7")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
@@ -521,7 +522,7 @@ for (x in cluster_list){
            panel.background = element_blank(),
            axis.line = element_line(color = "grey")) + 
      guides(color = guide_legend(order = 1)) + 
-     scale_color_manual(values = my_colors3)
+     scale_color_brewer(palette = "Set2")
   print(income_graph)
 }
 ```
