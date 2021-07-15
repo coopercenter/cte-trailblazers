@@ -62,11 +62,6 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 
 # nonduplicated <- mutate(nonduplicated, edu_weighting = ifelse(predominant_education_level == "HS Diploma", 12, ifelse(predominant_education_level == "Some College / Associate Degree", 14, ifelse(predominant_education_level == "Bachelor's Degree",16, ifelse(predominant_education_level == "Graduate / Professional Degree", 18, NA)))))
 
-graph_order <- nonduplicated %>% filter(!is.na(edu_weighting)) %>% 
-  select(cluster, pathway, edu_weighting) %>% 
-  group_by(pathway) %>% 
-  summarise(mean_weight = mean(edu_weighting))
-
 cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
 cluster_list <- cluster_list[-1]
 
@@ -1023,7 +1018,7 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 7000)
+  expand_limits(x = 7000) + 
   ggsave(path = "images", "energy-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 ```
 
