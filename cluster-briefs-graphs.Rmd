@@ -17,7 +17,6 @@ library(tidyverse)
 library(reshape2)
 library(scales)
 library(RColorBrewer)
-library(wesanderson)
 
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
@@ -43,13 +42,11 @@ nonduplicated <- nonduplicated %>%
 
 ```{r 1st plot, warning=FALSE}
 
-nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "HS Diploma"))
-
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
 #my_colors <- c("#003461", "#0060b3", "#068bff", "#57b1ff")
 #my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
-my_colors <- c("#003366", "#2E5882", "#7490AC", "#A2B5C7")
+my_colors <- c("#003366", "#2E5882", "#7490AC", "#C4D0DC")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
@@ -57,9 +54,13 @@ nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(p
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "Tele", "Tele-\n"))
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n"))
 
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels_change = paste(pathway_for_labels,"\n", "(", round(fraction_change*100, 1), "%", ")", sep = ""))
+nonduplicated <- nonduplicated %>% mutate(pathway_for_labels_change = paste(pathway_for_labels,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = ""))
 
-nonduplicated <- mutate(nonduplicated, edu_weighting = ifelse(predominant_education_level == "HS Diploma", 12, ifelse(predominant_education_level == "Some College / Associate Degree", 14, ifelse(predominant_education_level == "Bachelor's Degree",16, ifelse(predominant_education_level == "Graduate / Professional Degree", 18, NA)))))
+nonduplicated <- nonduplicated %>% mutate(predominant_education_level = str_replace_all(predominant_education_level, "HS Diploma", "High School Diploma"))
+
+nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "High School Diploma"))
+
+# nonduplicated <- mutate(nonduplicated, edu_weighting = ifelse(predominant_education_level == "HS Diploma", 12, ifelse(predominant_education_level == "Some College / Associate Degree", 14, ifelse(predominant_education_level == "Bachelor's Degree",16, ifelse(predominant_education_level == "Graduate / Professional Degree", 18, NA)))))
 
 graph_order <- nonduplicated %>% filter(!is.na(edu_weighting)) %>% 
   select(cluster, pathway, edu_weighting) %>% 
@@ -86,7 +87,8 @@ for (x in cluster_list){
         axis.line.x = element_line(color = "grey")) + 
     scale_y_continuous(expand = expansion(mult = c(0, .1))) +
      scale_fill_manual(values = my_colors) +
-    scale_color_manual(values = my_colors)
+    scale_color_manual(values = my_colors) +
+    ggsave(paste0(strtrim(x,4),"-fig1.png"), path = "images", height = 2.5, width = 7.5, units = c("in"))
   
   print(edu_graph)
 }
@@ -95,8 +97,8 @@ for (x in cluster_list){
 
 ```{r 2nd graph showing added jobs over decade}
 
-my_colors2 <- c("darkgrey", "#046C9A")
-jobs_labels <- c("2018 Estimate", "2028 Estimate")
+my_colors2 <- c("darkgrey", "#2E5882")
+jobs_labels <- c("2018 Estimate", "2028 Projection")
 text_size <- 2.5
 text_width <- 0.9
 text_vertical <- -0.25
@@ -108,11 +110,12 @@ ag_linked_pathway <- nonduplicated %>%
   select(pathway_for_labels_change, estimate, projection)
 ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)) +
+ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)) +
   geom_bar(stat="identity",position="dodge") +
   ylab("Number of Jobs") +
   theme(legend.title = element_blank(),
         axis.title.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
         panel.grid.major.x = element_blank(),
         axis.text = element_text(color = "black"), 
         panel.background = element_blank(), 
@@ -120,8 +123,9 @@ ggplot(ag_linked_pathway, aes(pathway_for_labels_change, value, fill = variable)
         panel.grid.minor.y = element_line(color = "lightgrey")) +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_y_continuous(labels = comma) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "ag-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Architecture and Construction
 
@@ -145,7 +149,8 @@ ggplot(arch_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, 
                      expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical) + 
+  ggsave(path = "images", "arch-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Arts, Audio/Video Technology, and Communications
 
@@ -168,7 +173,8 @@ ggplot(arts_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical) +
+  ggsave(path = "images", "arts-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Business Management and Administration
 
@@ -191,7 +197,8 @@ ggplot(business_linked_pathway, aes(pathway_for_labels_change, value, fill =vari
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "business-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Education and Training
 
@@ -214,7 +221,8 @@ ggplot(edu_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "edu-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Finance
 
@@ -237,7 +245,8 @@ ggplot(finance_linked_pathway, aes(pathway_for_labels_change, value, fill =varia
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "finance-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Government and Public Administration
 
@@ -260,7 +269,8 @@ ggplot(gov_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "govt-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Health Science
 
@@ -283,7 +293,8 @@ ggplot(health_linked_pathway, aes(pathway_for_labels_change, value, fill =variab
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "health-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Hospitality and Tourism
 
@@ -306,7 +317,8 @@ ggplot(hosp_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "hosp-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Human Services
 
@@ -329,7 +341,8 @@ ggplot(humanserv_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "humanserv-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Information Technology
 
@@ -352,7 +365,8 @@ ggplot(it_linked_pathway, aes(pathway_for_labels_change, value, fill =variable))
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "it-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Law, Public Safety, Corrections, and Security
 
@@ -375,7 +389,8 @@ ggplot(law_linked_pathway, aes(pathway_for_labels_change, value, fill =variable)
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical) + 
+  ggsave(path = "images", "law-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Manufacturing
 
@@ -398,7 +413,8 @@ ggplot(manufacturing_linked_pathway, aes(pathway_for_labels_change, value, fill 
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "manufacturing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Marketing
 
@@ -421,7 +437,8 @@ ggplot(marketing_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical) + 
+  ggsave(path = "images", "marketing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Science, Technology, Engineering, and Mathematics
 
@@ -444,7 +461,8 @@ ggplot(stem_linked_pathway, aes(pathway_for_labels_change, value, fill =variable
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "stem-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Transportation, Distribution, and Logistics
 
@@ -467,7 +485,8 @@ ggplot(transport_linked_pathway, aes(pathway_for_labels_change, value, fill =var
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), size = text_size, position = position_dodge(width=text_width), vjust = text_vertical)+ 
+  ggsave(path = "images", "transport-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Energy
 
@@ -493,14 +512,16 @@ ggplot(energy_linked_pathway, aes(pathway_for_labels_change, value, fill = varia
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
             size = text_size, 
             position = position_dodge(width=text_width), 
-            vjust = text_vertical)
+            vjust = text_vertical) +
+  ggsave(path = "images", "energy-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
 
-my_colors3  <- c("#0072B2","#56B4E9", "#E69F00", "#009E73",
-          "#F0E442", "#D55E00", "#CC79A7","#999999")
+#my_colors3  <- c("#0072B2","#56B4E9", "#E69F00", "#009E73", "#F0E442", "#D55E00", "#CC79A7","#999999")
+
+my_colors3 <- c("#1170aa", "#fc7d0d", "#003366", "#5fa2ce", "#c85200", "#a3cce9", "#ffbc79")
 
 nonduplicated <- nonduplicated %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
 
@@ -515,16 +536,41 @@ for (x in cluster_list){
      scale_y_continuous(labels = comma) +
      scale_x_continuous(labels = scales::dollar_format()) + 
      labs(size = "Number of Openings Annually",
-          color = "Pathway", 
-          caption = "*Median Income in the United States is $ .") + 
+          color = "Pathway") + 
      theme(axis.text.x = element_text(color = "black"), 
            axis.text.y = element_text(color = "black"),
            panel.background = element_blank(),
            axis.line = element_line(color = "grey")) + 
      guides(color = guide_legend(order = 1)) + 
-     scale_color_brewer(palette = "Set2")
+     scale_color_manual(values = my_colors3)
+    ggsave(paste0(strtrim(x,3),"-fig3.png"), path = "images", height = 4.2, width = 7.5, units = c("in"))
   print(income_graph)
 }
+
+
+for (x in cluster_list){
+   income_graph2 <- nonduplicated %>% filter(cluster == x, !is.na(pathway), !is.na(median_income)) %>% 
+     ggplot(aes(median_income, pathway, color = pathway)) + 
+     geom_point() + 
+     scale_color_manual(values = my_colors3) + 
+     scale_x_continuous(labels = scales::dollar_format()) + 
+     xlab("Median Income") + 
+     ylab("Pathway") +
+     theme(axis.text.x = element_text(color = "black"), 
+           axis.text.y = element_text(color = "black"),
+           panel.background = element_blank(),
+           axis.line = element_line(color = "grey"),
+           panel.grid.major.y = element_line(color = "lightgrey"),
+           panel.grid.major.x = element_line(color = "lightgrey"),
+           axis.title.y = element_blank(), 
+           legend.position = "none") +
+     ggsave(paste0(strtrim(x,3),"-fig3.png"), path = "images", height = 4.2, width = 7.5, units = c("in"))
+   
+  print(income_graph2)
+}
+
+
+#caption = "*Median Income in the United States is $ ."
 ```
 
 ```{r other graphs that may be helpful later but not in cluster briefs, include = FALSE}
