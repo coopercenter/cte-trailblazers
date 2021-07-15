@@ -544,6 +544,7 @@ ggplot(ag_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) +
+  expand_limits(x = 35000) +
   ggsave(path = "images", "ag-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Architecture and Construction
@@ -573,6 +574,7 @@ ggplot(arch_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 205000) +
   ggsave(path = "images", "arch-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Arts, Audio/Video Technology, and Communications
@@ -602,6 +604,7 @@ ggplot(arts_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) +
+  expand_limits(x = 18000) + 
   ggsave(path = "images", "arts-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Business Management and Administration
@@ -631,6 +634,7 @@ ggplot(business_linked_pathway, aes(value, pathway_for_labels_change, fill =vari
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 340000) +
   ggsave(path = "images", "business-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Education and Training
@@ -659,7 +663,8 @@ ggplot(edu_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             size = text_size, 
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
-            hjust = text_height)+ 
+            hjust = text_height) +
+  expand_limits(x = 205000) +
   ggsave(path = "images", "edu-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Finance
@@ -689,6 +694,7 @@ ggplot(finance_linked_pathway, aes(value, pathway_for_labels_change, fill =varia
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 110000) +
   ggsave(path = "images", "finance-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Government and Public Administration
@@ -718,6 +724,7 @@ ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 22000) + 
   ggsave(path = "images", "govt-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Health Science
@@ -747,9 +754,10 @@ ggplot(health_linked_pathway, aes(value, pathway_for_labels_change, fill =variab
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 310000) + 
   ggsave(path = "images", "health-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
-# Hospitality and Tourism
+ # Hospitality and Tourism
 
 hosp_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Hospitality and Tourism") %>%
@@ -776,6 +784,7 @@ ggplot(hosp_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 405000) +
   ggsave(path = "images", "hosp-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Human Services
@@ -805,6 +814,7 @@ ggplot(humanserv_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 145000) +
   ggsave(path = "images", "humanserv-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Information Technology
@@ -834,6 +844,7 @@ ggplot(it_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 150000)+
   ggsave(path = "images", "it-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Law, Public Safety, Corrections, and Security
@@ -863,6 +874,7 @@ ggplot(law_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 47000) +
   ggsave(path = "images", "law-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Manufacturing
@@ -892,6 +904,7 @@ ggplot(manufacturing_linked_pathway, aes(value, pathway_for_labels_change, fill 
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 105000)
   ggsave(path = "images", "manufacturing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Marketing
@@ -921,6 +934,7 @@ ggplot(marketing_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 470000) +
   ggsave(path = "images", "marketing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Science, Technology, Engineering, and Mathematics
@@ -979,6 +993,7 @@ ggplot(transport_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
+  expand_limits(x = 160000) + 
   ggsave(path = "images", "transport-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 
 # Energy
@@ -1007,7 +1022,8 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
             size = text_size, 
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
-            hjust = text_height) +
+            hjust = text_height) + 
+  expand_limits(x = 7000)
   ggsave(path = "images", "energy-fig2.png", height = 2.6, width = 7.5, units = c("in"))
 ```
 
