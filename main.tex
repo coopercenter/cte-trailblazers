@@ -1,0 +1,198 @@
+%%%%%%%%%   In the first part of this LaTeX document we load all the packages we will need (and some we won't) to edit the document as we want. Additionally, we format the document as we will want it and set up the header and footer.
+    %Nothing in the "first part" should need to be edited for separate reports, unless the current month and year should not appear on the report. In that case, search for the two instances of "\monthyeardate\today" and change them to whatever month and year you want.
+    %I note where the "first part" ends below.
+
+\documentclass[10pt, usenames, dvipsnames]{article} %Tells what type of document we want and the default font size we want. usenames and dvipsnames give us more font color options, and go with the xcolor package below
+    %If want any font size other than 10pt, 11pt, or 12pt, change {article} to {extarticle}. See http://ctan.mirrors.hoobly.com/macros/latex/contrib/extsizes/extsizes.pdf
+
+
+%%%%%%%%%%%     Page Setup - margins, header/footer height, font type and size, paragraph indents, etc.
+\usepackage{geometry}           %Allows adjusting margins (and height of header/footer if desire)
+    %See https://www.overleaf.com/learn/latex/page_size_and_margins
+    \geometry{
+    letterpaper,    %Tells what type of paper being used (default is A4)
+    left=0.5in,     %Left margin        
+    right=0.5in,    %Right margin
+    top=0.5in,        %Top margin 
+    bottom=0.9in,     %Bottom margin - not entirely sure why this needs to be more than 0.5
+    includehead,includefoot,    %This says we want to include the header and footer when setting the top and bottom margins
+    }
+
+\usepackage{lmodern}    %Allows changing font type 
+\usepackage[T1]{fontenc} %Using sans serif requires this and the following line
+\renewcommand*\familydefault{\sfdefault}
+    %See https://www.overleaf.com/learn/latex/font_typefaces and http://tug.org/FontCatalogue/latinmodernsans/
+    %The easiest thing to do is probably search through http://tug.org/FontCatalogue/, find the font you want, and edits the above 3 lines as necessary
+
+%The body font size for the document is set in the very first line of code (\documentclass[10pt]{article}). 
+
+\usepackage{anyfontsize}    %These two packages give more options for font sizes for a specific item
+\usepackage{t1enc}          %See https://texblog.org/2012/08/29/changing-the-font-size-in-latex/ under "A few more options"
+
+
+\usepackage[x11names]{xcolor}     %Allows changing font color - there are other options with different colors
+    %See https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX
+    %See http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/xcolor/xcolor.pdf section 4.4 for more color options
+
+\setlength \parindent{0in}  %Set paragraph indent size
+
+\usepackage{enumitem}   %Lets us change where bulleted lists begin
+\setlist[itemize]{leftmargin=*} %Bulleted lists will begin at left margin
+
+\usepackage[document]{ragged2e}     %This left aligns the text instead of justifying it
+
+%%%%%%%%%%%     We want to define a variable that displays the month and then the year
+\usepackage{datetime}                       %Allows date auto-filling
+    \newdateformat{monthyeardate}{%          %defines date variable, named "monthyeardate"
+        \monthname[\THEMONTH] \THEYEAR}         %formats the variable to display "Month Year"
+
+
+%%%%%%%%%%%     Header and Footer Setup - substance, NOT location/height - do that in geometry package if desire
+    %To edit any specific location's font, set edits when writing that location's text
+\usepackage{fancyhdr}                       %Allows header and footer editing 
+        %See https://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+        %https://tex.stackexchange.com/questions/2440/how-to-vertically-align-headers-footers-in-fancyhdr-package helped with figuring out how to make the logo in the header work nicely
+
+%Here we edit the header and footer FOR EVERY PAGE, INCLUDING THE FIRST - we remove the page number from the first page below
+\pagestyle{fancy}                           %We use the fancyhdr package to format header and footer
+\fancyhf{}                                  %We adjust both the header and footer (I think is what this says)
+\fancyhead[L]{{\color{gray}\textbf{\monthyeardate\today}}}  %Left header - date - variable defined above
+\fancyhead[C]{\thepage}                     %Center header - page number 
+\fancyhead[R]{\raisebox{-0.5\height}{\includegraphics[scale=0.3]{images/Logo_Trailblazers.png}}} %Right header - logo  - raisebox raises the logo, scale changes the size      
+\fancyfoot[L]{{\color{gray}\textbf{www.CTETrailblazers.org}}}      %Left footer - website
+\fancyfoot[C]{}                             %Center footer - blank
+\fancyfoot[R]{{\color{gray}\footnotesize Copyright © \the\year Commonwealth of Virginia Department of Education}}  %Right footer - copyright info
+\renewcommand{\headrulewidth}{0pt}      %fancyhdr package by default puts a solid line separating the header/footer from body. This sets the header line's width to zero (i.e. there is no line).
+\renewcommand{\footrulewidth}{0pt}      %Gets rid of footer line
+
+%We do not want the first page to have a page number. Therefore, we create and define a header/footer "style" similar to what we just did. However, we will set the center header to be blank. In the opening section, we will say we want to use this header/footer style, on "this page," so it will be used on the first page only. 
+\fancypagestyle{firststyle}
+{
+\fancyhf{}
+\fancyhead[L]{{\color{gray}\textbf{\monthyeardate\today}}}        
+\fancyhead[C]{}                            %Only change from above - center header is blank
+\fancyhead[R]{\raisebox{-0.5\height}{\includegraphics[scale=0.3]{images/Logo_Trailblazers.png}}}  
+\fancyfoot[L]{{\color{gray}\textbf{www.CTETrailblazers.org}}}
+\fancyfoot[C]{}                    
+\fancyfoot[R]{{\color{gray}\footnotesize Copyright © \the\year Commonwealth of Virginia Department of Education}}
+\renewcommand{\headrulewidth}{0pt}      
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\footskip}{0.3in}      %I do not know why, but this "style" makes the footer begin higher on the page. This line hopefully fixes that, but may need to add to textheight instead of footskip if ends up not working
+    %See section 14 in https://mirror.las.iastate.edu/tex-archive/macros/latex/contrib/fancyhdr/fancyhdr.pdf
+}   
+
+%%%%%%%%%%%     Section Heading Setup - Here we will format the section headers so that they can easily include the green graphic to the left of the section name, and have a blackish background with white text
+
+\usepackage{etoolbox}       %These three lines let us include an icon in the section headings
+\newcommand{\icon}[1]{\raisebox{-.35\height}{\includegraphics[width=0.5in, height=0.5in]{#1}}\hspace{0.25in}}
+\robustify{\icon}
+    %Raisebox changes the vertical location of the icon. Without it, the bottom of the text would be at the bottom of the icon
+    %hspace adds blank space between the icon and the text. Without it, the text would start immediately after the icon. Given how I have created the black boxes around the section titles, they would be touching the icon as well.
+
+\usepackage{titlesec}   %Here we edit the font of the section titles. We pick the type and size and make them unbolded 
+\titleformat{\section}
+  {\normalfont\fontfamily{cmss}\fontsize{16}{0}\selectfont}{\thesection}{1em}{} %Here we change font type 
+    %See https://tex.stackexchange.com/questions/84112/unbold-subsubsection-title
+
+
+\usepackage{tikz}   %Here we set up the command for the black boxes that go around the section titles. 
+\newcommand\mybox[2][]{\tikz[overlay]\node[inner sep=12pt, anchor=text, rectangle,#1] {#2};\phantom{#2}}
+    %See https://tex.stackexchange.com/questions/36401/drawing-boxes-around-words
+    %The "anchor" the box goes around is the text we use this command on. If we increase the inner sep, the box will get bigger. I'm not entirely sure what #1, #2, and \phantom are accomplishing
+
+%%%%%%%%%%%     Setup to allow images behind text
+
+%Copied setup from https://tex.stackexchange.com/questions/25614/background-image-for-minipage
+\newsavebox\mysavebox
+\newenvironment{imgminipage}[2][]{%
+   \def\imgcmd{\includegraphics[width=\wd\mysavebox,height=\dimexpr\ht\mysavebox+\dp\mysavebox\relax,#1]{#2}}%       
+   \begin{lrbox}{\mysavebox}%
+   \begin{minipage}%
+}{%
+   \end{minipage}
+   \end{lrbox}%
+   \sbox\mysavebox{\fbox{\usebox\mysavebox}}%
+   \mbox{\rlap{\raisebox{-\dp\mysavebox}{\imgcmd}}\usebox\mysavebox}%
+}
+
+%%%%%   These are packages that I (Alex Watkins) include in every LaTex document I make, simply because the person who showed me how to use LaTeX had them.
+
+\usepackage{lipsum}
+\usepackage{times}
+\usepackage{float} % Permite opción float en Figures para las que querés fijar en una página
+\usepackage[expansion=alltext,stretch=30]{microtype}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{rotating} % Rotate tables
+\usepackage{chngpage}  % Allows adjusting table margins
+\usepackage{fancyref}
+\usepackage[final]{pdfpages} % Include pdf pages in document
+\usepackage{subcaption} 
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{chronology}
+\usepackage[hyperref=true,citestyle=authoryear,sorting=nyt,bibencoding=ascii,backend=bibtex,url=false,maxcitenames=3,doi=false,isbn=false]{biblatex} % Citation: author, (year)
+\usepackage{booktabs, caption, makecell}
+\usepackage{threeparttable}
+\usepackage{amssymb}
+\usepackage{calc}
+\usepackage{MnSymbol,wasysym}
+\usepackage{subfiles}
+\usepackage[title]{appendix}
+\usepackage{wrapfig}    %This lets us place images that text wraps around
+\graphicspath{{images/}{../images/}}    %This tells LaTeX where any pictures we want to include are
+\bibliography{workscited}
+
+%%%%%%%%%%%%%   End of the "first part" of the document
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  We choose the report we want below
+
+%%%%%   From report to report, the only things that should need to change in terms of text are the years and numbers. To make those easier to find in the text, I have highlighted them with the code "\text{what needs to change}" Just search for "\text{" (without quotation marks) and you should be able to find everything. Each report's text is in its corresponding file in the Reports folder to the left.
+
+%To produce a certain report, remove the "%" in from of the \subfile line for the corresponding report and put a "%" in front of every other report's \subfile line
+
+%It is important to note that when you want to see the edits you've made correctly reflected, you should be on this file (main.tex) when you recompile the document. If you are in one of the report files or one of the picture files, it will not compile correctly.
+
+\begin{document}
+
+\onehalfspacing
+
+%\subfile{Reports/Agriculture Food and Natural Resources}
+
+%\subfile{Reports/Architecture and Construction}
+
+%\subfile{Reports/Arts AV Technology and Communications}
+
+%\subfile{Reports/Business Management and Administration}
+
+%\subfile{Reports/Education and Training}
+
+%\subfile{Reports/Finance}
+
+\subfile{Reports/Government and Public Administration}
+
+%\subfile{Reports/Health Science}
+
+%\subfile{Reports/Hospitality and Tourism}
+
+%\subfile{Reports/Human Services}
+
+%\subfile{Reports/Information Technology}
+
+%\subfile{Reports/Law Public Safety Corrections and Security}
+
+%\subfile{Reports/Manufacturing}
+
+%\subfile{Reports/Marketing}
+
+%\subfile{Reports/STEM}
+
+%\subfile{Reports/Transportation Distribution and Logistics}
+
+\end{document}
+
