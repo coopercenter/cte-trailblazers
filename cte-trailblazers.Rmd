@@ -100,9 +100,16 @@ duplicated_summary <- duplicated_summary %>%
 
 ```{r display data for management occupations}
 
-soc_summary_tbl %>%
+str_starts("11005", pattern = "11")
+
+preferred_occupations <- c("Management Occupations", "Top Executives")
+
+soc_summary_tbl %>% 
   filter(str_starts(soc_code, pattern = "11")) %>%
-  filter(soc_title != "Management Occupations") %>%
+  filter(soc_title %in% preferred_occupations) 
+
+
+%>%
   select(soc_code:annual_openings) -> df
 
 df %>%
