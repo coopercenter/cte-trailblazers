@@ -1,15 +1,11 @@
 \documentclass[../main.tex]{subfiles}
 
-<<load r packages, include = FALSE>>=
-library(scales)
+<<external_code, include = FALSE>>=
+read_chunk("cte-code.r")
 @
 
-<<load summary variables, include=FALSE>>=
-start_year <- 2018
-end_year   <- 2028
+<<cte-code1>>=
 
-ag_jobs_start <- 486000
-ag_jobs_end   <- ag_jobs_start + 46000 
 @
 
 \begin{document}
