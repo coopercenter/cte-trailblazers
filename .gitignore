@@ -38,6 +38,13 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+<<<<<<< HEAD
+
+# Mac OS files
+.DS_Store
+||||||| e6a9f46
+=======
 
 # OS files
 .DS_Store
+>>>>>>> main
