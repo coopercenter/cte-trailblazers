@@ -1,0 +1,147 @@
+\documentclass[../main.tex]{subfiles}
+
+<<external_code, include = FALSE>>=
+read_chunk("cte-code.r")
+@
+
+<<cte-code1>>=
+
+@
+
+\begin{document}
+
+\thispagestyle{firststyle}      %Here we say we want the first page (or, more specifically, the page we are currently on) to have a different header and footer (where the header does not have the page number)
+
+%%%%%%%%%%%     Make the title and subtitle here
+    %To see color options, go to http://mirrors.ibiblio.org/CTAN/macros/latex/contrib/xcolor/xcolor.pdf.
+    %To change the font size, see   https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+
+\begin{center}  %Everything in here will be centered
+{\fontsize{20}{0}\selectfont{\color{Green4}AGRICULTURE, FOOD, AND NATURAL RESOURCES} }
+
+\vspace{18pt}           %Put the space between the title and subtitle       
+
+{\fontsize{14}{0}\selectfont{ANALYZING EDUCATION, EMPLOYMENT AND EARNINGS DATA} }
+\end{center}    %Things will no longer be centered
+
+
+
+%There are certain characters that you cannot directly type into LaTeX, because LaTeX reads them as part of a command. Instead, you must put \character. These include \$, \&, \%
+
+%Insert the initial picture. To do so, change "initialphoto" to whatever the photo has been named (and .png to whatever type of image it is)
+\begin{figure}[H]  
+    \centering
+    \includegraphics[width=7.5in, keepaspectratio]{images/initialphotos/ag_food_natresources.png}
+\end{figure}
+
+This analysis of Virginia's Agriculture, Food, and Natural Resources cluster highlights important information for each of its career pathways―Lodging; Recreation, Amusements, and Attractions; Restaurant and Food/Beverage Services; and Travel and Tourism. 
+
+\section*{\icon{images/icon_bargraph_arrow.png} 
+\mybox[fill=gray!150]{{\color{White}What trends do we currently see? What trends may we anticipate?} \hspace*{45pt}    }}
+
+\vspace{16pt}
+
+
+%Normally would insert the figure wrapped. But apparently cannot wrap a bulleted list around a figure
+
+\begin{minipage}{.7\textwidth}
+    \begin{itemize}
+    \setlength\itemsep{0em}
+        \item In \Sexpr{start_year}, about \Sexpr{comma(ag_jobs_start)} jobs were associated with the Agriculture, Food, and Natural Resources cluster statewide, and about  \Sexpr{comma(ag_jobs_end - ag_jobs_start)} new positions are expected by \Sexpr{end_year}.
+        \item The Agriculture, Food, and Natural Resources Cluster is projected to have the greatest number of annual job openings among all the clusters between \Sexpr{start_year} and \Sexpr{end_year}.
+        \item Among all the pathways, the \text{Restaurant and Food/Beverage Services} pathway is projected to have the highest percentage of job growth through \Sexpr{end_year} (\text{13}\%).
+        \item The predominant education level of most occupations within this cluster is \text{high school or less}. However, training/certification or work experience is required for all occupations in the Agriculture, Food, and Natural Resources cluster.
+    \end{itemize}
+\end{minipage}\hspace{.02\textwidth}
+\begin{minipage}{.25\textwidth}
+    \begin{imgminipage}{images/Trend_Dark.png}{.97\textwidth}
+\centering
+\vspace{0.4in}
+{\fontsize{36}{0}\textbf{\selectfont{\text{+12\%} }} } \\\vspace{0.3in}
+
+\textbf{Expected} \\
+\textbf{percent} \\
+\textbf{employment} \\
+\textbf{change by} \\
+\vspace{0.05in}
+{\fontsize{20}{0}\textbf{\selectfont{\Sexpr{end_year}}} }   \\
+
+\vspace{0.25in}
+
+    \end{imgminipage}
+\end{minipage}
+
+
+\section*{\icon{images/icon_gradhat.png} 
+\mybox[fill=gray!150]{{\color{White}EDUCATION} \hspace*{380pt} }   }
+
+Figure \ref{fig1} shows the predominant level of education and training. The percentages reflect the number of occupations at each educational level within a pathway, not the number of workers. For example, the Restaurants and Food/Beverage Services pathway consists of twenty occupations: eighteen of them (90\%) require a bachelor's degree or more, and two of them (10\%) require an associate degree or some college. The predominant level of education for each occupation is determined by Trailblazers based on U.S. Bureau of Labor Statistics data. 
+
+\begin{figure}[H]   %%%%%%%%%Edit figure name
+    \centering
+    \includegraphics[width=7.5in,height=2.5in]{images/figure1/ag-fig1.png}
+    \caption{Predominant Education Levels in Agriculture, Food, and Natural Resources, \text{2018-2028}}
+    \label{fig1}
+\end{figure}
+
+
+\section*{\icon{images/icon_briefcase.png} \mybox[fill=gray!150]{{\color{White}EMPLOYMENT} \hspace*{365pt}    }}
+
+Figure \ref{fig2} compares estimated \Sexpr{start_year} employment in each pathway to projected \Sexpr{end_year} employment levels. Data are provided by the Virginia Employment Commission.
+
+\begin{figure}[H]   %%%%%%%%%Edit figure name
+    \centering
+    \includegraphics[width=7.5in,height=2.6in]{images/figure2/ag-fig2.png}
+    \caption{Employment in Virginia's Agriculture, Food, and Natural Resources Cluster, \Sexpr{start_year}--\Sexpr{end_year}}
+    \label{fig2}
+\end{figure}
+
+
+
+\section*{\icon{images/icon_moneygraph.png} \mybox[fill=gray!150]{{\color{White}EARNINGS AND GROWTH}   \hspace*{290pt}      }}
+
+Figure \ref{fig3} presents the sizes and median wages of selected occupations in each pathway with the highest projected percentages of growth. Wage data are provided by the U.S. Bureau of Labor Statistics Occupational Employment Statistics program.
+
+\begin{figure}[H]   %%%%%%%%%Edit figure name
+    \centering
+    \includegraphics[width=7.5in,height=4.2in]{images/figure3/ag-fig3.png}
+    \caption{Earnings and Growth for Selected Occupations in Virginia, \Sexpr{start_year}--\Sexpr{end_year}}
+    \label{fig3}
+\end{figure}
+
+\begin{minipage}[t]{.46\textwidth} 
+  \section*{\icon{images/icon_location_briefcase.png} \raisebox{2pt}{\mybox[fill=gray!150]{{\color{White}\fontsize{14}{0}\selectfont{Employment Growth by LWDA}  \hspace*{0pt} }   }}}
+In the Agriculture, Food, and Natural Resources cluster, the following Local Workforce Development Areas (LWDAs) will experience higher occupational growth rates than the state average:  
+    \begin{itemize}
+    \setlength\itemsep{-0.5em}
+        \item \text{Northern Virginia}
+        \item \text{Bay Consortium}
+        \item \text{Capital Region Workforce Partnerships}
+        \item \text{Piedmont Workforce Network}
+        \item \text{Crater Area}
+    \end{itemize}
+\vspace{12pt}
+\end{minipage}\hspace{.05\textwidth}
+\begin{minipage}[t]{.46\textwidth} 
+  \section*{\icon{images/icon_twopeople.png} \raisebox{2pt}{\mybox[fill=gray!150]{{\color{White}\fontsize{14}{0}\selectfont{Nontraditional Occupations}}  \hspace*{25pt}   }}}
+Nontraditional Occupations for Females
+    \begin{itemize}
+    \setlength\itemsep{-0.5em}
+        \item \text{Chefs and Head Cooks}
+        \item \text{Dishwashers}
+    \end{itemize}
+Nontraditional Occupations for Males
+    \begin{itemize}
+    \setlength\itemsep{-0.5em}
+        \item \text{Hosts \& Hostesses, Restaurants, Lounge, } and Coffee Shops
+        \item \text{Maids and Housekeeping Cleaners}
+        \item \text{Travel Agents}
+    \end{itemize}
+\vspace{0in}  
+\end{minipage}
+
+
+
+\end{document}
+
+%\subfile{sections/ section name in sections folder}
