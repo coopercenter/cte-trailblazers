@@ -6,7 +6,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-
+ 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -16,7 +16,7 @@ library(readxl)
 library(tidyverse)
 library(reshape2)
 library(scales)
-library(RColorBrewer)
+library(GGally)
 
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
@@ -46,11 +46,11 @@ my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
 #c("#003366", "#2E5882", "#7490AC", "#C4D0DC")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
-
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
 
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "Tele", "Tele-\n"))
+nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, "Tele", "Tele-\n"))
+
+nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
 
 nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n"))
 
@@ -61,8 +61,6 @@ nonduplicated <- nonduplicated %>% mutate(predominant_education_level = str_repl
 
 nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "High School Diploma"))
 
-# nonduplicated <- mutate(nonduplicated, edu_weighting = ifelse(predominant_education_level == "HS Diploma", 12, ifelse(predominant_education_level == "Some College / Associate Degree", 14, ifelse(predominant_education_level == "Bachelor's Degree",16, ifelse(predominant_education_level == "Graduate / Professional Degree", 18, NA)))))
-
 
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
@@ -72,17 +70,40 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
 cluster_list <- cluster_list[-1]
 
-nonduplicated %>% filter(!is.na(soc_title), cluster == "Energy") %>% group_by(pathway_for_labels) %>% count(predominant_education_level)%>%mutate(prop = n/sum(n))
+# for (x in cluster_list){
+#   
+#   edu_graph <- nonduplicated %>% filter(cluster == x, 
+#                          !is.na(predominant_education_level)) %>% 
+#      ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level, color = predominant_education_level)) + 
+#      geom_bar(stat = "identity",position = "fill") + 
+# 
+#      theme(panel.grid = element_blank(),
+#         axis.title = element_blank(),
+#         axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(),
+#         legend.title = element_blank(),
+#         legend.text = element_text(color = "black"),
+#         axis.text.x = element_text(color = "black"), 
+#         panel.background = element_blank(), 
+#         axis.line.x = element_line(color = "grey")) + 
+#     scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+#      scale_fill_manual(values = my_colors) +
+#     scale_color_manual(values = my_colors) +
+#      geom_text(aes(by = pathway_for_labels), stat = "cross", position = position_fill(.5)) +
+#     ggsave(paste0(strtrim(x,4),"-fig1.png"), path = "images", height = 2.5, width = 7.5, units = c("in"))
+#   
+#   print(edu_graph)
+# }
+
 
 for (x in cluster_list){
   
   edu_graph <- nonduplicated %>% filter(cluster == x, 
                          !is.na(predominant_education_level)) %>% 
-     ggplot(aes(pathway_for_labels, projection, fill = predominant_education_level, color = predominant_education_level)) + 
-     geom_bar(stat = "identity",position = "fill") + 
-
+     ggplot(aes(pathway_for_labels, ..count.., fill = predominant_education_level)) + 
+     geom_bar(position = "fill") + 
      theme(panel.grid = element_blank(),
-        axis.title = element_blank(),
+        axis.title = element_blank(),        
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
         legend.title = element_blank(),
@@ -92,12 +113,9 @@ for (x in cluster_list){
         axis.line.x = element_line(color = "grey")) + 
     scale_y_continuous(expand = expansion(mult = c(0, .1))) +
      scale_fill_manual(values = my_colors) +
-    scale_color_manual(values = my_colors) +
-    ggsave(paste0(strtrim(x,4),"-fig1.png"), path = "images", height = 2.5, width = 7.5, units = c("in"))
-  
+    scale_color_manual(values = my_colors) 
   print(edu_graph)
 }
-
 ```
 
 ```{r 2nd graph showing added jobs over decade}
@@ -513,7 +531,7 @@ for (x in cluster_list){
 
 ##Horizontal Bars
 
-my_colors2 <- c("darkgrey", "#2E5882")
+my_colors2 <- c("darkgrey", "#405C7A")
 jobs_labels <- c("2018 Estimate", "2028 Projection")
 text_size <- 3
 text_width <- 0.8
@@ -552,7 +570,7 @@ ggplot(ag_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             vjust = text_vertical, 
             hjust = text_height) +
   expand_limits(x = 35000) +
-  ggsave(path = "images", "ag-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "ag-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Architecture and Construction
 
@@ -575,7 +593,7 @@ ggplot(arch_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 205000) +
-  ggsave(path = "images", "arch-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "arch-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Arts, Audio/Video Technology, and Communications
 
@@ -598,7 +616,7 @@ ggplot(arts_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             vjust = text_vertical, 
             hjust = text_height) +
   expand_limits(x = 18000) + 
-  ggsave(path = "images", "arts-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "arts-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Business Management and Administration
 
@@ -621,7 +639,7 @@ ggplot(business_linked_pathway, aes(value, pathway_for_labels_change, fill =vari
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 340000) +
-  ggsave(path = "images", "business-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "business-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Education and Training
 
@@ -644,7 +662,7 @@ ggplot(edu_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             vjust = text_vertical, 
             hjust = text_height) +
   expand_limits(x = 205000) +
-  ggsave(path = "images", "edu-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "edu-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Finance
 
@@ -667,7 +685,7 @@ ggplot(finance_linked_pathway, aes(value, pathway_for_labels_change, fill =varia
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 110000) +
-  ggsave(path = "images", "finance-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "finance-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Government and Public Administration
 
@@ -690,7 +708,7 @@ ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 22000) + 
-  ggsave(path = "images", "govt-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "govt-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Health Science
 
@@ -713,7 +731,7 @@ ggplot(health_linked_pathway, aes(value, pathway_for_labels_change, fill =variab
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 310000) + 
-  ggsave(path = "images", "health-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "health-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
  # Hospitality and Tourism
 
@@ -736,7 +754,7 @@ ggplot(hosp_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 405000) +
-  ggsave(path = "images", "hosp-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "hosp-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Human Services
 
@@ -759,7 +777,7 @@ ggplot(humanserv_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 145000) +
-  ggsave(path = "images", "humanserv-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "humanserv-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Information Technology
 
@@ -782,7 +800,7 @@ ggplot(it_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 150000)+
-  ggsave(path = "images", "it-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "it-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Law, Public Safety, Corrections, and Security
 
@@ -805,7 +823,7 @@ ggplot(law_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 47000) +
-  ggsave(path = "images", "law-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "law-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Manufacturing
  
@@ -828,7 +846,7 @@ ggplot(manufacturing_linked_pathway, aes(value, pathway_for_labels_change, fill 
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 105000)
-  ggsave(path = "images", "manufacturing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "manufact-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Marketing
 
@@ -851,7 +869,7 @@ ggplot(marketing_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 470000) +
-  ggsave(path = "images", "marketing-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "marketing-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Science, Technology, Engineering, and Mathematics
 
@@ -873,7 +891,7 @@ ggplot(stem_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  ggsave(path = "images", "stem-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "stem-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Transportation, Distribution, and Logistics
 
@@ -896,7 +914,7 @@ ggplot(transport_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 160000) + 
-  ggsave(path = "images", "transport-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "transport-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 
 # Energy
 
@@ -919,7 +937,7 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
             vjust = text_vertical, 
             hjust = text_height) + 
   expand_limits(x = 7000) + 
-  ggsave(path = "images", "energy-fig2.png", height = 2.6, width = 7.5, units = c("in"))
+  ggsave(path = "images", "energy-fig2.png", height = 2.5, width = 7.5, units = c("in"))
 ```
 
 ```{r 3rd graph showing income, openings, and growth}
