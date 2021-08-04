@@ -128,7 +128,7 @@ cor.test(non_duplicated_by_labor_market$projection, non_duplicated_by_labor_mark
 ```
 Above graphs show a roughly linear correlation between the estimate for number of jobs available by cluster now and the number projected in 10 years. 
 
-```{r growth rates, incude = FALSE}
+```{r growth rates, include = TRUE}
 ggplot(non_duplicated_by_labor_market, aes(cluster,fraction_change)) + 
   geom_line() + 
   theme(axis.text.x=element_text(angle = 90, h = 1))
@@ -201,20 +201,19 @@ ggplot(non_duplicated_by_labor_market %>% filter(cluster == "Transportation, Dis
 ```
 
 Looking at annual positions, growth rates, income, education
-```{r}
+```{r, }
 ggplot(nonduplicated_summary, aes(median_income, fraction_change, color = predominant_education_level)) + geom_point(na.rm = TRUE)
 
 ggplot(nonduplicated_summary, aes(median_income, fraction_change)) + 
   geom_hex(stat = "binhex", position = "identity", bins = 20, na.rm = TRUE) + 
   scale_y_continuous(breaks = seq(-.5, .5, .1))
 
-ggplot(nonduplicated_summary, aes(median_income, fraction_change, 
+ggplot(nonduplicated_summary, aes(log10(median_income), fraction_change, 
                                   color = predominant_education_level)) + 
   geom_point(na.rm = TRUE) + facet_wrap(~cluster)
-
+   
 nonduplicated_summary %>% filter(cluster != "All Occupations") %>% 
   group_by(cluster) %>% summarize(annual_positions = sum(annual_openings)) %>% 
   ggplot(aes(cluster, annual_positions)) + geom_bar(stat = "identity") + 
-  theme(axis.text.x=element_text(angle = 45, h = 1))
-
+  theme(axis.text.x=element_text(angle = 45, h = 1)) 
 ```
