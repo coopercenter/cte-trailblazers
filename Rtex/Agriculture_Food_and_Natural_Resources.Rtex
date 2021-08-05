@@ -4,7 +4,15 @@
 read_chunk("cte-code.r")
 @
 
-<<cte-code1>>=
+<<cte-code1, echo=FALSE>>=
+
+@
+
+<<filter for this cluster, echo = FALSE>>=
+cluster <- "Agriculture, Food, and Natural Resources"
+
+data_frame %>%
+  filter(Cluster == cluster) -> data_tbl
 
 @
 
@@ -17,7 +25,7 @@ read_chunk("cte-code.r")
     %To change the font size, see   https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
 
 \begin{center}  %Everything in here will be centered
-{\fontsize{20}{0}\selectfont{\color{Green4}AGRICULTURE, FOOD, AND NATURAL RESOURCES} }
+{\fontsize{20}{0}\selectfont{\color{Green4}\Sexpr{str_to_upper(cluster)}} }
 
 \vspace{18pt}           %Put the space between the title and subtitle       
 
@@ -34,7 +42,7 @@ read_chunk("cte-code.r")
     \includegraphics[width=7.5in, keepaspectratio]{images/initialphotos/ag_food_natresources.png}
 \end{figure}
 
-This analysis of Virginia's Agriculture, Food, and Natural Resources cluster highlights important information for each of its career pathways―Lodging; Recreation, Amusements, and Attractions; Restaurant and Food/Beverage Services; and Travel and Tourism. 
+This analysis of Virginia's \Sexpr{cluster} cluster highlights important information for each of its career pathways―Lodging; Recreation, Amusements, and Attractions; Restaurant and Food/Beverage Services; and Travel and Tourism. 
 
 \section*{\icon{images/icon_bargraph_arrow.png} 
 \mybox[fill=gray!150]{{\color{White}What trends do we currently see? What trends may we anticipate?} \hspace*{45pt}    }}
@@ -47,10 +55,10 @@ This analysis of Virginia's Agriculture, Food, and Natural Resources cluster hig
 \begin{minipage}{.7\textwidth}
     \begin{itemize}
     \setlength\itemsep{0em}
-        \item In \Sexpr{start_year}, about \Sexpr{comma(ag_jobs_start)} jobs were associated with the Agriculture, Food, and Natural Resources cluster statewide, and about  \Sexpr{comma(ag_jobs_end - ag_jobs_start)} new positions are expected by \Sexpr{end_year}.
-        \item The Agriculture, Food, and Natural Resources Cluster is projected to have the greatest number of annual job openings among all the clusters between \Sexpr{start_year} and \Sexpr{end_year}.
+        \item In \Sexpr{start_year}, about \Sexpr{comma(ag_jobs_start)} jobs were associated with the \Sexpr{cluster} cluster statewide, and about  \Sexpr{comma(ag_jobs_end - ag_jobs_start)} new positions are expected by \Sexpr{end_year}.
+        \item The \Sexpr{cluster} Cluster is projected to have the greatest number of annual job openings among all the clusters between \Sexpr{start_year} and \Sexpr{end_year}.
         \item Among all the pathways, the \text{Restaurant and Food/Beverage Services} pathway is projected to have the highest percentage of job growth through \Sexpr{end_year} (\text{13}\%).
-        \item The predominant education level of most occupations within this cluster is \text{high school or less}. However, training/certification or work experience is required for all occupations in the Agriculture, Food, and Natural Resources cluster.
+        \item The predominant education level of most occupations within this cluster is \text{high school or less}. However, training/certification or work experience is required for all occupations in the \Sexpr{cluster} cluster.
     \end{itemize}
 \end{minipage}\hspace{.02\textwidth}
 \begin{minipage}{.25\textwidth}
@@ -80,7 +88,7 @@ Figure \ref{fig1} shows the predominant level of education and training. The per
 \begin{figure}[H]   %%%%%%%%%Edit figure name
     \centering
     \includegraphics[width=7.5in,height=2.5in]{images/figure1/ag-fig1.png}
-    \caption{Predominant Education Levels in Agriculture, Food, and Natural Resources, \text{2018-2028}}
+    \caption{Predominant Education Levels in \Sexpr{cluster}, \text{2018-2028}}
     \label{fig1}
 \end{figure}
 
@@ -92,7 +100,7 @@ Figure \ref{fig2} compares estimated \Sexpr{start_year} employment in each pathw
 \begin{figure}[H]   %%%%%%%%%Edit figure name
     \centering
     \includegraphics[width=7.5in,height=2.6in]{images/figure2/ag-fig2.png}
-    \caption{Employment in Virginia's Agriculture, Food, and Natural Resources Cluster, \Sexpr{start_year}--\Sexpr{end_year}}
+    \caption{Employment in Virginia's \Sexpr{cluster} Cluster, \Sexpr{start_year}--\Sexpr{end_year}}
     \label{fig2}
 \end{figure}
 
@@ -111,7 +119,7 @@ Figure \ref{fig3} presents the sizes and median wages of selected occupations in
 
 \begin{minipage}[t]{.46\textwidth} 
   \section*{\icon{images/icon_location_briefcase.png} \raisebox{2pt}{\mybox[fill=gray!150]{{\color{White}\fontsize{14}{0}\selectfont{Employment Growth by LWDA}  \hspace*{0pt} }   }}}
-In the Agriculture, Food, and Natural Resources cluster, the following Local Workforce Development Areas (LWDAs) will experience higher occupational growth rates than the state average:  
+In the \Sexpr{cluster} cluster, the following Local Workforce Development Areas (LWDAs) will experience higher occupational growth rates than the state average:  
     \begin{itemize}
     \setlength\itemsep{-0.5em}
         \item \text{Northern Virginia}
