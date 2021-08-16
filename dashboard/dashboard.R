@@ -5,6 +5,7 @@ nonduplicated <- read.csv(here::here('Projections_2018_28_cleaned.csv'))
 source(here::here('generating_1st_cluster_graphs.R'))
 source(here::here('generating_2nd_cluster_graphs.R'))
 source(here::here("generating_3rd_cluster_graphs.R"))
+source(here::here('text_blocks.R'))
 
 title <- tags$a(
   href = "https://ctetrailblazers.org/",
@@ -94,24 +95,28 @@ ui <- fluidPage(titlePanel(dbHeader),
 server <- function(input, output){
   clusterSummary <- reactive({switch(
     input$clusters,
-    "Agriculture Food and Natural Resources",
-    "Architecture and Construction",
-    "Arts, Audio/Video Technology, and Communications",
-    "Business Management and Administration",
-    "Education and Training",
-    "Finance",
-    "Government and Public Administration",
-    "Health Science",
-    "Hospitality and Tourism",
-    "Human Services",
-    "Information Technology",
-    "Law, Public Safety, Corrections, and Security",
-    "Manufacturing",
-    "Marketing",
-    "Science, Technology, Engineering, and Mathematics",
-    "Transportation, Distribution, and Logistics",
-    "Energy"
+    "Agriculture Food and Natural Resources"=Ag_info,
+    "Architecture and Construction"=Arc_info,
+    "Arts, Audio/Video Technology, and Communications"=Arts_info,
+    "Business Management and Administration"=Bus_info,
+    "Education and Training"=Edu_info,
+    "Finance"=Fin_info,
+    "Government and Public Administration"=Gov_info,
+    "Health Science"=Health_info,
+    "Hospitality and Tourism"= Tour_info,
+    "Human Services"=Hum_info,
+    "Information Technology"=IT_info,
+    "Law, Public Safety, Corrections, and Security"=Law_info,
+    "Manufacturing"=Manuf_info,
+    "Marketing"=Mark_info,
+    "Science, Technology, Engineering, and Mathematics"=Sci_info,
+    "Transportation, Distribution, and Logistics"=Transp_info,
+    "Energy"=Energy_info
   )})
+  
+  output$cluster_info <- renderText({
+  as.character(clusterSummary())
+  })
   
   output$plot1 <- renderPlot({ 
     clusterx <- input$clusters

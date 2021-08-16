@@ -3,6 +3,8 @@ library(reshape2)
 library(scales)
 library(GGally)
 
+#nonduplicated <- read.csv(here::here('Projections_2018_28_cleaned.csv'))
+
 generate_cluster_graph_2 <-function(df, clusterx){
   
   my_colors2 <- c("darkgrey", "#405C7A")
@@ -11,11 +13,6 @@ generate_cluster_graph_2 <-function(df, clusterx){
   text_width <- 0.8
   text_vertical <- 0
   text_height <- -0.05
-  
-  
-  df <- df %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
-  
-  df <- df %>% mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = ""))
   
   my_theme <-  theme(legend.title = element_blank(),
                      axis.title.y = element_blank(),
@@ -33,6 +30,31 @@ generate_cluster_graph_2 <-function(df, clusterx){
     select(pathway_for_labels_change, estimate, projection)
   linked_pathway <- melt(linked_pathway, id = "pathway_for_labels_change")
   
+  expand_limit <- 0
+  if(clusterx=="Business Management and Administration"){
+    expand_limit <- max(linked_pathway$value) + min(linked_pathway$value)
+  } else if(clusterx=="Human Services"){
+    expand_limit <- max(linked_pathway$value)+18000
+  } else if(clusterx == "Information Technology"){
+    expand_limit <- max(linked_pathway$value)+20000
+  } else if(clusterx=="Government and Public Administration"){
+    expand_limit <- max(linked_pathway$value)+2050
+  } else if(clusterx=="Transportation, Distribution, and Logistics"){
+    expand_limit <- 149000
+  } else if(clusterx=="Energy"){
+    expand_limit <- max(linked_pathway$value)+min(linked_pathway$value)
+  } else if(clusterx=="Health Science"){
+    expand_limit <- 320000
+  }else if(clusterx=="Law, Public Safety, Corrections, and Security"){
+    expand_limit <- 62800
+    } else if(clusterx=="Marketing"){
+      expand_limit <- 627780
+    } else if(clusterx=="Science, Technology, Engineering, and Mathematics"){
+      expand_limit <- 62900
+    }else {
+    expand_limit <- max(linked_pathway$value)
+  }
+  
   graph_2 <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
     geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
     xlab("Number of Jobs") +
@@ -46,8 +68,13 @@ generate_cluster_graph_2 <-function(df, clusterx){
               position =  position_dodge2(width = text_width, reverse=TRUE), 
               vjust = text_vertical, 
               hjust = text_height) +
-    expand_limits(x = 35000)
+    expand_limits(x = expand_limit)
   
   return(graph_2)
 }
+#generate_cluster_graph_2(nonduplicated,"Energy")
+#generate_cluster_graph_2(nonduplicated,"Business Management and Administration")
+
+
+
 

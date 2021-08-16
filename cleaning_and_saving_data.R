@@ -48,5 +48,10 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 
 #found a typo in the original data
 nonduplicated$cluster <- replace(nonduplicated$cluster, nonduplicated$cluster=="Government and Public Adminstration", "Government and Public Administration")
+
+nonduplicated <- nonduplicated %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
+
+nonduplicated <- nonduplicated %>% mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = ""))
+
 #Saving the cleaned output so that the data cleaning doesn't have to be redone for this dataset
 write.csv(nonduplicated, 'Projections_2018_28_cleaned.csv')
