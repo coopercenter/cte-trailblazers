@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(shinyWidgets)
 
 #nonduplicated <- read.csv(here::here('Projections_2018_28_cleaned.csv'))
 #source(here::here('generating_1st_cluster_graphs.R'))
@@ -42,8 +43,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
                   column(4,
                          wellPanel(
-                           helpText(
-                             "Welcome to the Trailblazers Cluster Briefs Dashboard! Please select an industry cluster below to see charts and information on the selected industry"
+                            h3("Welcome to the Trailblazers Cluster Briefs Dashboard! Please select a cluster from the dropdown menu below to see charts and information on the cluster"
                            ),
                            selectInput(
                              inputId = "clusters",
@@ -68,24 +68,36 @@ ui <- fluidPage(titlePanel(dbHeader),
                                "Energy"
                              ) #close input choices list
                            ), #close selection object
-                           h3("Cluster Summary Information"),
-                            textOutput('cluster_info'),
                            h3("What trends do we currently see? What trends may we anticipate?"),
-                           textOutput('cluster_trend')
+                           textOutput('cluster_trend_bullet_1'),
+                           br(),
+                           textOutput('cluster_trend_bullet_2'),
+                           br(),
+                           textOutput('cluster_trend_bullet_3'),
+                           br(),
+                           textOutput('cluster_trend_bullet_4'),
+                           br(),
+                           textOutput('cluster_trend_bullet_5')
                          ) #close wellPanel
                          ), #close column
                   
                   column(8,
                          mainPanel(
-                           h4('Education'),
-                           textOutput('figure_1_text'),
+                           h3('Education'),
+                           h5("Figure 1 shows the predominant education levels of occupations by CTE career pathway. The percentages reflect the number of occupations at each educational level within a pathway, not the number of workers. The predominant level of education for each occupation is determined by Trailblazers based on national-level U.S. Bureau of Labor Statistics data."),
                            plotOutput("plot1"),
-                           h4("Employment"),
-                           textOutput('figure_2_text'),
+                           h5('Figure 1: Predominant Education levels in Cluster Pathways, 2018 - 2028'),
+                           br(),
+                           h3("Employment"),
+                           h5("Figure 2 compares the estimated 2018 number of jobs in Virginia within each CTE career pathway to the projected 2028 number of jobs. Data are provided by the Virginia Employment Commission."),
                            plotOutput("plot2"),
-                           h4('Earnings and Growth'),
-                           textOutput('figure_3_text'),
-                           plotOutput("plot3")) #close main panel
+                           h5("Figure 2: Number of Jobs in Cluster Pathways, 2018 - 2028 (Projected percent change in number of jobs by pathway in parentheses)"),
+                           br(),
+                           h3('Earnings and Growth'),
+                           h5("Figure 3 presents the median 2018 annual incomes of occupations in Virginia by CTE career pathway. Data are provided by the Virginia Employment Commission."),
+                           plotOutput("plot3"),
+                           h5("Figure 3: Median 2018 Annual Incomes of Occupations in Virginia by Pathway"),
+                           br()) #close main panel
 
                   
                 ) #close column
@@ -93,6 +105,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                 ) #close UI
 
 server <- function(input, output){
+  
   clusterSummary <- reactive({switch(
     input$clusters,
     "Agriculture, Food, and Natural Resources"= Ag_text,
@@ -177,12 +190,6 @@ server <- function(input, output){
     "Energy"=Energy_graph_3
   )})
   
-  output$cluster_info <-renderText({
-    clus <- clusterSummary()
-    info_text[[clus]]
-  })
-
-  
   output$plot1 <- renderPlot({ 
     #clusterx <- input$clusters
     #generate_cluster_graph_1(nonduplicated, clusterx)
@@ -201,26 +208,29 @@ server <- function(input, output){
     graph3()
   })
   
-  output$figure_1_text <- renderText({
-    "Figure 1 shows the predominant education levels of occupations by CTE career pathway. The percentages reflect the number of occupations at each educational level within a pathway, not the number of workers. The predominant level of education for each occupation is determined by Trailblazers based on national-level U.S. Bureau of Labor Statistics data."
-  })
-  
-  output$figure_2_text <- renderText({
-    "Figure 2 compares the estimated 2018 number of jobs in Virginia within each CTE career pathway to the projected 2028 number of jobs. Data are provided by the Virginia Employment Commission."
-  })
-  
-  output$figure_3_text <- renderText({
-    "Figure 3 presents the median 2018 annual incomes of occupations in Virginia by CTE career pathway. Data are provided by the Virginia Employment Commission."
-  })
-  
-  output$cluster_info <- renderText({
+  output$cluster_trend_bullet_1 <- renderText({
     text_list <- clusterSummary()
     text_list[1]
   })
   
-  output$cluster_trend <- renderText({
+  output$cluster_trend_bullet_2 <- renderText({
     text_list <- clusterSummary()
-    text_list[-1]
+    text_list[2]
+  })
+  
+  output$cluster_trend_bullet_3 <- renderText({
+    text_list <- clusterSummary()
+    text_list[3]
+  })
+  
+  output$cluster_trend_bullet_4 <- renderText({
+    text_list <- clusterSummary()
+    text_list[4]
+  })
+  
+  output$cluster_trend_bullet_5 <- renderText({
+    text_list <- clusterSummary()
+    text_list[5]
   })
 }
 
