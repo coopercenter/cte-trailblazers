@@ -92,6 +92,7 @@ cluster_list <- cluster_list[-1]
 #   print(edu_graph)
 # }
 
+
 for (x in cluster_list){
   
   edu_graph <- nonduplicated %>% filter(cluster == x, 
@@ -109,15 +110,8 @@ for (x in cluster_list){
         axis.line.y = element_line(color = "grey")) + 
     scale_y_continuous(expand = expansion(mult = c(0, .1)), labels = scales::percent_format(accuracy = 1), breaks = seq(0,1, 0.1)) +
      scale_fill_manual(values = my_colors) +
-<<<<<<< HEAD
     scale_color_manual(values = my_colors)
     ggsave(here::here("images", paste0(strtrim(x,3),"-fig1.png")), height = 2.5, width = 7.5, units = c("in"))
-||||||| c7fc27d
-    scale_color_manual(values = my_colors) 
-=======
-    scale_color_manual(values = my_colors) 
-    ggsave(here::here("images", paste0(strtrim(x,3),"-fig1.png")), height = 2.5, width = 7.5, units = c("in"))
->>>>>>> main
   print(edu_graph)
 }
 
@@ -311,7 +305,7 @@ ggsave(here::here("images","Fin-fig2.png"), height = 2.5, width = 7.5, units = c
 # Government and Public Administration
 
 gov_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Government and Public Adminstration") %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Government and Public Administration") %>%
   select(pathway_for_labels_change, estimate, projection)
 gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway_for_labels_change")
 
