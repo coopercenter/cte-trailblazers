@@ -7,9 +7,9 @@ library(shinyWidgets)
 #source(here::here('generating_2nd_cluster_graphs.R'))
 #source(here::here("generating_3rd_cluster_graphs.R"))
 #info_text <- read.csv(here::here('informational_text.csv'))
-#source(here::here('text_blocks.R'))
-source(here::here('text_objects.R'))
-source(here::here('all_graph_objects_in_one_place.R'))
+source('text_objects.R')
+source('all_graph_objects_in_one_place.R')
+
 title <- tags$a(
   href = "https://ctetrailblazers.org/",
   tags$img(

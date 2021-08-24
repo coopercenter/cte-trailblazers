@@ -1,8 +1,8 @@
 #All graphs as objects
-nonduplicated <- read.csv(here::here('Projections_2018_28_cleaned.csv'))
-source(here::here('generating_1st_cluster_graphs.R'))
-source(here::here('generating_2nd_cluster_graphs.R'))
-source(here::here('generating_3rd_cluster_graphs.R'))
+nonduplicated <- read.csv('Projections_2018_28_cleaned.csv')
+source('generating_1st_cluster_graphs.R')
+source('generating_2nd_cluster_graphs.R')
+source('generating_3rd_cluster_graphs.R')
 #"Agriculture, Food, and Natural Resources"
 Ag_graph_1 <- generate_cluster_graph_1(nonduplicated,"Agriculture, Food, and Natural Resources")
 Ag_graph_2 <- generate_cluster_graph_2(nonduplicated,"Agriculture, Food, and Natural Resources")
