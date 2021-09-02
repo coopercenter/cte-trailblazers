@@ -70,30 +70,40 @@ dbHeader <-
 
 ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
-                  column(4,
-                         wellPanel(
-                            h3(#"Please select a cluster from the dropdown menu below to see charts and information on the cluster"
-                           ),
-                           selectInput(
-                             inputId = "clusters",
-                             label = "Select a Cluster to Display",
-                             choices = clusters
-                           ), #close selection object
-                           h3("What trends do we currently see? What trends may we anticipate?"),
-                           textOutput('cluster_trend_bullet_1'),
-                           br(),
-                           textOutput('cluster_trend_bullet_2'),
-                           br(),
-                           textOutput('cluster_trend_bullet_3'),
-                           br(),
-                           textOutput('cluster_trend_bullet_4'),
-                           br(),
-                           textOutput('cluster_trend_bullet_5')
-                         ) #close wellPanel
-                         ), #close column
+                  # column(4,
+                  #        wellPanel(
+                  #           h3(#"Please select a cluster from the dropdown menu below to see charts and information on the cluster"
+                  #          ),
+                  #          # selectInput(
+                  #          #   inputId = "clusters",
+                  #          #   label = "Select a Cluster to Display",
+                  #          #   choices = clusters
+                  #          # ), #close selection object
+                  #          # h3("What trends do we currently see? What trends may we anticipate?"),
+                  #          # textOutput('cluster_trend_bullet_1'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_2'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_3'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_4'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_5')
+                  #        ) #close wellPanel
+                  #        ), #close column
                   
                   column(8,
                          mainPanel(
+                           wellPanel(
+                             
+
+                             selectInput(
+                               inputId = "clusters",
+                               label = "Select a Cluster to Display",
+                               choices = clusters
+                             ) #close selection object
+                           ), # close wellPanel
+                           
                            h3('Education Levels'),
                            h5("Distribution of predominant education levels, by career pathway"),
                            plotOutput("plot1"),
@@ -115,7 +125,20 @@ ui <- fluidPage(titlePanel(dbHeader),
                            plotOutput("plot3"),
                            h6("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
                               Source: Virginia Employment Commission."),
-                           br()) #close main panel
+                           br(), 
+                           # add trends
+                           h3("Trends"),
+                           textOutput('cluster_trend_bullet_1'),
+                           br(),
+                           textOutput('cluster_trend_bullet_2'),
+                           br(),
+                           textOutput('cluster_trend_bullet_3'),
+                           br(),
+                           textOutput('cluster_trend_bullet_4'),
+                           br(),
+                           textOutput('cluster_trend_bullet_5')
+                           
+                         ) #close main panel
 
                   
                 ) #close column
