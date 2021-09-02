@@ -92,7 +92,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                   #        ) #close wellPanel
                   #        ), #close column
                   
-                  column(8,
+#                  column(12,
                          mainPanel(
                            wellPanel(
                              
@@ -104,30 +104,43 @@ ui <- fluidPage(titlePanel(dbHeader),
                              ) #close selection object
                            ), # close wellPanel
                            
-                           h3('Education Levels'),
-                           h5("Distribution of predominant education levels, by career pathway"),
-                           plotOutput("plot1"),
-                           h6('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
-                              Reported percentages are based on the number of occupations at each educational level within a pathway. 
-                              Percentages are not based on the number of workers employed in each pathway. 
-                              Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
-                              Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.'),
+                           #box(
+                             h2('Education'),
+                             h5("Distribution of predominant education levels, by career pathway"),
+                           
+                             plotOutput("plot1"),
+                             h6('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
+                                Reported percentages are based on the number of occupations at each educational level within a pathway. 
+                                Percentages are not based on the number of workers employed in each pathway. 
+                                Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
+                                Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
+                           #) #close box
+                           ,
                            br(),
-                           h3("Occupational Growth"),
-                           h5("Projected growth in Virginia employment, 2018 - 2028"),
-                           plotOutput("plot2"),
-                           h6("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
-                              Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
-                              Source: Virginia Employment Commission."),
+                           
+                           #box(
+                             h2("Occupational Growth"),
+                             h5("Projected growth in Virginia employment, 2018 - 2028"),
+                             plotOutput("plot2"),
+                             h6("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
+                                Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
+                                Source: Virginia Employment Commission.")
+                            # ) #close box
+                           ,
+                           
                            br(),
-                           h3('Wages'),
-                           h5("Median 2018 annual incomes in Virginia"),
-                           plotOutput("plot3"),
-                           h6("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
-                              Source: Virginia Employment Commission."),
+                           
+                           # box(
+                             h2('Wages'),
+                             h5("Median 2018 annual incomes in Virginia"),
+                             plotOutput("plot3"),
+                             h6("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
+                                Source: Virginia Employment Commission.")
+                             # ), # close box
+                           ,
                            br(), 
                            # add trends
-                           h3("Trends"),
+                           h2("Trends"),
                            textOutput('cluster_trend_bullet_1'),
                            br(),
                            textOutput('cluster_trend_bullet_2'),
@@ -141,7 +154,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                          ) #close main panel
 
                   
-                ) #close column
+#                ) #close column
                 ) #Close fluidRow
                 ) #close UI
 
