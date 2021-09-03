@@ -10,6 +10,26 @@ library(shinyWidgets)
 source('text_objects.R')
 source('all_graph_objects_in_one_place.R')
 
+clusters <- c(
+  "Agriculture, Food, and Natural Resources",
+  "Architecture and Construction",
+  "Arts, Audio/Video Technology, and Communications",
+  "Business Management and Administration",
+  "Education and Training",
+  "Finance",
+  "Government and Public Administration",
+  "Health Science",
+  "Hospitality and Tourism",
+  "Human Services",
+  "Information Technology",
+  "Law, Public Safety, Corrections, and Security",
+  "Manufacturing",
+  "Marketing",
+  "Science, Technology, Engineering, and Mathematics",
+  "Transportation, Distribution, and Logistics",
+  "Energy"
+)
+
 title <- tags$a(
   href = "https://ctetrailblazers.org/",
   tags$img(
@@ -17,6 +37,7 @@ title <- tags$a(
     height = '92',
     #width = '50'
   ),
+  "Virginia Labor Market: Career Cluster Growth"
 )
 
 dbHeader <-
@@ -36,39 +57,90 @@ dbHeader <-
         padding: 0 20px;}"
       )
     ),
+    # tags$li(a(
+    #   href = 'https://ceps.coopercenter.org/',
+    #   tags$img(
+    #     src = 'CCPS-Logo_Horiz_White.png',
+    #     height = '30',
+    #     width = '200'
+    #   )
+    # ), class = "dropdown"),
     titleWidth = 500
   )
 
 ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
-                  column(4,
-                         wellPanel(
-                            h3("Welcome to the Trailblazers Cluster Briefs Dashboard! Please select a cluster from the dropdown menu below to see charts and information on the cluster"
-                           ),
-                           selectInput(
-                             inputId = "clusters",
-                             label = "Select a Cluster to Display",
-                             choices = c(
-                               "Agriculture, Food, and Natural Resources",
-                               "Architecture and Construction",
-                               "Arts, Audio/Video Technology, and Communications",
-                               "Business Management and Administration",
-                               "Education and Training",
-                               "Finance",
-                               "Government and Public Administration",
-                               "Health Science",
-                               "Hospitality and Tourism",
-                               "Human Services",
-                               "Information Technology",
-                               "Law, Public Safety, Corrections, and Security",
-                               "Manufacturing",
-                               "Marketing",
-                               "Science, Technology, Engineering, and Mathematics",
-                               "Transportation, Distribution, and Logistics",
-                               "Energy"
-                             ) #close input choices list
-                           ), #close selection object
-                           h3("What trends do we currently see? What trends may we anticipate?"),
+                  # column(4,
+                  #        wellPanel(
+                  #           h3(#"Please select a cluster from the dropdown menu below to see charts and information on the cluster"
+                  #          ),
+                  #          # selectInput(
+                  #          #   inputId = "clusters",
+                  #          #   label = "Select a Cluster to Display",
+                  #          #   choices = clusters
+                  #          # ), #close selection object
+                  #          # h3("What trends do we currently see? What trends may we anticipate?"),
+                  #          # textOutput('cluster_trend_bullet_1'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_2'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_3'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_4'),
+                  #          # br(),
+                  #          # textOutput('cluster_trend_bullet_5')
+                  #        ) #close wellPanel
+                  #        ), #close column
+                  
+#                  column(12,
+                         mainPanel(
+                           wellPanel(
+                             
+
+                             selectInput(
+                               inputId = "clusters",
+                               label = "Select a Cluster to Display",
+                               choices = clusters
+                             ) #close selection object
+                           ), # close wellPanel
+                           
+                           #box(
+                             h2('Education'),
+                             h5("Distribution of predominant education levels, by career pathway"),
+                           
+                             plotOutput("plot1"),
+                             h6('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
+                                Reported percentages are based on the number of occupations at each educational level within a pathway. 
+                                Percentages are not based on the number of workers employed in each pathway. 
+                                Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
+                                Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
+                           #) #close box
+                           ,
+                           br(),
+                           
+                           #box(
+                             h2("Occupational Growth"),
+                             h5("Projected growth in Virginia employment, 2018 - 2028"),
+                             plotOutput("plot2"),
+                             h6("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
+                                Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
+                                Source: Virginia Employment Commission.")
+                            # ) #close box
+                           ,
+                           
+                           br(),
+                           
+                           # box(
+                             h2('Wages'),
+                             h5("Median 2018 annual incomes in Virginia"),
+                             plotOutput("plot3"),
+                             h6("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
+                                Source: Virginia Employment Commission.")
+                             # ), # close box
+                           ,
+                           br(), 
+                           # add trends
+                           h2("Trends"),
                            textOutput('cluster_trend_bullet_1'),
                            br(),
                            textOutput('cluster_trend_bullet_2'),
@@ -78,29 +150,11 @@ ui <- fluidPage(titlePanel(dbHeader),
                            textOutput('cluster_trend_bullet_4'),
                            br(),
                            textOutput('cluster_trend_bullet_5')
-                         ) #close wellPanel
-                         ), #close column
-                  
-                  column(8,
-                         mainPanel(
-                           h3('Education'),
-                           h5("Figure 1 shows the predominant education levels of occupations by CTE career pathway. The percentages reflect the number of occupations at each educational level within a pathway, not the number of workers. The predominant level of education for each occupation is determined by Trailblazers based on national-level U.S. Bureau of Labor Statistics data."),
-                           plotOutput("plot1"),
-                           h5('Figure 1: Predominant Education levels in Cluster Pathways, 2018 - 2028'),
-                           br(),
-                           h3("Employment"),
-                           h5("Figure 2 compares the estimated 2018 number of jobs in Virginia within each CTE career pathway to the projected 2028 number of jobs. Data are provided by the Virginia Employment Commission."),
-                           plotOutput("plot2"),
-                           h5("Figure 2: Number of Jobs in Cluster Pathways, 2018 - 2028 (Projected percent change in number of jobs by pathway in parentheses)"),
-                           br(),
-                           h3('Earnings and Growth'),
-                           h5("Figure 3 presents the median 2018 annual incomes of occupations in Virginia by CTE career pathway. Data are provided by the Virginia Employment Commission."),
-                           plotOutput("plot3"),
-                           h5("Figure 3: Median 2018 Annual Incomes of Occupations in Virginia by Pathway"),
-                           br()) #close main panel
+                           
+                         ) #close main panel
 
                   
-                ) #close column
+#                ) #close column
                 ) #Close fluidRow
                 ) #close UI
 
