@@ -9,6 +9,7 @@ library(shinyWidgets)
 #info_text <- read.csv(here::here('informational_text.csv'))
 source('text_objects.R')
 source('all_graph_objects_in_one_place.R')
+# source('ggobjects.R')
 
 clusters <- c(
   "Agriculture, Food, and Natural Resources",
@@ -37,7 +38,15 @@ title <- tags$a(
     height = '92',
     #width = '50'
   ),
-  "Virginia Labor Market: Career Cluster Growth"
+  "Virginia Labor Market: Career Cluster Growth",  
+  
+  ### TRYING TO ADD THE CCPS LOGO TO THE HEADER LINE -- DOING SOMETHING WRONG ###
+    href = 'https://ceps.coopercenter.org/',
+    tags$img(
+      src = 'CCPS-Logo_Horiz_White.png',
+      height = '30',
+      width = '200'
+  )
 )
 
 dbHeader <-
@@ -67,6 +76,8 @@ dbHeader <-
     # ), class = "dropdown"),
     titleWidth = 500
   )
+
+black_line <- hr(style = "border-top: 1px solid #000000;")
 
 ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
@@ -109,36 +120,39 @@ ui <- fluidPage(titlePanel(dbHeader),
                              h5("Distribution of predominant education levels, by career pathway"),
                            
                              plotOutput("plot1"),
-                             h6('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
+                             h5('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
                                 Reported percentages are based on the number of occupations at each educational level within a pathway. 
                                 Percentages are not based on the number of workers employed in each pathway. 
                                 Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
                                 Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
                            #) #close box
                            ,
-                           br(),
+                           
+                           black_line,
                            
                            #box(
                              h2("Occupational Growth"),
                              h5("Projected growth in Virginia employment, 2018 - 2028"),
                              plotOutput("plot2"),
-                             h6("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
+                             h5("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
                                 Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
                                 Source: Virginia Employment Commission.")
                             # ) #close box
                            ,
                            
-                           br(),
+                           black_line,
                            
                            # box(
                              h2('Wages'),
                              h5("Median 2018 annual incomes in Virginia"),
                              plotOutput("plot3"),
-                             h6("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
+                             h5("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
                                 Source: Virginia Employment Commission.")
                              # ), # close box
                            ,
-                           br(), 
+                           
+                           black_line,
+                           
                            # add trends
                            h2("Trends"),
                            textOutput('cluster_trend_bullet_1'),
