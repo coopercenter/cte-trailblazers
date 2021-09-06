@@ -31,55 +31,51 @@ clusters <- c(
   "Energy"
 )
 
-title <- tags$a(
-  href = "https://ctetrailblazers.org/",
-  tags$img(
-    src = "http://ctetrailblazers.org/wp-content/uploads/2015/01/Header1000X288_smallerimage.jpg",
-    height = '92',
-    #width = '50'
-  ),
-  "Virginia Labor Market: Career Cluster Growth",  
-  
-  ### TRYING TO ADD THE CCPS LOGO TO THE HEADER LINE -- DOING SOMETHING WRONG ###
-    href = 'https://ceps.coopercenter.org/',
-    tags$img(
-      src = 'CCPS-Logo_Horiz_White.png',
-      height = '30',
-      width = '200'
-  )
-)
 
 dbHeader <-
   dashboardHeader(
-    title = title,
     tags$li(
       class = "dropdown",
-      tags$style(".main-header {max-height: 60px}"),
+      tags$style(".main-header {max-height: 50px}"),
       tags$style(
-        ".main-header .logo {height: 60px;
+        ".main-header .logo {height: 50px;
         line-height: 55px !important;
         padding: 0 0px;}"
       ),
       tags$style(
-        ".main-header .sidebar-toggle {height: 60px;
+        ".main-header .sidebar-toggle {height:50px;
         line-height: 55px !important;
-        padding: 0 20px;}"
+        padding: 0 00px;}"
       )
     ),
-    # tags$li(a(
-    #   href = 'https://ceps.coopercenter.org/',
-    #   tags$img(
-    #     src = 'CCPS-Logo_Horiz_White.png',
-    #     height = '30',
-    #     width = '200'
-    #   )
-    # ), class = "dropdown"),
-    titleWidth = 500
+    tags$li(a(
+      href = 'https://ctetrailblazers.org/',
+      tags$img(
+        src = 'http://ctetrailblazers.org/wp-content/uploads/2015/01/Header1000X288_smallerimage.jpg',
+        height = '82'
+      )
+    ), class = "dropdown"),
+    tags$li(a(
+      href = 'https://ceps.coopercenter.org/',
+      tags$img(
+        src = 'CCPS-Logo_Horiz_Color.png',
+        height = '62'
+      )
+    ), class = "dropdown"),
+    titleWidth = 0
   )
 
 black_line <- hr(style = "border-top: 1px solid #000000;")
 
 ui <- fluidPage(titlePanel(dbHeader),
+                fluidRow(
+                   column(width = 12,
+                      HTML(
+                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Growth</h1>
+                  <br>'
+                      )
+                    )
+                  ),
                 fluidRow(
                   # column(4,
                   #        wellPanel(
@@ -103,74 +99,74 @@ ui <- fluidPage(titlePanel(dbHeader),
                   #        ) #close wellPanel
                   #        ), #close column
                   
-#                  column(12,
-                         mainPanel(
-                           wellPanel(
-                             
-
-                             selectInput(
-                               inputId = "clusters",
-                               label = "Select a Cluster to Display",
-                               choices = clusters
-                             ) #close selection object
-                           ), # close wellPanel
-                           
-                           #box(
-                             h2('Education'),
-                             h5("Distribution of predominant education levels, by career pathway"),
-                           
-                             plotOutput("plot1"),
-                             h5('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
+                  #                  column(12,
+                  mainPanel(
+                    wellPanel(
+                      
+                      
+                      selectInput(
+                        inputId = "clusters",
+                        label = "Select a Cluster to Display",
+                        choices = clusters
+                      ) #close selection object
+                    ), # close wellPanel
+                    
+                    #box(
+                    h2('Education'),
+                    h5("Distribution of predominant education levels, by career pathway"),
+                    
+                    plotOutput("plot1"),
+                    h5('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
                                 Reported percentages are based on the number of occupations at each educational level within a pathway. 
                                 Percentages are not based on the number of workers employed in each pathway. 
                                 Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
                                 Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
-                           #) #close box
-                           ,
-                           
-                           black_line,
-                           
-                           #box(
-                             h2("Occupational Growth"),
-                             h5("Projected growth in Virginia employment, 2018 - 2028"),
-                             plotOutput("plot2"),
-                             h5("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
+                    #) #close box
+                    ,
+                    
+                    black_line,
+                    
+                    #box(
+                    h2("Occupational Growth"),
+                    h5("Projected growth in Virginia employment, 2018 - 2028"),
+                    plotOutput("plot2"),
+                    h5("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
                                 Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
                                 Source: Virginia Employment Commission.")
-                            # ) #close box
-                           ,
-                           
-                           black_line,
-                           
-                           # box(
-                             h2('Wages'),
-                             h5("Median 2018 annual incomes in Virginia"),
-                             plotOutput("plot3"),
-                             h5("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
+                    # ) #close box
+                    ,
+                    
+                    black_line,
+                    
+                    # box(
+                    h2('Wages'),
+                    h5("Median 2018 annual incomes in Virginia"),
+                    plotOutput("plot3"),
+                    h5("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
                                 Source: Virginia Employment Commission.")
-                             # ), # close box
-                           ,
-                           
-                           black_line,
-                           
-                           # add trends
-                           h2("Trends"),
-                           textOutput('cluster_trend_bullet_1'),
-                           br(),
-                           textOutput('cluster_trend_bullet_2'),
-                           br(),
-                           textOutput('cluster_trend_bullet_3'),
-                           br(),
-                           textOutput('cluster_trend_bullet_4'),
-                           br(),
-                           textOutput('cluster_trend_bullet_5')
-                           
-                         ) #close main panel
-
+                    # ), # close box
+                    ,
+                    
+                    black_line,
+                    
+                    # add trends
+                    h2("Trends"),
+                    textOutput('cluster_trend_bullet_1'),
+                    br(),
+                    textOutput('cluster_trend_bullet_2'),
+                    br(),
+                    textOutput('cluster_trend_bullet_3'),
+                    br(),
+                    textOutput('cluster_trend_bullet_4'),
+                    br(),
+                    textOutput('cluster_trend_bullet_5')
+                    
+                  ) #close main panel
                   
-#                ) #close column
+                  
+                  #                ) #close column
                 ) #Close fluidRow
-                ) #close UI
+) #close UI
 
 server <- function(input, output){
   
@@ -263,7 +259,7 @@ server <- function(input, output){
     #generate_cluster_graph_1(nonduplicated, clusterx)
     graph1()
   })
-
+  
   output$plot2 = renderPlot({
     #clusterx <- input$clusters
     #generate_cluster_graph_2(nonduplicated,clusterx)
