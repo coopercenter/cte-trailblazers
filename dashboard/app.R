@@ -31,12 +31,9 @@ clusters <- c(
   "Energy"
 )
 
-title <- tags$h1("Virginia Labor Market: Career Cluster Growth")
-
 
 dbHeader <-
   dashboardHeader(
-    title=title,
     tags$li(
       class = "dropdown",
       tags$style(".main-header {max-height: 50px}"),
@@ -71,6 +68,13 @@ dbHeader <-
 black_line <- hr(style = "border-top: 1px solid #000000;")
 
 ui <- fluidPage(titlePanel(dbHeader),
+                fluidRow(
+                   column(width = 12,
+                      HTML(
+                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Growth</h1>'
+                      )
+                    )
+                  ),
                 fluidRow(
                   # column(4,
                   #        wellPanel(
