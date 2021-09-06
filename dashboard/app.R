@@ -38,7 +38,15 @@ title <- tags$a(
     height = '92',
     #width = '50'
   ),
-  "Virginia Labor Market: Career Cluster Growth"
+  "Virginia Labor Market: Career Cluster Growth",  
+  
+  ### TRYING TO ADD THE CCPS LOGO TO THE HEADER LINE -- DOING SOMETHING WRONG ###
+    href = 'https://ceps.coopercenter.org/',
+    tags$img(
+      src = 'CCPS-Logo_Horiz_White.png',
+      height = '30',
+      width = '200'
+  )
 )
 
 dbHeader <-
