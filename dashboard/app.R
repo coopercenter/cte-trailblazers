@@ -69,6 +69,8 @@ dbHeader <-
     titleWidth = 500
   )
 
+black_line <- hr(style = "border-top: 1px solid #000000;")
+
 ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
                   # column(4,
@@ -117,7 +119,8 @@ ui <- fluidPage(titlePanel(dbHeader),
                                 Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
                            #) #close box
                            ,
-                           br(),
+                           
+                           black_line,
                            
                            #box(
                              h2("Occupational Growth"),
@@ -129,7 +132,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                             # ) #close box
                            ,
                            
-                           br(),
+                           black_line,
                            
                            # box(
                              h2('Wages'),
@@ -139,7 +142,9 @@ ui <- fluidPage(titlePanel(dbHeader),
                                 Source: Virginia Employment Commission.")
                              # ), # close box
                            ,
-                           br(), 
+                           
+                           black_line,
+                           
                            # add trends
                            h2("Trends"),
                            textOutput('cluster_trend_bullet_1'),
