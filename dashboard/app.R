@@ -49,17 +49,17 @@ dbHeader <-
       )
     ),
     tags$li(a(
-      href = 'https://ceps.coopercenter.org/',
-      tags$img(
-        src = 'CCPS-Logo_Horiz_Color.png',
-        height = '62'
-      )
-    ), class = "dropdown"),
-    tags$li(a(
       href = 'https://ctetrailblazers.org/',
       tags$img(
         src = 'http://ctetrailblazers.org/wp-content/uploads/2015/01/Header1000X288_smallerimage.jpg',
         height = '82'
+      )
+    ), class = "dropdown"),
+    tags$li(a(
+      href = 'https://ceps.coopercenter.org/',
+      tags$img(
+        src = 'CCPS-Logo_Horiz_Color.png',
+        height = '62'
       )
     ), class = "dropdown"),
     titleWidth = 0
@@ -71,7 +71,8 @@ ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
                    column(width = 12,
                       HTML(
-                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Growth</h1>'
+                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Growth</h1>
+                  <br>'
                       )
                     )
                   ),
