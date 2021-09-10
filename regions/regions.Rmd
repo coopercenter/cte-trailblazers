@@ -1,0 +1,65 @@
+---
+title: "CTE Trailblazers: Regional Analysis"
+author: "Arthur Small"
+date:    Version of `r Sys.Date()`
+output:  html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r importing spreadsheet & packages, making edits for ease of graphing, warning = FALSE, message = FALSE, echo=FALSE}
+library(tidyverse)
+library(readxl)
+library(stringr)
+
+fix_names <- function(x){
+  x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
+  x <- str_to_lower(x)
+  x <- str_remove_all(x, pattern = "2018_")
+  x <- str_remove_all(x, pattern = "2028_")
+  x <- str_remove_all(x, pattern = "28_")
+  
+  return(x)
+}
+
+read_1_xlsx <- function(path2file){ 
+  
+  read_xlsx(path2file,
+            sheet = "Nonduplicated",
+            col_types = c(rep("text", 13), rep("numeric",8)), na = ".") %>%
+  rename_with(.fn = fix_names) %>% 
+  rename(fraction_change    = percent_change,
+         fraction_change_us = percent_change_us) -> tbl
+  
+  return(tbl)
+}
+
+regional_data_dir   <- here::here("data","Regional")
+statewide_data_file <- here::here("Projections_2018-28_PRIME_2021-05-20.xlsx")
+
+fs::dir_ls(regional_data_dir, recurse = FALSE)  %>%
+  str_subset(pattern = ".xlsx") %>% 
+  append(statewide_data_file) %>% 
+  map_dfr(read_1_xlsx) %>%
+  filter(is.na(pathway_code)) %>%
+  select(cluster_code, cluster, area, fraction_change) %>%
+  arrange(cluster, desc(fraction_change), area) -> regional_tbl
+
+regional_tbl %>% 
+  group_by(cluster_code) %>%
+  filter(fraction_change > fraction_change[which(area == "Virginia")]) %>%
+  ungroup() %>%
+  select(-cluster_code) %>%
+  mutate(Projected_Growth_Rate = scales::percent(fraction_change, accuracy = 0.1L)) %>%
+  mutate(Region = str_split(area, fixed(" ("), simplify = TRUE)[,1]) %>%
+  select(Cluster = cluster, Region, Projected_Growth_Rate) -> growing_regions_tbl
+```
+
+```{r}
+print(growing_regions_tbl)
+```
+
