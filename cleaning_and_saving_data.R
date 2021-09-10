@@ -1,6 +1,7 @@
 "
 Original cleaning by Abigail Freed
 
+2021-09-10: Create function read_1_xlsx(); move functions to separate .R script
 "
 
 library(readxl)
@@ -8,26 +9,12 @@ library(tidyverse)
 library(reshape2)
 library(scales)
 
+source(here::here("read_trailblazers_xlsx_file.R"))  # define function read_1_xlsx() for reading in and parsing trailblazers data files
+
 file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
 
-nonduplicated <- read_xlsx(path=file_name, 
-                           sheet = "Nonduplicated",
-                           col_types = c(rep("text", 13), rep("numeric",8)), na = ".")
+nonduplicated <- read__1_xlsx(path=file_name, sheet = "Nonduplicated")
 
-fix_names <- function(x){
-  x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
-  x <- str_to_lower(x)
-  x <- str_remove_all(x, pattern = "2018_")
-  x <- str_remove_all(x, pattern = "2028_")
-  x <- str_remove_all(x, pattern = "28_")
-  
-  return(x)
-}
-
-nonduplicated <- nonduplicated %>%
-  rename_with(.fn = fix_names) %>% 
-  rename(fraction_change = percent_change) %>%
-  rename(fraction_change_us = percent_change_us)
 
 my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
 #c("#003366", "#335C85", "#6685A3", "#99ADC2") 
