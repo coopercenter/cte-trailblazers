@@ -59,7 +59,12 @@ regional_tbl %>%
   select(Cluster = cluster, Region, Projected_Growth_Rate) -> growing_regions_tbl
 ```
 
-```{r}
+```{r print table of regional growth rates}
 print(growing_regions_tbl)
+```
+
+```{r save tibble of regional growth rates, echo=FALSE}
+save2file <- here::here("regions", "growing_regions_tbl.Rds")
+saveRDS(growing_regions_tbl, save2file)
 ```
 
