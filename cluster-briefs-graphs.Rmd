@@ -18,9 +18,9 @@ library(reshape2)
 library(scales)
 library(GGally)
 
-file_name <- "Projections_2018-28_PRIME_2021-05-20.xlsx"
+path2file <- here::here("data_raw", "Projections_2018-28_PRIME_2021-05-20.xlsx")
 
-nonduplicated <- read_xlsx(path=file_name, 
+nonduplicated <- read_xlsx(path=path2file, 
                   sheet = "Nonduplicated",
                   col_types = c(rep("text", 13), rep("numeric",8)), na = ".")
 
