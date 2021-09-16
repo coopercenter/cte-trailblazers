@@ -11,43 +11,19 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r importing spreadsheet & packages, making edits for ease of graphing, warning = FALSE, message = FALSE, echo=FALSE}
-library(dplyr)
-library(stringr)
-
-source(here::here("r", "read_trailblazers_xlsx_file.R"))  # define function read_1_xlsx() for reading in and parsing trailblazers data files
-
-regional_data_dir   <- here::here("data_raw","Regional")
-statewide_data_file <- here::here("data_raw","Projections_2018-28_PRIME_2021-05-20.xlsx")
-
-fs::dir_ls(regional_data_dir, recurse = FALSE)  %>%
-  str_subset(pattern = ".xlsx") %>% 
-  append(statewide_data_file) %>% 
-  purrr::map_dfr(read_1_xlsx) %>%
-  
-  
+```{r extract table of growing regions for each cluster from full nonduplicated data set, warning = FALSE, message = FALSE, echo=FALSE}
+readRDS(here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds")) %>%
   filter(is.na(pathway_code)) %>%
-  select(cluster_code, cluster, area, fraction_change) %>%
-  arrange(cluster, desc(fraction_change), area) -> regional_tbl
-
-# split_LWDA_text <- function(area_char_vec){
-#   # Split the LWDA "area" text field into three pieces: name, type, area code
-#   require(stringr)
-#   
-#   split1 <- str_split(area_char_vec, fixed(" ("), simplify = TRUE)
-#   split2 <- str_remove(split1[,2],   fixed(")"))
-#   split3 <- str_split(split2, " ", simplify = TRUE)
-#   
-#   return(cbind(split1[,1], split3))
-# }
+  select(cluster_code, cluster, Region, fraction_change) %>%
+  arrange(cluster, desc(fraction_change), Region) -> regional_tbl
 
 regional_tbl %>% 
   group_by(cluster_code) %>%
-  filter(fraction_change > fraction_change[which(area == "Virginia")]) %>%
+  filter(fraction_change >= fraction_change[which(Region == "Virginia")]) %>%
   ungroup() %>%
   select(-cluster_code) %>%
   mutate(Projected_Growth_Rate = scales::percent(fraction_change, accuracy = 0.1L)) %>%
-  select(Cluster = cluster, Region, LWDA, Projected_Growth_Rate) -> growing_regions_tbl
+  select(Cluster = cluster, Region, Projected_Growth_Rate) -> growing_regions_tbl
 ```
 
 ```{r print table of regional growth rates}
