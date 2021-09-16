@@ -20,5 +20,5 @@ fs::dir_ls(regional_data_dir, recurse = FALSE)  %>%
   purrr::map_dfr(read_1_xlsx) -> all_data_tbl
 
 # Save combined, cleaned file
-save(all_data_tbl, here::here("data_prep","all-regions-and-pathways.Rds"))
-readr::write_csv(all_data_tbl, here::here("data_prep","all-regions-and-pathways.csv"))
+saveRDS(all_data_tbl, here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds"))
+readr::write_csv(all_data_tbl, here::here("data_prep","nonduplicated-all-regions-and-pathways.csv"))
