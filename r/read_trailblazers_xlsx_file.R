@@ -22,10 +22,15 @@ split_LWDA_text <- function(area_char_vec){
   require(stringr)
   
   split1 <- str_split(area_char_vec, fixed(" ("), simplify = TRUE)
-  split2 <- str_remove(split1[,2],   fixed(")"))
-  split3 <- str_split(split2, " ", simplify = TRUE)
+  if(ncol(split1) > 1){
+    split2 <- str_remove(split1[,2],   fixed(")"))
+    split3 <- str_split(split2, " ", simplify = TRUE)
+    return_mat <- cbind(split1[,1], split3)
+  } else {
+    return_mat <- cbind(split1,NA,NA)
+  }
   
-  return(cbind(split1[,1], split3))
+  return(return_mat)
 }
 
 read_1_xlsx <- function(path2file, sheet = "Nonduplicated"){
@@ -38,8 +43,8 @@ read_1_xlsx <- function(path2file, sheet = "Nonduplicated"){
     rename_with(.fn = fix_names) %>% 
     rename(fraction_change    = percent_change,
            fraction_change_us = percent_change_us) %>%
-    mutate(Region        = split_LWDA_text(area)[,1]) %>%
-    mutate(LWDA_number   = split_LWDA_text(area)[,3]) -> tbl
+    mutate(Region      = split_LWDA_text(area)[,1]) %>%
+    mutate(LWDA_code   = split_LWDA_text(area)[,3]) -> tbl
   
   return(tbl)
 }

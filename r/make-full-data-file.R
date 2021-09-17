@@ -17,8 +17,9 @@ statewide_data_file <- here::here("data_raw","Projections_2018-28_PRIME_2021-05-
 fs::dir_ls(regional_data_dir, recurse = FALSE)  %>%
   str_subset(pattern = ".xlsx") %>% 
   append(statewide_data_file) %>% 
-  purrr::map_dfr(read_1_xlsx) -> all_data_tbl
+  purrr::map_dfr(read_1_xlsx) -> all_nonduplicated_tbl
 
 # Save combined, cleaned file
-save(all_data_tbl, here::here("data_prep","all-regions-and-pathways.Rds"))
-readr::write_csv(all_data_tbl, here::here("data_prep","all-regions-and-pathways.csv"))
+saveRDS(all_nonduplicated_tbl, here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds"))
+readr::write_csv(all_nonduplicated_tbl, here::here("data_prep","nonduplicated-all-regions-and-pathways.csv"))
+writexl::write_xlsx(all_nonduplicated_tbl, path = here::here("data_prep","nonduplicated-all-regions-and-pathways.xlsx"))
