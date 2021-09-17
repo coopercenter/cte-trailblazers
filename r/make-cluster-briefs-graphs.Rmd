@@ -28,18 +28,14 @@ my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
 #c("#003366", "#2E5882", "#7490AC", "#C4D0DC")
 names(my_colors) <- levels(nonduplicated$predominant_education_level)
 
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
-
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, "Tele", "Tele-\n"))
-
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n"))
-
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n"))
-
-nonduplicated <- nonduplicated %>% mutate(predominant_education_level = str_replace_all(predominant_education_level, "HS Diploma", "High School Diploma"))
+nonduplicated %>% 
+  mutate(pathway_for_labels = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management")) %>% 
+  mutate(pathway_for_labels = str_replace_all(pathway, "Tele", "Tele-\n")) %>% 
+  mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n")) %>% 
+  mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n")) %>% 
+  mutate(predominant_education_level = str_replace_all(predominant_education_level, "HS Diploma", "High School Diploma")) -> nonduplicated
 
 nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "High School Diploma"))
-
 
 #my_colors <- c("navy", "#046C9A", "#ABDDDE", "#D69C4E")
 #my_colors <- colorRampPalette(brewer.pal(9,"Blues"))(4)
@@ -47,7 +43,7 @@ nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_ed
 #my_colors <- c("midnightblue", "#046C9A", "#ABDDDE", "darkgrey")
 
 cluster_list <- unique(nonduplicated$cluster, fromLast = TRUE) 
-cluster_list <- cluster_list[-1]
+cluster_list <- cluster_list[which(cluster_list != "All Occupations")]
 
 # for (x in cluster_list){
 #   
@@ -91,9 +87,13 @@ for (x in cluster_list){
         axis.line.x = element_line(color = "grey"), 
         axis.line.y = element_line(color = "grey")) + 
     scale_y_continuous(expand = expansion(mult = c(0, .1)), labels = scales::percent_format(accuracy = 1), breaks = seq(0,1, 0.1)) +
-     scale_fill_manual(values = my_colors) +
+    scale_fill_manual(values = my_colors) +
     scale_color_manual(values = my_colors)
-    ggsave(here::here("images", paste0(strtrim(x,3),"-fig1.png")), height = 2.5, width = 7.5, units = c("in"))
+  
+  
+  
+  ggsave(here::here("images", paste0(strtrim(x,3),"-fig1.png")), height = 2.5, width = 7.5, units = c("in"))
+  
   print(edu_graph)
 }
 
@@ -122,18 +122,16 @@ ggplotly(nonduplicated %>% filter(cluster == x,
 
 ```{r 2nd graph showing added jobs over decade}
 ##Horizontal Bars
-
 my_colors2 <- c("darkgrey", "#405C7A")
 jobs_labels <- c("2018 Estimate", "2028 Projection")
-text_size <- 3
-text_width <- 0.8
-text_vertical <- 0
-text_height <- -0.05
+text_size      <- 3
+text_width     <- 0.8
+text_vertical  <- 0
+text_height    <- -0.05
 
-
-nonduplicated <- nonduplicated %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
-
-nonduplicated <- nonduplicated %>% mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = ""))
+nonduplicated %>% 
+  mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management")) %>% 
+  mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = "")) -> nonduplicated 
 
 my_theme <-  theme(legend.title = element_blank(),
         axis.title.y = element_blank(),
@@ -167,7 +165,9 @@ ggplot(ag_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             vjust = text_vertical, 
             hjust = text_height) +
   expand_limits(x = 35000) 
-  ggsave(here::here("images","Agr-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+
+
+ggsave(here::here("images","Agr-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Architecture and Construction
 
