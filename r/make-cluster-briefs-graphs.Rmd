@@ -11,33 +11,15 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r importing spreadsheet & packages, making edits for ease of graphing, warning = FALSE, message = FALSE}
-library(readxl)
+```{r read in prepared data and filter to only statewide data, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(reshape2)
 library(scales)
 library(GGally)
 
-path2file <- here::here("data_raw", "Projections_2018-28_PRIME_2021-05-20.xlsx")
+readRDS(here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds")) %>%
+  filter(Region == "Virginia") -> nonduplicated
 
-nonduplicated <- read_xlsx(path=path2file, 
-                  sheet = "Nonduplicated",
-                  col_types = c(rep("text", 13), rep("numeric",8)), na = ".")
-
-fix_names <- function(x){
-  x <- str_replace_all(string = x, pattern = "[ -]", replacement = "_")
-  x <- str_to_lower(x)
-  x <- str_remove_all(x, pattern = "2018_")
-  x <- str_remove_all(x, pattern = "2028_")
-  x <- str_remove_all(x, pattern = "28_")
-  
-  return(x)
-}
-
-nonduplicated <- nonduplicated %>%
-  rename_with(.fn = fix_names) %>% 
-  rename(fraction_change = percent_change) %>%
-  rename(fraction_change_us = percent_change_us)
 ```
 
 ```{r 1st plot, warning=FALSE}
@@ -309,21 +291,21 @@ gov_linked_pathway <- nonduplicated %>%
   select(pathway_for_labels_change, estimate, projection)
 gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway_for_labels_change")
 
-ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
-  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
-  xlab("Number of Jobs") +
-  my_theme +
-  scale_fill_manual(values = my_colors2,
-                    labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
-  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size = text_size, 
-            position =  position_dodge2(width = text_width, reverse=TRUE), 
-            vjust = text_vertical, 
-            hjust = text_height) + 
-  expand_limits(x = 22000) 
-  ggsave(here::here("images","Gov-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+# ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+#   geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
+#   xlab("Number of Jobs") +
+#   my_theme +
+#   scale_fill_manual(values = my_colors2,
+#                     labels = jobs_labels) +
+#   scale_x_continuous(labels = c("0", "", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+#   scale_y_discrete(expand = expansion(mult = c(0, .1))) +
+#   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
+#             size = text_size, 
+#             position =  position_dodge2(width = text_width, reverse=TRUE), 
+#             vjust = text_vertical, 
+#             hjust = text_height) + 
+#   expand_limits(x = 22000) 
+#   ggsave(here::here("images","Gov-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Health Science
 
@@ -555,7 +537,7 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
   ggsave(here::here("images","Ene-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 ```
 
-```{r 3rd graph showing income openings and growth, warning = FALSE}
+```{r 3rd graph showing income openings and growth, warning = FALSE, eval = FALSE}
 
 my_colors3 <- c("#1170aa", "#fc7d0d", "#003366", "#5fa2ce", "#c85200", "#a3cce9", "#ffbc79")
 
@@ -565,7 +547,7 @@ for (x in cluster_list){
      geom_point(size = 3) + 
      scale_color_manual(values = my_colors3) + 
      scale_x_continuous(labels = scales::dollar_format()) + 
-     xlab("Median Income of Occupation") + 
+     xlab("Median Wage of Occupation") + 
      ylab("Pathway") +
      theme(axis.text.x = element_text(color = "black"), 
            axis.text.y = element_text(color = "black"),
