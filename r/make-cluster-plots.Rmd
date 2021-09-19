@@ -32,12 +32,6 @@ all_ggplots_list <- list(edu        = empty_list,
                          job_growth = empty_list,
                          wages      = empty_list
                          )
-
-str(all_ggplots_list$edu)
-
-all_ggplots_list$edu[[which(cluster_names_vec == "Agriculture, Food, and Natural Resources")]]
-
-
 ```
 
 ```{r make education plots, warning=FALSE}
@@ -87,30 +81,10 @@ for (clust in cluster_names_vec){
   
   print(edu_plot)
 }
-
-# library(plotly)
-# 
-# ggplotly(nonduplicated %>% filter(cluster == x, 
-#                          !is.na(predominant_education_level)) %>% 
-#      ggplot(aes(pathway_for_labels, ..count.., fill = predominant_education_level)) + 
-#      geom_bar(position = "fill") + 
-#      theme(panel.grid = element_blank(),
-#         axis.title = element_blank(),        
-#         axis.text.y = element_blank(),
-#         axis.ticks.y = element_blank(),
-#         legend.title = element_blank(),
-#         legend.text = element_text(color = "black"),
-#         axis.text.x = element_text(color = "black"), 
-#         panel.background = element_blank(), 
-#         axis.line.x = element_line(color = "grey")) + 
-#     scale_y_continuous(expand = expansion(mult = c(0, .1))) +
-#     scale_fill_manual(values = my_colors) +
-#     scale_color_manual(values = my_colors))
-
 ```
 
 
-```{r make job growth plots setup}
+```{r setup styling for job growth plots}
 ##Horizontal Bars
 my_colors2 <- c("darkgrey", "#405C7A")
 jobs_labels <- c("2018 Estimate", "2028 Projection")
@@ -136,11 +110,9 @@ my_theme <- theme(legend.title = element_blank(),
 ```
 
 
-```{r write functions to make job growth plots}
-
-clust <- cluster_names_vec[1]
-
+```{r make one job growth plot, eval=FALSE}
 # for (clust in cluster_names_vec){
+clust <- cluster_names_vec[4]
 
 nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), cluster == clust) %>%
@@ -148,10 +120,10 @@ nonduplicated %>%
 
 linked_pathway <- melt(linked_pathway, id = "pathway_for_labels_change")
 
-exp_limit_stretch_factor <- 1.1
-exp_limit <- max(linked_pathway$value)*exp_limit_stretch_factor
+# exp_limit_stretch_factor <- 1.1
+# exp_limit <- max(linked_pathway$value)*exp_limit_stretch_factor
 
-job_growth_plot <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+job_growth_plot <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, fill = variable)) +
   geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
   xlab("Number of Jobs") +
   my_theme +
@@ -162,112 +134,21 @@ job_growth_plot <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, 
                      limits = c(NA,NA)) +
   scale_y_discrete(expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size = text_size, 
-            position =  position_dodge2(width = text_width, reverse=TRUE), 
-            vjust = text_vertical, 
-            hjust = text_height) #+
-  # expand_limits(x = exp_limit) 
+            size     = text_size, 
+            position = position_dodge2(width = text_width, reverse=TRUE), 
+            vjust    = text_vertical, 
+            hjust    = text_height) #+
+  # expand_limits(x = exp_limit)
 
-  cluster_3ltr <- strtrim(clust,3)
-  
+  # cluster_3ltr <- strtrim(clust,3)
  # saveRDS(job_growth_plot, here::here("ggplots", paste0(cluster_3ltr,"-job-growth-ggplot.Rds")))
-  
 #  ggsave(here::here("images", paste0(cluster_3ltr,"-fig2.png")), height = 2.5, width = 7.5, units = c("in"))
-  
   print(job_growth_plot)
+  print(linked_pathway)
 # }
-
 ```
 
-```{r}
-readRDS(here::here("ggplots", paste0(cluster_3ltr,"-job-growth-ggplot.Rds")))
-```
-
-
-
-```{r make job growth plots Ag}
-## Agriculture 
-
-nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), cluster == "Agriculture, Food, and Natural Resources") %>%
-  select(pathway_for_labels_change, estimate, projection) -> ag_linked_pathway
-
-ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change")
-
-ggplot(ag_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
-  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
-  xlab("Number of Jobs") +
-  my_theme +
-  scale_fill_manual(values = my_colors2,
-                    labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
-  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size = text_size, 
-            position =  position_dodge2(width = text_width, reverse=TRUE), 
-            vjust = text_vertical, 
-            hjust = text_height) +
-  expand_limits(x = 35000) 
-
-
-ggsave(here::here("images","Agr-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
-```
-
-
-```{r make job growth plots Arch}
-# Architecture and Construction
-
-arch_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), cluster == "Architecture and Construction") %>%
-  select(pathway_for_labels_change, estimate, projection)
-
-arch_linked_pathway <- melt(arch_linked_pathway, id = "pathway_for_labels_change")
-
-ggplot(arch_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
-  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
-  xlab("Number of Jobs") +
-  my_theme +
-  scale_fill_manual(values = my_colors2,
-                    labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
-  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size = text_size, 
-            position =  position_dodge2(width = text_width, reverse=TRUE), 
-            vjust = text_vertical, 
-            hjust = text_height) + 
-  expand_limits(x = 205000)
-  ggsave(here::here("images","Arc-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
-```
-
-
-```{r make job growth plots}
-# Arts, Audio/Video Technology, and Communications
-
-arts_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), cluster == "Arts, Audio/Video Technology, and Communications") %>%
-  select(pathway_for_labels_change, estimate, projection)
-arts_linked_pathway <- melt(arts_linked_pathway, id = "pathway_for_labels_change")
-
-ggplot(arts_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
-  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
-  xlab("Number of Jobs") +
-  my_theme +
-  scale_fill_manual(values = my_colors2,
-                    labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
-  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
-  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size = text_size, 
-            position =  position_dodge2(width = text_width, reverse=TRUE), 
-            vjust = text_vertical, 
-            hjust = text_height) +
-  expand_limits(x = 18000) 
-
-ggsave(here::here("images","Art-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
-```
-
-```{r make job growth plots Biz Admin modified}
+```{r make job growth plot, eval=FALSE}
 # Business Management and Administration
 
 clust <- cluster_names_vec[4]
@@ -298,8 +179,108 @@ ggplot(linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
 
 ```
 
+
+
+```{r make job growth plots Ag}
+## Agriculture 
+
+clust <- "Agriculture, Food, and Natural Resources"
+
+nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), cluster == clust) %>%
+  select(pathway_for_labels_change, estimate, projection) -> ag_linked_pathway
+
+ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change")
+
+ggplot(ag_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
+  xlab("Number of Jobs") +
+  my_theme +
+  scale_fill_manual(values = my_colors2,
+                    labels = jobs_labels) +
+  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
+            size = text_size, 
+            position =  position_dodge2(width = text_width, reverse=TRUE), 
+            vjust = text_vertical, 
+            hjust = text_height) +
+  expand_limits(x = 35000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+
+ggsave(here::here("images","Agr-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+```
+
+
+```{r make job growth plots Arch}
+# Architecture and Construction
+
+clust <- "Architecture and Construction"
+
+arch_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), cluster == "Architecture and Construction") %>%
+  select(pathway_for_labels_change, estimate, projection)
+
+arch_linked_pathway <- melt(arch_linked_pathway, id = "pathway_for_labels_change")
+
+ggplot(arch_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
+  xlab("Number of Jobs") +
+  my_theme +
+  scale_fill_manual(values = my_colors2,
+                    labels = jobs_labels) +
+  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
+            size = text_size, 
+            position =  position_dodge2(width = text_width, reverse=TRUE), 
+            vjust = text_vertical, 
+            hjust = text_height) + 
+  expand_limits(x = 205000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+
+  ggsave(here::here("images","Arc-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+```
+
+
+```{r make job growth plots}
+# Arts, Audio/Video Technology, and Communications
+
+clust <- "Arts, Audio/Video Technology, and Communications"
+
+arts_linked_pathway <- nonduplicated %>%
+  filter(!is.na(pathway), is.na(soc_title), cluster == "Arts, Audio/Video Technology, and Communications") %>%
+  select(pathway_for_labels_change, estimate, projection)
+arts_linked_pathway <- melt(arts_linked_pathway, id = "pathway_for_labels_change")
+
+ggplot(arts_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
+  xlab("Number of Jobs") +
+  my_theme +
+  scale_fill_manual(values = my_colors2,
+                    labels = jobs_labels) +
+  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
+            size = text_size, 
+            position =  position_dodge2(width = text_width, reverse=TRUE), 
+            vjust = text_vertical, 
+            hjust = text_height) +
+  expand_limits(x = 18000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+
+
+ggsave(here::here("images","Art-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+```
+
+
 ```{r make job growth plots Biz Admin}
 # Business Management and Administration
+
+clust <- "Business Management and Administration"
 
 business_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title),cluster == "Business Management and Administration") %>%
@@ -319,14 +300,19 @@ ggplot(business_linked_pathway, aes(value, pathway_for_labels_change, fill =vari
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 340000) 
+  expand_limits(x = 340000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
 
 ggsave(here::here("images","Bus-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 ```
 
 
-```{r make more job growth plots}
+```{r make some more job growth plots}
 # Education and Training
+
+clust <- "Education and Training"
 
 edu_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title),cluster == "Education and Training") %>%
@@ -346,11 +332,16 @@ ggplot(edu_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) +
-  expand_limits(x = 205000) 
+  expand_limits(x = 205000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
 
   ggsave(here::here("images","Edu-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Finance
+
+clust <- "Finance"
 
 finance_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), cluster == "Finance") %>%
@@ -370,33 +361,50 @@ ggplot(finance_linked_pathway, aes(value, pathway_for_labels_change, fill =varia
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 110000) 
-ggsave(here::here("images","Fin-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+  expand_limits(x = 110000) -> job_growth_plot
 
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+ggsave(here::here("images","Fin-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+```
+
+
+```{r make job growth plot for Government cluster}
 # Government and Public Administration
 
+clust <- "Government and Public Adminstration"
+
 gov_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Government and Public Administration") %>%
+  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == clust) %>%
   select(pathway_for_labels_change, estimate, projection)
+
 gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway_for_labels_change")
 
-# ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
-#   geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
-#   xlab("Number of Jobs") +
-#   my_theme +
-#   scale_fill_manual(values = my_colors2,
-#                     labels = jobs_labels) +
-#   scale_x_continuous(labels = c("0", "", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
-#   scale_y_discrete(expand = expansion(mult = c(0, .1))) +
-#   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-#             size = text_size, 
-#             position =  position_dodge2(width = text_width, reverse=TRUE), 
-#             vjust = text_vertical, 
-#             hjust = text_height) + 
-#   expand_limits(x = 22000) 
-#   ggsave(here::here("images","Gov-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+ggplot(gov_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
+  geom_bar(stat="identity", position =  position_dodge2(reverse=TRUE)) +
+  xlab("Number of Jobs") +
+  my_theme +
+  scale_fill_manual(values = my_colors2,
+                    labels = jobs_labels) +
+  scale_x_continuous(labels = c("0", "", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+  scale_y_discrete(expand = expansion(mult = c(0, .1))) +
+  geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)),
+            size = text_size,
+            position =  position_dodge2(width = text_width, reverse=TRUE),
+            vjust = text_vertical,
+            hjust = text_height) +
+  expand_limits(x = 22000) -> job_growth_plot
 
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+
+  ggsave(here::here("images","Gov-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
+```
+
+
+```{r make yet more job growth plots}
 # Health Science
+
+clust <- "Health Science"
 
 health_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), cluster == "Health Science") %>%
@@ -416,10 +424,16 @@ ggplot(health_linked_pathway, aes(value, pathway_for_labels_change, fill =variab
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 310000) 
+  expand_limits(x = 310000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+ 
   ggsave(here::here("images","Hea-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
  # Hospitality and Tourism
+
+clust <- "Hospitality and Tourism"
 
 hosp_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Hospitality and Tourism") %>%
@@ -439,10 +453,16 @@ ggplot(hosp_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 405000)
+  expand_limits(x = 405000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+
   ggsave(here::here("images","Hos-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Human Services
+
+clust <- "Human Services"
 
 humanserv_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Human Services") %>%
@@ -462,10 +482,16 @@ ggplot(humanserv_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 145000)
+  expand_limits(x = 145000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+
   ggsave(here::here("images","Hum-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Information Technology
+
+clust <- "Information Technology"
 
 it_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Information Technology") %>%
@@ -485,10 +511,16 @@ ggplot(it_linked_pathway, aes(value, pathway_for_labels_change, fill =variable))
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 150000)
+  expand_limits(x = 150000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+
   ggsave(here::here("images","Inf-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Law, Public Safety, Corrections, and Security
+
+clust <- "Law, Public Safety, Corrections, and Security"
 
 law_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Law, Public Safety, Corrections, and Security") %>%
@@ -508,11 +540,17 @@ ggplot(law_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 47000) 
+  expand_limits(x = 47000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+ 
   ggsave(here::here("images","Law-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Manufacturing
  
+clust <- "Manufacturing"
+
 manufacturing_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Manufacturing") %>%
   select(pathway_for_labels_change, estimate, projection)
@@ -531,10 +569,16 @@ ggplot(manufacturing_linked_pathway, aes(value, pathway_for_labels_change, fill 
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 105000)
+  expand_limits(x = 105000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+
   ggsave(here::here("images","Man-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Marketing
+
+clust <- "Marketing"
 
 marketing_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Marketing") %>%
@@ -554,10 +598,16 @@ ggplot(marketing_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 470000)
+  expand_limits(x = 470000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+
   ggsave(here::here("images","Mar-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Science, Technology, Engineering, and Mathematics
+
+clust <- "Science, Technology, Engineering, and Mathematics"
 
 stem_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Science, Technology, Engineering, and Mathematics") %>%
@@ -576,10 +626,16 @@ ggplot(stem_linked_pathway, aes(value, pathway_for_labels_change, fill =variable
             size = text_size, 
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
-            hjust = text_height)  
+            hjust = text_height) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+  
   ggsave(here::here("images","Sci-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Transportation, Distribution, and Logistics
+
+clust <- "Transportation, Distribution, and Logistics"
 
 transport_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Transportation, Distribution, and Logistics") %>%
@@ -599,10 +655,16 @@ ggplot(transport_linked_pathway, aes(value, pathway_for_labels_change, fill =var
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 160000) 
+  expand_limits(x = 160000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+ 
   ggsave(here::here("images","Tra-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 
 # Energy
+
+clust <- "Energy"
 
 energy_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Energy") %>%
@@ -622,7 +684,11 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
             position =  position_dodge2(width = text_width, reverse=TRUE), 
             vjust = text_vertical, 
             hjust = text_height) + 
-  expand_limits(x = 7000) 
+  expand_limits(x = 7000) -> job_growth_plot
+
+all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_plot  # Save plot into the list of all ggplots
+ 
+ 
   ggsave(here::here("images","Ene-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 ```
 
@@ -630,8 +696,8 @@ ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = varia
 
 my_colors3 <- c("#1170aa", "#fc7d0d", "#003366", "#5fa2ce", "#c85200", "#a3cce9", "#ffbc79")
 
-for (x in cluster_names_vec){
-   income_graph2 <- nonduplicated %>% filter(cluster == x, !is.na(pathway), !is.na(median_income)) %>% 
+for (clustr in cluster_names_vec){
+   wages_plot <- nonduplicated %>% filter(cluster == clustr, !is.na(pathway), !is.na(median_income)) %>% 
      ggplot(aes(median_income, pathway, color = pathway)) + 
      geom_point(size = 3) + 
      scale_color_manual(values = my_colors3) + 
@@ -647,9 +713,12 @@ for (x in cluster_names_vec){
            axis.title.y = element_blank()) +
      scale_size_area(max_size = 6) +
      guides(color = FALSE) + labs(size ="Annual Openings") 
-     ggsave(paste0(strtrim(x,3),"-fig3.png"), path = "images", height = 4.2, width = 7.5, units = c("in"))
    
-  print(income_graph2)
+     all_ggplots_list$wages[[which(cluster_names_vec == clustr)]] <- wages_plot  # Save plot into the list of all ggplots
+
+     # ggsave(paste0(strtrim(clustr,3),"-fig3.png"), path = "images", height = 4.2, width = 7.5, units = c("in"))
+   
+  print(wages_plot)
 }
 
 ```
@@ -663,4 +732,9 @@ saveRDS(nonduplicated_prepped,  here::here("dashboard","nonduplicated_prepped_da
 ```
 
 
+```{r confirm that all plots generated correctly}
+
+print(all_ggplots_list)
+
+```
 
