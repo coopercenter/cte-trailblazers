@@ -8,8 +8,11 @@ library(shinyWidgets)
 #source(here::here("generating_3rd_cluster_graphs.R"))
 #info_text <- read.csv(here::here('informational_text.csv'))
 source('text_objects.R')
-source('all_graph_objects_in_one_place.R')
+# source('all_graph_objects_in_one_place.R')
 # source('ggobjects.R')
+
+all_ggplots_list  <- readRDS(here::here("dashboard","all_ggplots_list.Rds"))
+cluster_names_vec <- readRDS(here::here("dashboard","cluster_names_vec.Rds"))
 
 clusters <- c(
   "Agriculture, Food, and Natural Resources",
@@ -193,65 +196,17 @@ server <- function(input, output){
   
   graph1 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_1,
-    "Architecture and Construction"=Arc_graph_1,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_1,
-    "Business Management and Administration"=Bus_graph_1,
-    "Education and Training"=Edu_graph_1,
-    "Finance"=Fin_graph_1,
-    "Government and Public Administration"=Gov__graph_1,
-    "Health Science"=Health_graph_1,
-    "Hospitality and Tourism"= Tour_graph_1,
-    "Human Services"=Hum_graph_1,
-    "Information Technology"=IT_graph_1,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_1,
-    "Manufacturing"=Manuf_graph_1,
-    "Marketing"=Mark_graph_1,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_1,
-    "Transportation, Distribution, and Logistics"=Transp_graph_1,
-    "Energy"=Energy_graph_1
+    all_ggplots_list$edu[[which(cluster_names_vec == input$clusters)]]
   )})
   
   graph2 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_2,
-    "Architecture and Construction"=Arc_graph_2,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_2,
-    "Business Management and Administration"=Bus_graph_2,
-    "Education and Training"=Edu_graph_2,
-    "Finance"=Fin_graph_2,
-    "Government and Public Administration"=Gov__graph_2,
-    "Health Science"=Health_graph_2,
-    "Hospitality and Tourism"= Tour_graph_2,
-    "Human Services"=Hum_graph_2,
-    "Information Technology"=IT_graph_2,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_2,
-    "Manufacturing"=Manuf_graph_2,
-    "Marketing"=Mark_graph_2,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_2,
-    "Transportation, Distribution, and Logistics"=Transp_graph_2,
-    "Energy"=Energy_graph_2
+    all_ggplots_list$job_growth[[which(cluster_names_vec == input$clusters)]]
   )})
   
   graph3 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_3,
-    "Architecture and Construction"=Arc_graph_3,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_3,
-    "Business Management and Administration"=Bus_graph_3,
-    "Education and Training"=Edu_graph_3,
-    "Finance"=Fin_graph_3,
-    "Government and Public Administration"=Gov__graph_3,
-    "Health Science"=Health_graph_3,
-    "Hospitality and Tourism"= Tour_graph_3,
-    "Human Services"=Hum_graph_3,
-    "Information Technology"=IT_graph_3,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_3,
-    "Manufacturing"=Manuf_graph_3,
-    "Marketing"=Mark_graph_3,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_3,
-    "Transportation, Distribution, and Logistics"=Transp_graph_3,
-    "Energy"=Energy_graph_3
+    all_ggplots_list$wages[[which(cluster_names_vec == input$clusters)]]
   )})
   
   output$plot1 <- renderPlot({ 
