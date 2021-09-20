@@ -8,8 +8,11 @@ library(shinyWidgets)
 #source(here::here("generating_3rd_cluster_graphs.R"))
 #info_text <- read.csv(here::here('informational_text.csv'))
 source('text_objects.R')
-source('all_graph_objects_in_one_place.R')
+# source('all_graph_objects_in_one_place.R')
 # source('ggobjects.R')
+
+all_ggplots_list  <- readRDS(here::here("dashboard","all_ggplots_list.Rds"))
+cluster_names_vec <- readRDS(here::here("dashboard","cluster_names_vec.Rds"))
 
 clusters <- c(
   "Agriculture, Food, and Natural Resources",
@@ -48,20 +51,20 @@ dbHeader <-
         padding: 0 00px;}"
       )
     ),
-    tags$li(a(
-      href = 'https://ctetrailblazers.org/',
-      tags$img(
-        src = 'http://ctetrailblazers.org/wp-content/uploads/2015/01/Header1000X288_smallerimage.jpg',
-        height = '82'
-      )
-    ), class = "dropdown"),
-    tags$li(a(
-      href = 'https://ceps.coopercenter.org/',
-      tags$img(
-        src = 'CCPS-Logo_Horiz_Color.png',
-        height = '62'
-      )
-    ), class = "dropdown"),
+    # tags$li(a(
+    #   href = 'https://ctetrailblazers.org/',
+    #   tags$img(
+    #     src = 'http://ctetrailblazers.org/wp-content/uploads/2015/01/Header1000X288_smallerimage.jpg',
+    #     height = '82'
+    #   )
+    # ), class = "dropdown"),
+    # tags$li(a(
+    #   href = 'https://ceps.coopercenter.org/',
+    #   tags$img(
+    #     src = 'CCPS-Logo_Horiz_Color.png',
+    #     height = '62'
+    #   )
+    # ), class = "dropdown"),
     titleWidth = 0
   )
 
@@ -71,7 +74,7 @@ ui <- fluidPage(titlePanel(dbHeader),
                 fluidRow(
                    column(width = 12,
                       HTML(
-                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Growth</h1>
+                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>
                   <br>'
                       )
                     )
@@ -116,10 +119,10 @@ ui <- fluidPage(titlePanel(dbHeader),
                     h5("Distribution of predominant education levels, by career pathway"),
                     
                     plotOutput("plot1"),
-                    h5('Predominant education levels in among occupations in each career pathway within the cluster, 2018 - 2028.
+                    h5('Predominant education levels among occupations in each career pathway within the cluster, 2018 - 2028.
                                 Reported percentages are based on the number of occupations at each educational level within a pathway. 
                                 Percentages are not based on the number of workers employed in each pathway. 
-                                Reported education levels reflect the prevailing requirements of occupations, not necessarily the level of education attained by workers employed in the occupations. 
+                                Reported education levels reflect both the prevailing requirements of occupations and the typical level of education attained by workers employed in the occupations. 
                                 Source: Determined by Trailblazers based on national-level data from the U.S. Bureau of Labor Statistics.')
                     #) #close box
                     ,
@@ -128,10 +131,10 @@ ui <- fluidPage(titlePanel(dbHeader),
                     
                     #box(
                     h2("Occupational Growth"),
-                    h5("Projected growth in Virginia employment, 2018 - 2028"),
+                    h5("Projected growth in number of jobs, Virginia, 2018 - 2028"),
                     plotOutput("plot2"),
-                    h5("Projected change employment in Virginia within each CTE career pathway, 2018 - 2028. 
-                                Shows change between estimated number of workers in each pathway in 2018 versus projected numbers in 2018. (Projected percent change in parentheses). 
+                    h5("Projected change in the number of jobs in Virginia within each career pathway, 2018 - 2028. 
+                                Shows change between estimated number of jobs in each pathway in 2018 versus projected number in 2028. (Projected percent change in parentheses.) 
                                 Source: Virginia Employment Commission.")
                     # ) #close box
                     ,
@@ -140,9 +143,9 @@ ui <- fluidPage(titlePanel(dbHeader),
                     
                     # box(
                     h2('Wages'),
-                    h5("Median 2018 annual incomes in Virginia"),
+                    h5("Median 2018 annual wages in Virginia"),
                     plotOutput("plot3"),
-                    h5("Figure displays the median of 2018 Virginia annual incomes, across all occupations within for each pathway. 
+                    h5("Figure displays the median 2018 Virginia annual wages of all occupations within each pathway. 
                                 Source: Virginia Employment Commission.")
                     # ), # close box
                     ,
@@ -193,65 +196,17 @@ server <- function(input, output){
   
   graph1 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_1,
-    "Architecture and Construction"=Arc_graph_1,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_1,
-    "Business Management and Administration"=Bus_graph_1,
-    "Education and Training"=Edu_graph_1,
-    "Finance"=Fin_graph_1,
-    "Government and Public Administration"=Gov__graph_1,
-    "Health Science"=Health_graph_1,
-    "Hospitality and Tourism"= Tour_graph_1,
-    "Human Services"=Hum_graph_1,
-    "Information Technology"=IT_graph_1,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_1,
-    "Manufacturing"=Manuf_graph_1,
-    "Marketing"=Mark_graph_1,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_1,
-    "Transportation, Distribution, and Logistics"=Transp_graph_1,
-    "Energy"=Energy_graph_1
+    all_ggplots_list$edu[[which(cluster_names_vec == input$clusters)]]
   )})
   
   graph2 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_2,
-    "Architecture and Construction"=Arc_graph_2,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_2,
-    "Business Management and Administration"=Bus_graph_2,
-    "Education and Training"=Edu_graph_2,
-    "Finance"=Fin_graph_2,
-    "Government and Public Administration"=Gov__graph_2,
-    "Health Science"=Health_graph_2,
-    "Hospitality and Tourism"= Tour_graph_2,
-    "Human Services"=Hum_graph_2,
-    "Information Technology"=IT_graph_2,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_2,
-    "Manufacturing"=Manuf_graph_2,
-    "Marketing"=Mark_graph_2,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_2,
-    "Transportation, Distribution, and Logistics"=Transp_graph_2,
-    "Energy"=Energy_graph_2
+    all_ggplots_list$job_growth[[which(cluster_names_vec == input$clusters)]]
   )})
   
   graph3 <- reactive({switch(
     input$clusters,
-    "Agriculture, Food, and Natural Resources"=Ag_graph_3,
-    "Architecture and Construction"=Arc_graph_3,
-    "Arts, Audio/Video Technology, and Communications"=Arts_graph_3,
-    "Business Management and Administration"=Bus_graph_3,
-    "Education and Training"=Edu_graph_3,
-    "Finance"=Fin_graph_3,
-    "Government and Public Administration"=Gov__graph_3,
-    "Health Science"=Health_graph_3,
-    "Hospitality and Tourism"= Tour_graph_3,
-    "Human Services"=Hum_graph_3,
-    "Information Technology"=IT_graph_3,
-    "Law, Public Safety, Corrections, and Security"=Law_graph_3,
-    "Manufacturing"=Manuf_graph_3,
-    "Marketing"=Mark_graph_3,
-    "Science, Technology, Engineering, and Mathematics"=Sci_graph_3,
-    "Transportation, Distribution, and Logistics"=Transp_graph_3,
-    "Energy"=Energy_graph_3
+    all_ggplots_list$wages[[which(cluster_names_vec == input$clusters)]]
   )})
   
   output$plot1 <- renderPlot({ 

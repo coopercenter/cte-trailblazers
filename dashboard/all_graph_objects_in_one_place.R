@@ -3,10 +3,19 @@ nonduplicated <- read.csv('Projections_2018_28_cleaned.csv')
 source('generating_1st_cluster_graphs.R')
 source('generating_2nd_cluster_graphs.R')
 source('generating_3rd_cluster_graphs.R')
+
+all_ggplots_list  <- readRDS(here::here("dashboard","all_ggplots_list.Rds"))
+cluster_names_vec <- readRDS(here::here("dashboard","cluster_names_vec.Rds"))
+
 #"Agriculture, Food, and Natural Resources"
-Ag_graph_1 <- generate_cluster_graph_1(nonduplicated,"Agriculture, Food, and Natural Resources")
+clustr <- "Agriculture, Food, and Natural Resources"
+Ag_graph_1 <- all_ggplots_list$edu[[which(cluster_names_vec == clustr)]]
 Ag_graph_2 <- generate_cluster_graph_2(nonduplicated,"Agriculture, Food, and Natural Resources")
 Ag_graph_3 <- generate_cluster_graph_3(nonduplicated,"Agriculture, Food, and Natural Resources")
+
+# Ag_graph_1 <- generate_cluster_graph_1(nonduplicated,"Agriculture, Food, and Natural Resources")
+# Ag_graph_2 <- generate_cluster_graph_2(nonduplicated,"Agriculture, Food, and Natural Resources")
+# Ag_graph_3 <- generate_cluster_graph_3(nonduplicated,"Agriculture, Food, and Natural Resources")
 
 #"Architecture and Construction"
 Arc_graph_1 <- generate_cluster_graph_1(nonduplicated,"Architecture and Construction")
