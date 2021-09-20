@@ -29,6 +29,33 @@ regional_tbl %>%
 ```{r print table of regional growth rates}
 print(growing_regions_tbl)
 ```
+```{r generate LaTeX bullets of fast growing regions by cluster}
+cluster_names_vec <- unique(growing_regions_tbl$Cluster, fromLast = TRUE)
+
+growing_regions_tbl %>% 
+  mutate(Projected_Growth_Rate = str_replace(Projected_Growth_Rate, "%", "\\\\%")) -> growing_regions_ltx
+
+for(clustr in cluster_names_vec){
+  print(clustr)
+  
+  growing_regions_ltx %>% 
+    filter(Cluster == clustr, Region == "Virginia") %>% 
+    pull(Projected_Growth_Rate) -> statewide_cluster_growth_rate
+  
+  writeLines(paste0("are projected to experience occupational growth rates higher than the ",statewide_cluster_growth_rate, " statewide average:"))
+  writeLines("    \\begin{itemize}")
+  writeLines("    \\setlength\\itemsep{-0.5em}")
+  
+  growing_regions_ltx %>%
+    filter(Cluster == clustr, Region != "Virginia") %>%
+    mutate(LaTeX_item = str_c("        \\item \\text{", Region, " (", Projected_Growth_Rate,")" ,"}")) %>%
+    pull(LaTeX_item) %>%
+    writeLines()
+  
+  writeLines("    \\end{itemize}\n\n")
+
+}
+```
 
 ```{r save tibble of regional growth rates, echo=FALSE}
 save2file <- here::here("regions", "growing_regions_tbl.Rds")
