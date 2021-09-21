@@ -43,6 +43,7 @@ read_1_xlsx <- function(path2file, sheet = "Nonduplicated"){
     rename_with(.fn = fix_names) %>% 
     rename(fraction_change    = percent_change,
            fraction_change_us = percent_change_us) %>%
+    mutate(cluster = str_replace(cluster, "Adminstration", "Administration")) %>%
     mutate(Region      = split_LWDA_text(area)[,1]) %>%
     mutate(LWDA_code   = split_LWDA_text(area)[,3]) -> tbl
   

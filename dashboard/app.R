@@ -11,8 +11,8 @@ source('text_objects.R')
 # source('all_graph_objects_in_one_place.R')
 # source('ggobjects.R')
 
-all_ggplots_list  <- readRDS(here::here("dashboard","all_ggplots_list.Rds"))
-cluster_names_vec <- readRDS(here::here("dashboard","cluster_names_vec.Rds"))
+all_ggplots_list  <- readRDS("all_ggplots_list.Rds")
+cluster_names_vec <- readRDS("cluster_names_vec.Rds")
 
 clusters <- c(
   "Agriculture, Food, and Natural Resources",
