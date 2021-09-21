@@ -75,12 +75,10 @@ for (clust in cluster_names_vec){
   
   cluster_3ltr <- strtrim(clust,3)
   
-  saveRDS(edu_plot, here::here("ggplots", paste0(cluster_3ltr,"-edu-ggplot.Rds")))
-  
   ggsave(here::here("images", paste0(cluster_3ltr,"-fig1.png")), height = 2.5, width = 7.5, units = c("in"))
-  
-  print(edu_plot)
 }
+
+print(all_ggplots_list$edu)
 ```
 
 
@@ -141,7 +139,6 @@ job_growth_plot <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, 
   # expand_limits(x = exp_limit)
 
   # cluster_3ltr <- strtrim(clust,3)
- # saveRDS(job_growth_plot, here::here("ggplots", paste0(cluster_3ltr,"-job-growth-ggplot.Rds")))
 #  ggsave(here::here("images", paste0(cluster_3ltr,"-fig2.png")), height = 2.5, width = 7.5, units = c("in"))
   print(job_growth_plot)
   print(linked_pathway)
@@ -372,7 +369,7 @@ ggsave(here::here("images","Fin-fig2.png"), height = 2.5, width = 7.5, units = c
 ```{r make job growth plot for Government cluster}
 # Government and Public Administration
 
-clust <- "Government and Public Adminstration"
+clust <- "Government and Public Administration"
 
 gov_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == clust) %>%
@@ -692,7 +689,7 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
   ggsave(here::here("images","Ene-fig2.png"), height = 2.5, width = 7.5, units = c("in"))
 ```
 
-```{r make wage + openings + growth plots, warning = FALSE, eval = FALSE}
+```{r make wage + openings + growth plots, warning = FALSE}
 
 my_colors3 <- c("#1170aa", "#fc7d0d", "#003366", "#5fa2ce", "#c85200", "#a3cce9", "#ffbc79")
 
@@ -717,10 +714,9 @@ for (clustr in cluster_names_vec){
      all_ggplots_list$wages[[which(cluster_names_vec == clustr)]] <- wages_plot  # Save plot into the list of all ggplots
 
      # ggsave(paste0(strtrim(clustr,3),"-fig3.png"), path = "images", height = 4.2, width = 7.5, units = c("in"))
-   
-  print(wages_plot)
 }
 
+print(all_ggplots_list$wages)
 ```
 
 
@@ -736,5 +732,8 @@ saveRDS(nonduplicated_prepped,  here::here("dashboard","nonduplicated_prepped_da
 
 print(all_ggplots_list)
 
+```
+```{r}
+print(all_ggplots_list$wages)
 ```
 

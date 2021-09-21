@@ -29,6 +29,7 @@ regional_tbl %>%
 ```{r print table of regional growth rates}
 print(growing_regions_tbl)
 ```
+
 ```{r generate LaTeX bullets of fast growing regions by cluster}
 cluster_names_vec <- unique(growing_regions_tbl$Cluster, fromLast = TRUE)
 
@@ -42,17 +43,23 @@ for(clustr in cluster_names_vec){
     filter(Cluster == clustr, Region == "Virginia") %>% 
     pull(Projected_Growth_Rate) -> statewide_cluster_growth_rate
   
-  writeLines(paste0("are projected to experience occupational growth rates higher than the ",statewide_cluster_growth_rate, " statewide average:"))
-  writeLines("    \\begin{itemize}")
-  writeLines("    \\setlength\\itemsep{-0.5em}")
-  
-  growing_regions_ltx %>%
-    filter(Cluster == clustr, Region != "Virginia") %>%
-    mutate(LaTeX_item = str_c("        \\item \\text{", Region, " (", Projected_Growth_Rate,")" ,"}")) %>%
-    pull(LaTeX_item) %>%
-    writeLines()
-  
-  writeLines("    \\end{itemize}\n\n")
+  writeLines("\\vspace{0.35in}")
+  writeLines("\\centering")
+  writeLines(paste0("{\\fontsize{32}{0}\\textbf{\\selectfont{\\text{ +",statewide_cluster_growth_rate, "} }} } \\\\\\vspace{0.35in}\n"))
+
+ # writeLines(paste0("are projected to experience occupational growth rates higher than the ",statewide_cluster_growth_rate, " statewide average:"))
+
+
+  # writeLines("    \\begin{itemize}")
+  # writeLines("    \\setlength\\itemsep{-0.5em}")
+  # 
+  # growing_regions_ltx %>%
+  #   filter(Cluster == clustr, Region != "Virginia") %>%
+  #   mutate(LaTeX_item = str_c("        \\item \\text{", Region, " (", Projected_Growth_Rate,")" ,"}")) %>%
+  #   pull(LaTeX_item) %>%
+  #   writeLines()
+  # 
+  # writeLines("    \\end{itemize}\n\n")
 
 }
 ```
