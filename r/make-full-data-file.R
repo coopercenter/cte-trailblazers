@@ -9,7 +9,7 @@
 library(dplyr)
 library(stringr)
 
-source(here::here("r", "read_trailblazers_xlsx_file.R"))  # define function read_1_xlsx() for reading in and parsing trailblazers data files
+source(here::here("r", "read_1_trailblazers_xlsx_file.R"))  # define function read_1_xlsx() for reading in and parsing trailblazers data files
 
 regional_data_dir   <- here::here("data_raw","Regional")
 statewide_data_file <- here::here("data_raw","Projections_2018-28_PRIME_2021-05-20.xlsx")
@@ -17,7 +17,7 @@ statewide_data_file <- here::here("data_raw","Projections_2018-28_PRIME_2021-05-
 fs::dir_ls(regional_data_dir, recurse = FALSE)  %>%
   str_subset(pattern = ".xlsx") %>% 
   append(statewide_data_file) %>% 
-  purrr::map_dfr(read_1_xlsx) -> all_nonduplicated_tbl
+  purrr::map_dfr(read_1_xlsx, sheet = "Nonduplicated") -> all_nonduplicated_tbl
 
 # Save combined, cleaned file
 saveRDS(all_nonduplicated_tbl, here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds"))

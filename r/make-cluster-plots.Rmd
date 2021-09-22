@@ -34,6 +34,10 @@ all_ggplots_list <- list(edu        = empty_list,
                          )
 ```
 
+```{r, eval=FALSE}
+all_nonduplicated_tbl
+```
+
 ```{r make education plots, warning=FALSE}
 my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
 #c("#003366", "#335C85", "#6685A3", "#99ADC2") 
