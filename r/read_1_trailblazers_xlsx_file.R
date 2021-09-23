@@ -5,34 +5,47 @@
 # Authors: Abigail Freed, Arthur Small
 # June-Sept, 2021
 
-extract_year <- function(column_names,key_word){
+extract_year <- function(column_names,search_term){
   # Extract the integer year value from a column header containing the year plus a distinctive key word
   # E.g., "2018 Estimate" + "Estimate" -> 2018
   #
   require(stringr)
   
-  return(as.integer(word(column_names[which(str_detect(column_names, key_word))])))
+  return(as.integer(word(column_names[which(str_detect(column_names, search_term))])))
 }
+
+
+# function(column_names,search_term,replacement_term){
+#   # In a column name: detect a search term and, if found, replace column name with a supplied substitute
+#   require(stringr)
+#   
+#   column_names[which(str_detect(column_names, search_term))] <- replacement_term
+#   
+#   return(new_column_name)
+# }
+
+# search_term      <- "Estimate"
+# replacement_term <- "num_jobs_estimate"
+# 
+# column_names[which(str_detect(column_names, search_term))] <- replacement_term
+# 
+# 
+# str_remove_all(column_names, "[0123456789]")
+
+
+# 2020 Nontrad Status	2018 Estimate	2028 Projection	2018-28 Change	Percent Change	Percent Change-US	Annual Openings	2018 Mean Income	2018 Median Income
+
+
 
 fix_column_names <- function(column_names, start_year = "2018", end_year = "2028"){
   require(stringr)
   
   column_names %>%
     str_replace_all(., pattern = "[ -]", replacement = "_") %>%
-    str_to_lower(.) %>%
-    str_remove_all(., pattern = paste0(start_year,"_")) %>%
-    str_remove_all(., pattern = paste0(end_year,"_"))   %>%
-    str_remove_all(., pattern = paste0(str_trunc(end_year, 2, "right", ellipsis = ""),"_")) -> fixed_names
+    str_to_lower(.) -> fixed_names
 
-  # column_names <- str_replace_all(string = column_names, pattern = "[ -]", replacement = "_")
-  # column_names <- str_to_lower(column_names)
-  # column_names <- str_remove_all(column_names, pattern = paste0(start_year,"_"))
-  # column_names <- str_remove_all(column_names, pattern = paste0(end_year,"_"))
-  # column_names <- str_remove_all(column_names, pattern = paste0(str_trunc(end_year, 2, "right", ellipsis = ""),"_"))
-  
   return(fixed_names)
 }
-
 
 split_LWDA_text <- function(area_char_vec){
   # Split the LWDA "area" text field into three pieces: name, type, area code
@@ -68,15 +81,19 @@ read_1_xlsx <- function(path2file, sheet = "Nonduplicated"){
            income_year          = extract_year(column_names, "Median Income"),
            jobs_projection_year = extract_year(column_names, "Projection"),
            nontrad_year         = extract_year(column_names, "Nontrad"))  %>% 
-    rename_with(.fn = fix_column_names) %>%
+    rename_with(str_remove_all, pattern = "[0123456789]") %>%       # remove all digit characters, to make column names consistent across data vintages
+    rename_with(str_remove, pattern = "- ") %>%
+    rename_with(str_trim) %>% 
+#    rename_with(.fn = fix_column_names) %>%
+    rename_with(str_replace_all, pattern = "[ -]", replacement = "_") %>%
+    rename_with(str_to_lower) %>%
     mutate(region      = split_LWDA_text(area)[,1]) %>%
     mutate(lwda_code   = split_LWDA_text(area)[,3]) %>% 
     rename(num_jobs_estimate    = estimate,
            num_jobs_projected   = projection,
-           num_jobs_projected_change = '28_change',             ############ ALERT! NEED TO GENERALIZE YEAR! ##################
+           num_jobs_projected_change = change,            
            fraction_change_jobs = percent_change,
-           fraction_change_us   = percent_change_us,
-           nontrad_status       = '20nontrad_status') %>%       ############ ALERT! NEED TO GENERALIZE YEAR! ##################
+           fraction_change_us   = percent_change_us) %>%       
     # Fix typos and minor formatting issues in original data
     mutate(cluster = str_replace(cluster, "Adminstration", "Administration")) %>%
     mutate(pathway_code = round(as.numeric(pathway_code),2)) %>%
