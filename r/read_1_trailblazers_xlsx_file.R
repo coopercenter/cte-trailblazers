@@ -2,7 +2,7 @@
 #
 # Script for reading in and parsing a single .xlsx file in CTE Trailblazers format
 #
-# Authors: Abigail Freed, Arthur Small
+# Authors: Arthur Small, Abigail Freed
 # June-Sept, 2021
 
 extract_year <- function(column_names,search_term){
@@ -14,38 +14,6 @@ extract_year <- function(column_names,search_term){
   return(as.integer(word(column_names[which(str_detect(column_names, search_term))])))
 }
 
-
-# function(column_names,search_term,replacement_term){
-#   # In a column name: detect a search term and, if found, replace column name with a supplied substitute
-#   require(stringr)
-#   
-#   column_names[which(str_detect(column_names, search_term))] <- replacement_term
-#   
-#   return(new_column_name)
-# }
-
-# search_term      <- "Estimate"
-# replacement_term <- "num_jobs_estimate"
-# 
-# column_names[which(str_detect(column_names, search_term))] <- replacement_term
-# 
-# 
-# str_remove_all(column_names, "[0123456789]")
-
-
-# 2020 Nontrad Status	2018 Estimate	2028 Projection	2018-28 Change	Percent Change	Percent Change-US	Annual Openings	2018 Mean Income	2018 Median Income
-
-
-
-fix_column_names <- function(column_names, start_year = "2018", end_year = "2028"){
-  require(stringr)
-  
-  column_names %>%
-    str_replace_all(., pattern = "[ -]", replacement = "_") %>%
-    str_to_lower(.) -> fixed_names
-
-  return(fixed_names)
-}
 
 split_LWDA_text <- function(area_char_vec){
   # Split the LWDA "area" text field into three pieces: name, type, area code
@@ -84,7 +52,6 @@ read_1_xlsx <- function(path2file, sheet = "Nonduplicated"){
     rename_with(str_remove_all, pattern = "[0123456789]") %>%       # remove all digit characters, to make column names consistent across data vintages
     rename_with(str_remove, pattern = "- ") %>%
     rename_with(str_trim) %>% 
-#    rename_with(.fn = fix_column_names) %>%
     rename_with(str_replace_all, pattern = "[ -]", replacement = "_") %>%
     rename_with(str_to_lower) %>%
     mutate(region      = split_LWDA_text(area)[,1]) %>%

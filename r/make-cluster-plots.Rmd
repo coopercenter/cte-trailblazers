@@ -34,14 +34,6 @@ all_ggplots_list <- list(edu        = empty_list,
                          )
 ```
 
-```{r, eval=FALSE}
-(read_1_xlsx(path2file) -> test_tbl)
-```
-
-```{r}
-all_nonduplicated_tbl
-```
-
 
 ```{r make education plots, warning=FALSE}
 my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
@@ -53,10 +45,7 @@ nonduplicated_prepped %>%
   mutate(pathway_for_labels = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management")) %>% 
   mutate(pathway_for_labels = str_replace_all(pathway, "Tele", "Tele-\n")) %>% 
   mutate(pathway_for_labels = str_replace_all(pathway, " ", "\n")) %>% 
-  mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n")) %>% 
-  mutate(predominant_education_level = str_replace_all(predominant_education_level, "HS Diploma", "High School Diploma")) -> nonduplicated
-
-nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "High School Diploma"))
+  mutate(pathway_for_labels = str_replace_all(pathway_for_labels, "/", "/\n"))  -> nonduplicated
 
 
 for (clust in cluster_names_vec){

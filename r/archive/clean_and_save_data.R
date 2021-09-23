@@ -35,14 +35,6 @@ nonduplicated <- nonduplicated %>% mutate(pathway_for_labels_change = paste(path
 
 #############################
 
-# 
-# nonduplicated <- nonduplicated %>% mutate(predominant_education_level = str_replace_all(predominant_education_level, "HS Diploma", "High School Diploma"))
-# 
-# nonduplicated$predominant_education_level <- factor(nonduplicated$predominant_education_level,levels = c("Graduate / Professional Degree", "Bachelor's Degree", "Some College / Associate Degree", "High School Diploma"))
-# 
-# #found a typo in the original data
-# nonduplicated$cluster <- replace(nonduplicated$cluster, nonduplicated$cluster=="Government and Public Adminstration", "Government and Public Administration")
-# 
 # nonduplicated <- nonduplicated %>% mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management"))
 
 #Saving the cleaned output so that the data cleaning doesn't have to be redone for this dataset
