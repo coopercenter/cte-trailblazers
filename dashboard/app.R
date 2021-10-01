@@ -74,7 +74,6 @@ ui <- fluidPage( # titlePanel(dbHeader), commented out to remove whitespace from
                 fluidRow(
                    column(width = 12,
                       HTML(
-                        
                   '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>
                   <br>'
                       )
