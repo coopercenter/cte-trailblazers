@@ -16,6 +16,7 @@ library(tidyverse)
 library(reshape2)
 library(scales)
 library(GGally)
+library(ggfittext)
 
 # Read in prepared data; filter to only statewide data
 readRDS(here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds")) %>%
@@ -60,13 +61,12 @@ for (clust in cluster_names_vec){
      theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         legend.title = element_blank(),
-        legend.text = element_text(color = "black"),
-        axis.text.x = element_text(color = "black"), 
-        axis.text.y = element_text(color = "black"), 
+        legend.text = element_text(size=17,color = "black"),
+        axis.text.x = element_text(size=13,color = "black"), 
+        axis.text.y = element_text(size=17,color = "black"), 
         panel.background = element_blank(), 
         axis.line.x = element_line(color = "grey"), 
-        axis.line.y = element_line(color = "grey"),
-        text=element_text(size=17)) + 
+        axis.line.y = element_line(color = "grey"))+
     scale_y_continuous(expand = expansion(mult = c(0, .1)), 
                        labels = scales::percent_format(accuracy = 1), 
                        breaks = seq(0,1, 0.1)) +
