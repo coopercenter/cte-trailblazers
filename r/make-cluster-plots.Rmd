@@ -19,7 +19,7 @@ library(GGally)
 
 # Read in prepared data; filter to only statewide data
 readRDS(here::here("data_prep","nonduplicated-all-regions-and-pathways.Rds")) %>%
-  filter(Region == "Virginia") -> nonduplicated_prepped
+  filter(region == "Virginia")  -> nonduplicated_prepped
 
 # Extract vector of cluster names
 cluster_names_vec <- unique(nonduplicated_prepped$cluster, fromLast = TRUE) 
@@ -39,7 +39,10 @@ all_ggplots_list <- list(edu        = empty_list,
 my_colors <- c("#00264D","#405C7A", "#8C9DAF","#CCD4DB")
 #c("#003366", "#335C85", "#6685A3", "#99ADC2") 
 #c("#003366", "#2E5882", "#7490AC", "#C4D0DC")
-names(my_colors) <- levels(nonduplicated_prepped$predominant_education_level)
+nonduplicated_prepped$predominant_education_level <- fct_relevel(nonduplicated_prepped$predominant_education_level,"Graduate / Professional Degree","Bachelor's Degree","Some College / Associate Degree","High School Diploma")
+
+names(my_colors) <- levels(nonduplicated_prepped$predominant_education_level)[1:4]
+#names(my_colors) <- c("Graduate / Professional Degree","Bachelor's Degree","Some College / Associate Degree","High School Diploma")
 
 nonduplicated_prepped %>% 
   mutate(pathway_for_labels = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management")) %>% 
@@ -62,7 +65,8 @@ for (clust in cluster_names_vec){
         axis.text.y = element_text(color = "black"), 
         panel.background = element_blank(), 
         axis.line.x = element_line(color = "grey"), 
-        axis.line.y = element_line(color = "grey")) + 
+        axis.line.y = element_line(color = "grey"),
+        text=element_text(size=17)) + 
     scale_y_continuous(expand = expansion(mult = c(0, .1)), 
                        labels = scales::percent_format(accuracy = 1), 
                        breaks = seq(0,1, 0.1)) +
@@ -84,14 +88,14 @@ print(all_ggplots_list$edu)
 ##Horizontal Bars
 my_colors2 <- c("darkgrey", "#405C7A")
 jobs_labels <- c("2018 Estimate", "2028 Projection")
-text_size      <- 3
+text_size      <- 5
 text_width     <- 0.8
 text_vertical  <- 0
 text_height    <- -0.05
 
 nonduplicated %>% 
   mutate(pathway = str_replace_all(pathway,"Transportation Systems/Infrastructure Planning, Management, and Regulation", "Transportation Systems Management")) %>% 
-  mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change*100, digits = 1), nsmall = 1)), "%", ")", sep = "")) -> nonduplicated 
+  mutate(pathway_for_labels_change = paste(pathway,"\n", "(", trimws(format(round(fraction_change_jobs*100, digits = 1), nsmall = 1)), "%", ")", sep = "")) -> nonduplicated 
 
 my_theme <- theme(legend.title = element_blank(),
                   axis.title.y = element_blank(),
@@ -102,7 +106,8 @@ my_theme <- theme(legend.title = element_blank(),
                   panel.grid.major.x = element_blank(), 
                   panel.grid.minor.x = element_blank(),
                   axis.ticks = element_blank(), 
-                  axis.text.x = element_text())
+                  axis.text.x = element_text(),
+                  text=element_text(size=17))
 ```
 
 
@@ -112,7 +117,7 @@ clust <- cluster_names_vec[4]
 
 nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), cluster == clust) %>%
-  select(pathway_for_labels_change, estimate, projection) -> linked_pathway
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected) -> linked_pathway
 
 linked_pathway <- melt(linked_pathway, id = "pathway_for_labels_change")
 
@@ -125,12 +130,12 @@ job_growth_plot <- ggplot(linked_pathway, aes(value, pathway_for_labels_change, 
   my_theme +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", ""), 
+  scale_x_continuous(labels = c("0", "", "", ""), 
                      expand = expansion(mult = c(0, .1)),
                      limits = c(NA,NA)) +
   scale_y_discrete(expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
-            size     = text_size, 
+            size     = 5, 
             position = position_dodge2(width = text_width, reverse=TRUE), 
             vjust    = text_vertical, 
             hjust    = text_height) #+
@@ -150,7 +155,7 @@ clust <- cluster_names_vec[4]
 
 linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title),cluster == clust) %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 
 linked_pathway <- melt(linked_pathway, id = "pathway_for_labels_change")
 
@@ -163,7 +168,7 @@ ggplot(linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
   my_theme +
   scale_fill_manual(values = my_colors2,
                     labels = jobs_labels) +
-  scale_x_continuous(labels = c("0", "", "", "", ""), expand = expansion(mult = c(0, .1))) +
+  scale_x_continuous(labels = c("0", "", "", "",""), expand = expansion(mult = c(0, .1))) +
   scale_y_discrete(expand = expansion(mult = c(0, .1))) +
   geom_text(aes(label = formatC(value, big.mark = ",", format = "f", drop0trailing = TRUE)), 
             size = text_size, 
@@ -183,7 +188,7 @@ clust <- "Agriculture, Food, and Natural Resources"
 
 nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), cluster == clust) %>%
-  select(pathway_for_labels_change, estimate, projection) -> ag_linked_pathway
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected) -> ag_linked_pathway
 
 ag_linked_pathway <- melt(ag_linked_pathway, id = "pathway_for_labels_change")
 
@@ -215,7 +220,7 @@ clust <- "Architecture and Construction"
 
 arch_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), cluster == "Architecture and Construction") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 
 arch_linked_pathway <- melt(arch_linked_pathway, id = "pathway_for_labels_change")
 
@@ -247,7 +252,7 @@ clust <- "Arts, Audio/Video Technology, and Communications"
 
 arts_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title), cluster == "Arts, Audio/Video Technology, and Communications") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 arts_linked_pathway <- melt(arts_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(arts_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -279,7 +284,7 @@ clust <- "Business Management and Administration"
 
 business_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title),cluster == "Business Management and Administration") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 business_linked_pathway <- melt(business_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(business_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -311,7 +316,7 @@ clust <- "Education and Training"
 
 edu_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway), is.na(soc_title),cluster == "Education and Training") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 edu_linked_pathway <- melt(edu_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(edu_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -340,7 +345,7 @@ clust <- "Finance"
 
 finance_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), cluster == "Finance") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 finance_linked_pathway <- melt(finance_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(finance_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -370,8 +375,8 @@ ggsave(here::here("images","Fin-fig2.png"), height = 2.5, width = 7.5, units = c
 clust <- "Government and Public Administration"
 
 gov_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == clust) %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway),is.na(soc_title), !is.na(num_jobs_estimate), cluster == clust) %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 
 gov_linked_pathway <- melt(gov_linked_pathway, id = "pathway_for_labels_change")
 
@@ -403,7 +408,7 @@ clust <- "Health Science"
 
 health_linked_pathway <- nonduplicated %>%
   filter(!is.na(pathway),is.na(soc_title), cluster == "Health Science") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 health_linked_pathway <- melt(health_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(health_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -431,8 +436,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Hospitality and Tourism"
 
 hosp_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Hospitality and Tourism") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway),is.na(soc_title), !is.na(num_jobs_estimate), cluster == "Hospitality and Tourism") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 hosp_linked_pathway <- melt(hosp_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(hosp_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -460,8 +465,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Human Services"
 
 humanserv_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Human Services") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway), is.na(soc_title), !is.na(num_jobs_estimate), cluster == "Human Services") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 humanserv_linked_pathway <- melt(humanserv_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(humanserv_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -489,8 +494,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Information Technology"
 
 it_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), cluster == "Information Technology") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway), is.na(soc_title), !is.na(num_jobs_estimate), cluster == "Information Technology") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 it_linked_pathway <- melt(it_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(it_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -518,8 +523,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Law, Public Safety, Corrections, and Security"
 
 law_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Law, Public Safety, Corrections, and Security") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway),is.na(soc_title), !is.na(num_jobs_estimate), cluster == "Law, Public Safety, Corrections, and Security") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 law_linked_pathway <- melt(law_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(law_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -547,8 +552,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Manufacturing"
 
 manufacturing_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), cluster == "Manufacturing") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway),is.na(soc_title), !is.na(num_jobs_estimate), cluster == "Manufacturing") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 manufacturing_linked_pathway <- melt(manufacturing_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(manufacturing_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -576,8 +581,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Marketing"
 
 marketing_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway),is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Marketing") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway),is.na(soc_title), !is.na(num_jobs_estimate), !is.na(num_jobs_projected), cluster == "Marketing") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 marketing_linked_pathway <- melt(marketing_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(marketing_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -605,8 +610,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Science, Technology, Engineering, and Mathematics"
 
 stem_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Science, Technology, Engineering, and Mathematics") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway), is.na(soc_title), !is.na(num_jobs_estimate), !is.na(num_jobs_projected), cluster == "Science, Technology, Engineering, and Mathematics") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 stem_linked_pathway <- melt(stem_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(stem_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -633,8 +638,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Transportation, Distribution, and Logistics"
 
 transport_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Transportation, Distribution, and Logistics") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway), is.na(soc_title), !is.na(num_jobs_estimate), !is.na(num_jobs_projected), cluster == "Transportation, Distribution, and Logistics") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 transport_linked_pathway <- melt(transport_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(transport_linked_pathway, aes(value, pathway_for_labels_change, fill =variable)) +
@@ -662,8 +667,8 @@ all_ggplots_list$job_growth[[which(cluster_names_vec == clust)]] <- job_growth_p
 clust <- "Energy"
 
 energy_linked_pathway <- nonduplicated %>%
-  filter(!is.na(pathway), is.na(soc_title), !is.na(estimate), !is.na(projection), cluster == "Energy") %>%
-  select(pathway_for_labels_change, estimate, projection)
+  filter(!is.na(pathway), is.na(soc_title), !is.na(num_jobs_estimate), !is.na(num_jobs_projected), cluster == "Energy") %>%
+  select(pathway_for_labels_change, num_jobs_estimate, num_jobs_projected)
 energy_linked_pathway <- melt(energy_linked_pathway, id = "pathway_for_labels_change")
 
 ggplot(energy_linked_pathway, aes(value, pathway_for_labels_change, fill = variable)) +
@@ -705,7 +710,8 @@ for (clustr in cluster_names_vec){
            axis.line = element_line(color = "grey"),
            panel.grid.major.y = element_line(color = "lightgrey"),
            panel.grid.major.x = element_line(color = "lightgrey"),
-           axis.title.y = element_blank()) +
+           axis.title.y = element_blank(),
+           text=element_text(size=17)) +
      scale_size_area(max_size = 6) +
      guides(color = FALSE) + labs(size ="Annual Openings") 
    
