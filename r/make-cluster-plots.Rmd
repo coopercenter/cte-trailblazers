@@ -61,9 +61,9 @@ for (clust in cluster_names_vec){
      theme(panel.grid = element_blank(),
         axis.title = element_blank(),
         legend.title = element_blank(),
-        legend.text = element_text(size=17,color = "black"),
+        legend.text = element_text(size=13,color = "black"),
         axis.text.x = element_text(size=13,color = "black"), 
-        axis.text.y = element_text(size=17,color = "black"), 
+        axis.text.y = element_text(size=13,color = "black"), 
         panel.background = element_blank(), 
         axis.line.x = element_line(color = "grey"), 
         axis.line.y = element_line(color = "grey"))+
