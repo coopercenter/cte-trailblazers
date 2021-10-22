@@ -5,9 +5,10 @@ account: cleanenergyva
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4528506
-bundleId: 5055881
+bundleId: 5167558
 url: https://cleanenergyva.shinyapps.io/cte_trailblazers_dev/
-when: 1632229326.09339
-lastSyncTime: 1632229326.09341
+when: 1634921431.76996
+lastSyncTime: 1634921431.76996
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: all_graph_objects_in_one_place.R|generating_1st_cluster_graphs.R|generating_2nd_cluster_graphs.R|generating_3rd_cluster_graphs.R|nonduplicated_prepped_data.Rds|Projections_2018_28_cleaned.csv
