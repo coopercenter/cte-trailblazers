@@ -62,7 +62,7 @@ for (clust in cluster_names_vec){
         axis.title = element_blank(),
         legend.title = element_blank(),
         legend.text = element_text(size=13,color = "black"),
-        axis.text.x = element_text(size=13,color = "black"), 
+        axis.text.x = element_text(size=9,color = "black",face='bold'), 
         axis.text.y = element_text(size=13,color = "black"), 
         panel.background = element_blank(), 
         axis.line.x = element_line(color = "grey"), 
@@ -89,7 +89,7 @@ print(all_ggplots_list$edu)
 ##Horizontal Bars
 my_colors2 <- c("darkgrey", "#405C7A")
 jobs_labels <- c("2018 Estimate", "2028 Projection")
-text_size      <- 5
+text_size      <- 4
 text_width     <- 0.8
 text_vertical  <- 0
 text_height    <- -0.05
