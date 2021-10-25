@@ -62,7 +62,7 @@ for (clust in cluster_names_vec){
         axis.title = element_blank(),
         legend.title = element_blank(),
         legend.text = element_text(size=13,color = "black"),
-        axis.text.x = element_text(size=9,color = "black",face="bold"), 
+        axis.text.x = element_text(size=13,color = "black"), 
         axis.text.y = element_text(size=13,color = "black"), 
         panel.background = element_blank(), 
         axis.line.x = element_line(color = "grey"), 
