@@ -68,22 +68,21 @@ clusters <- c(
 #     titleWidth = 0
 #   )
 
-dbHeader <- dashboardHeader(
-  title =  HTML(
-    '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>
-                  <br>'
-  )
-)
+#dbHeader <- dashboardHeader(
+  #title =  HTML(
+    #'<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>'
+ # )
+#)
 
 black_line <- hr(style = "border-top: 1px solid #000000;")
 
-ui <- fluidPage(  titlePanel(dbHeader), #commented out to remove whitespace from logo removal 
+ui <- fluidPage(  #titlePanel(dbHeader), commented out to remove whitespace from logo removal 
                 fluidRow(
                    column(width = 12,
-                      #HTML(
-                  #'<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>
-                  #<br>'
-                      #)
+                      HTML(
+                  '<h1 style="text-align:left;">Virginia Labor Market: Career Cluster Analysis</h1>
+                  <br>'
+                      )
                     )
                   ),
                 fluidRow(
